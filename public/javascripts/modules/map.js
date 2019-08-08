@@ -1,5 +1,22 @@
 import axios from "axios";
-import { $ } from "./bling";
+import { $, $$ } from "./bling";
+
+var places;
+
+// Search by keyword
+const search = $("#organisationSearch");
+search.addEventListener("input", function(e) {
+  // filter results for name and organisation
+
+  let results = places.filter(
+    place =>
+      `${place.name} ${place.organisation}`
+        .toLowerCase()
+        .indexOf(e.target.value.toLowerCase()) >= 0
+  );
+
+  renderEvents(results);
+});
 
 const mapOptions = {
   center: {
@@ -28,7 +45,7 @@ function loadPlaces(
   axios
     .get(`/api/events/near?lat=${lat}&lng=${lng}&miles=${miles}`)
     .then(res => {
-      let places = res.data;
+      places = res.data;
 
       if (!places.length) {
         alert("no places found!");
@@ -64,7 +81,7 @@ function loadPlaces(
         const infoWindow = new google.maps.InfoWindow();
 
         google.maps.event.addListener(infoWindow, "domready", function() {
-          // Bind the click event on your button here
+          // Bind the click event to button
           const btn = document.querySelector(".info__button");
           let current = 0;
 

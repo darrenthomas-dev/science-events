@@ -1826,6 +1826,20 @@ var _bling = __webpack_require__(1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var places;
+
+// Search by keyword
+var search = (0, _bling.$)("#organisationSearch");
+search.addEventListener("input", function (e) {
+  // filter results for name and organisation
+
+  var results = places.filter(function (place) {
+    return (place.name + " " + place.organisation).toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0;
+  });
+
+  renderEvents(results);
+});
+
 var mapOptions = {
   center: {
     lat: 54.043667,
@@ -1850,7 +1864,7 @@ function loadPlaces(map) {
   var currentLocationMarker = arguments[4];
 
   _axios2.default.get("/api/events/near?lat=" + lat + "&lng=" + lng + "&miles=" + miles).then(function (res) {
-    var places = res.data;
+    places = res.data;
 
     if (!places.length) {
       alert("no places found!");
@@ -1890,7 +1904,7 @@ function loadPlaces(map) {
       var infoWindow = new google.maps.InfoWindow();
 
       google.maps.event.addListener(infoWindow, "domready", function () {
-        // Bind the click event on your button here
+        // Bind the click event to button
         var btn = document.querySelector(".info__button");
         var current = 0;
 
@@ -2199,94 +2213,7 @@ function typeAhead(search) {
 exports.default = typeAhead;
 
 /***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _axios = __webpack_require__(2);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _dompurify = __webpack_require__(11);
-
-var _dompurify2 = _interopRequireDefault(_dompurify);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function searchResultsHTML(organisations) {
-  return organisations.map(function (organisation) {
-    return "\n\t\t<a href=\"/organisation/" + organisation.organisation + "\" class=\"search__result\">\n\t\t\t<strong>" + organisation.organisation + "</strong>\n\t\t</a>";
-  }).join("");
-}
-
-function typeAheadOrganisation(search) {
-  if (!search) return;
-
-  var searchInput = search.querySelector('input[name="search_organisation"]');
-  var searchResults = search.querySelector(".search__results--organisation");
-
-  searchInput.on("input", function () {
-    var _this = this;
-
-    if (!this.value) {
-      searchResults.style.display = "none";
-      return;
-    }
-
-    //  Show search result
-    searchResults.style.display = "block";
-
-    _axios2.default.get("/api/search/organisation?q=" + this.value).then(function (res) {
-      console.log(res.data);
-      if (res.data.length) {
-        searchResults.innerHTML = _dompurify2.default.sanitize(searchResultsHTML(res.data));
-        return;
-      }
-      // no return data
-      searchResults.innerHTML = _dompurify2.default.sanitize("<div class=\"search__result\">No results for " + _this.value + "</div>");
-    }).catch(function (err) {
-      console.error(err);
-    });
-  });
-
-  // handle keyboard inputs
-  searchInput.on("keyup", function (e) {
-    if (![38, 40, 13].includes(e.keyCode)) {
-      return;
-    }
-    var activeClass = "search__result--active";
-    var current = search.querySelector("." + activeClass);
-    var items = search.querySelectorAll(".search__result");
-    var next = void 0;
-    if (e.keyCode === 40 && current) {
-      next = current.nextElementSibling || items[0];
-    } else if (e.keyCode === 40) {
-      next = items[0];
-    } else if (e.keyCode === 38 && current) {
-      next = current.previousElementSibling || items[items.length - 1];
-    } else if (e.keyCode === 38) {
-      next = items[items.length - 1];
-    } else if (e.keyCode === 13 && current.href) {
-      window.location = current.href;
-      return;
-    }
-
-    if (current) {
-      current.classList.remove(activeClass);
-    }
-    next.classList.add(activeClass);
-  });
-}
-
-exports.default = typeAheadOrganisation;
-
-/***/ }),
+/* 17 */,
 /* 18 */
 /***/ (function(module, exports) {
 
@@ -3244,10 +3171,6 @@ var _typeAhead = __webpack_require__(16);
 
 var _typeAhead2 = _interopRequireDefault(_typeAhead);
 
-var _typeAheadOrganisation = __webpack_require__(17);
-
-var _typeAheadOrganisation2 = _interopRequireDefault(_typeAheadOrganisation);
-
 var _map = __webpack_require__(14);
 
 var _map2 = _interopRequireDefault(_map);
@@ -3265,10 +3188,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // import searchByLocation from "./modules/locationSearch";
 
 (0, _autocomplete2.default)((0, _bling.$)("#address"));
+// import typeAheadOrganisation from "./modules/typeAheadOrganisation";
+
 
 (0, _typeAhead2.default)((0, _bling.$)(".search"));
 
-(0, _typeAheadOrganisation2.default)((0, _bling.$)(".searchOrganisation"));
+// typeAheadOrganisation($(".searchOrganisation"));
 
 (0, _map2.default)((0, _bling.$)("#map"));
 

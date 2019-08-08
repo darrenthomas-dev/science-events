@@ -3,21 +3,23 @@ mixin filters()
 	aside
 		h3 Filters
 		.searchOrganisation
-			label(for="organisationSearch") Search by organisation:
-			input.search__input(type="text" id="organisationSearch" name="search_organisation")
-		.search__results--organisation
-			form(method="POST")
-				.filters 
-					//- TODO filters should be and or.
-					label(for="free") Free events
-					input(type="checkbox" id="free" name="free" checked=(free))
-					label(for="familyEvents") Family friendly
-					input(type="checkbox" id="familyEvents" name="family_friendly" checked=(familyFriendly))
-					//- Date range
-					label(for="startDatetime") Start date:
-					input(type="date" id="startDatetime" name="start_datetime" value=(start))
-					label(for="endDatetime") End date:
-					input(type="date" id="endDatetime" name="end_datetime" value=(end))
-					//- Filter Buttons
-					button(id="filterResetButton" type="button") Clear Filters
-					input(type="submit" value="Apply" id="filterButton")
+			form(action=`/organisation` method="POST")
+				label(for="organisationSearch") Search by organisation:
+				input.search__input(type="text" id="organisationSearch" name="search_organisation")
+				.search__results--organisation
+				input(type="submit" value="Find")
+		form(method="POST")
+			.filters 
+				//- TODO filters should be and or.
+				label(for="free") Free events
+				input(type="checkbox" id="free" name="free" checked=(free))
+				label(for="familyEvents") Family friendly
+				input(type="checkbox" id="familyEvents" name="family_friendly" checked=(familyFriendly))
+				//- Date range
+				label(for="startDatetime") Start date:
+				input(type="date" id="startDatetime" name="start_datetime" value=(start))
+				label(for="endDatetime") End date:
+				input(type="date" id="endDatetime" name="end_datetime" value=(end))
+				//- Filter Buttons
+				button(id="filterResetButton" type="button") Clear Filters
+				input(type="submit" value="Apply" id="filterButton")

@@ -4,12 +4,6 @@ const moment = require("moment");
 const axios = require("axios");
 const { getDatetime, stripInlineCss, displayDate } = require("../helpers");
 
-const confirmAdmin = (res, req) => {
-  if (!req.user.admin) {
-    res.redirect("/");
-  }
-};
-
 const yesterday = moment()
   .subtract(0, "days")
   .endOf("day")

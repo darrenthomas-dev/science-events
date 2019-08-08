@@ -1,14 +1,17 @@
 import axios from "axios";
 import dompurify from "dompurify";
 
-function searchResultsHTML(organisations) {
-  return organisations
-    .map(organisation => {
-      return `
-		<a href="/organisation/${organisation.organisation}" class="search__result">
-			<strong>${organisation.organisation}</strong>
-		</a>`;
-    })
+function searchResultsHTML(events) {
+  // Create array of organisation names
+  let eventNames = events.map(event => event.organisation);
+
+  // Make array unique
+  eventNames = [...new Set(eventNames)];
+
+  return eventNames
+    .map(
+      event => `<span class="search__result"><strong>${event}</strong></span>`
+    )
     .join("");
 }
 

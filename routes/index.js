@@ -6,26 +6,21 @@ const authController = require("../controllers/authController");
 const adminController = require("../controllers/adminController");
 const { catchErrors } = require("../handlers/errorHandlers");
 
-// Events GET Pages
-// router.get("/", catchErrors(eventController.getEvents));
-// router.get("/events", catchErrors(eventController.mapPage));
-router.get("/events/page/:page", catchErrors(eventController.getEvents));
-
-// router.get("/events/:free", catchErrors(eventController.getEvents));
-
-// Events POST Pages
-// router.post("/", catchErrors(eventController.getEvents));
-// router.post("/events", catchErrors(eventController.getEvents));
-router.post("/events/page/:page", catchErrors(eventController.getEvents));
-
-// Add events pages
+// Add an event page
 router.get("/add", authController.isLoggedIn, eventController.addEvent);
+
+// Create an event
 router.post(
   "/add",
   eventController.upload,
   catchErrors(eventController.resize),
   catchErrors(eventController.createEvent)
 );
+
+// Edit an existing event
+router.get("/event/:id/edit", catchErrors(eventController.editEvent));
+
+// Update an existing event
 router.post(
   "/add/:id",
   eventController.upload,
@@ -33,26 +28,22 @@ router.post(
   catchErrors(eventController.updateEvent)
 );
 
+// Delete an event
 router.post("/events/:id/delete", catchErrors(eventController.deleteEvent));
 
-router.get("/event/:id/edit", catchErrors(eventController.editEvent));
-
+// Single event page
 router.get("/event/:slug", catchErrors(eventController.getEventBySlug));
 
-// router.get("/tags", catchErrors(eventController.getEventByTag));
-// router.get(
-//   "/organisation/:organisation",
-//   catchErrors(eventController.getEventsByOrganisation)
-// );
-// router.get(
-//   "/organisation/:organisation/page/:page",
-//   catchErrors(eventController.getEventsByOrganisation)
-// );
-
+// Login page
 router.get("/login", userController.loginForm);
+
+// Login request
 router.post("/login", authController.login);
+
+// Register page
 router.get("/register", userController.registerForm);
 
+// Register request
 router.post(
   "/register",
   userController.validateRegister,
@@ -60,67 +51,79 @@ router.post(
   authController.login
 );
 
+// Log out
 router.get("/logout", authController.logout);
 
+// Account page
+router.get("/account", authController.isLoggedIn, userController.account);
+
+// Password reset DELETE THIS IF ALL IS WORKING FINE
+// router.get("/account/reset/:token", catchErrors(authController.reset));
+
+// Password reset request
+router.post("/account/forgot", catchErrors(authController.forgot));
+
+// Password token
 router.post(
-  "/register",
-  // 1. Validate registation data
-  userController.validateRegister,
-  // 2. Register user
-  userController.register,
-  // 3. Log them in
-  authController.login
+  "/account/reset/:token",
+  authController.confirmedPasswords,
+  catchErrors(authController.update)
 );
 
-// Account pages
-router.get("/account", authController.isLoggedIn, userController.account);
-router.get("/account/reset/:token", catchErrors(authController.reset));
+// Update account details
 router.post(
   "/account",
   // eventController.upload,
   // catchErrors(eventController.resize),
   catchErrors(userController.updateAccount)
 );
-router.post("/account/forgot", catchErrors(authController.forgot));
-router.post(
-  "/account/reset/:token",
-  authController.confirmedPasswords,
-  catchErrors(authController.update)
-);
+
 // Delete account
 router.post("/delete", catchErrors(userController.deleteAccount));
 
-// Map pages
+// Map page
 router.get("/", eventController.mapPage);
-// router.post("/", eventController.mapPage);
 
-// Admin pages
+// Events for single organistaion
+router.post("/organisation", catchErrors(eventController.mapPage));
+
+// Admin page
 router.get(
   "/admin",
   authController.isLoggedIn,
   catchErrors(adminController.confirmEvents)
 );
+
+// Admin
 router.post(
   "/admin",
   authController.isLoggedIn,
   adminController.updateEventDisplay
   // catchErrors(eventController.confirmEvents)
 );
+
+// Delete all pending events
 router.post(
   "/admin/delete-all-pending",
   authController.isLoggedIn,
   adminController.deleteAllPendingEvents
 );
+
+// Get Eventbrite events
 router.post(
   "/admin/get-eventbrite-events",
   authController.isLoggedIn,
   catchErrors(adminController.getEventbriteEvents)
 );
+
+// Paginated admin event pages
 router.get(
   "/admin/page/:page",
   authController.isLoggedIn,
   catchErrors(adminController.confirmEvents)
 );
+
+// Delete all expired events
 router.post(
   "/admin/expired-events",
   catchErrors(adminController.deleteExpiredEvents)
@@ -134,10 +137,7 @@ router.get(
 );
 router.get("/api/events/near", catchErrors(eventController.mapEvents));
 
-// Filters
-router.get("/filter", catchErrors(eventController.filters));
-
-// My Events
+// My Events for log in users
 router.get("/my-events", catchErrors(eventController.renderPage));
 router.post("/my-events", catchErrors(eventController.addEventBriteEvents));
 
