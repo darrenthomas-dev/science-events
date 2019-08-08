@@ -1,0 +1,41 @@
+input,
+textarea {
+  padding: 8px;
+  border: 1px solid $grey;
+  &.input {
+    &--error {
+      border-color: red;
+    }
+  }
+}
+
+.form {
+  label {
+    margin-bottom: 4px;
+  }
+  input {
+    margin-right: 24px;
+    margin-bottom: 24px;
+  }
+  textarea,
+  .text--editor {
+    margin-bottom: 24px;
+  }
+  [type="text"],
+  [type="email"],
+  [type="password"],
+  [type="submit"] {
+    max-width: 400px;
+    font-size: 0.9rem;
+  }
+  input[type="number"] {
+    width: 150px;
+  }
+  input[type="url"] {
+    max-width: 400px;
+    font-size: 0.9rem;
+  }
+  input[type="date"] {
+    width: 150px;
+  }
+}

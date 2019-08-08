@@ -1,0 +1,111 @@
+.single {
+  margin-bottom: 70px;
+}
+.single__hero {
+  height: 500px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 2vw), 0% 100%);
+  &::before {
+    display: block;
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    background: linear-gradient(45deg, #05b3d6 0%, rgba(5, 179, 214, 0) 70%),
+      linear-gradient(135deg, #0958ec 10%, rgba(9, 88, 236, 0) 80%),
+      linear-gradient(225deg, #d209ec 10%, rgba(210, 9, 236, 0) 80%),
+      linear-gradient(315deg, #05e129 100%, rgba(5, 225, 41, 0) 70%);
+    opacity: 0.6;
+    z-index: 1;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 2vw), 0% 100%);
+  }
+  img {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 2vw), 0% 100%);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    position: absolute;
+  }
+}
+.title.title--single {
+  max-width: 600px;
+  margin-top: -9rem;
+  font-size: 6rem;
+  text-align: center;
+
+  word-wrap: break-word;
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  font-size: 40px;
+  z-index: 2;
+  line-height: 1.1;
+  transform: skew(0, -3deg);
+  line-height: 1.1;
+
+  a {
+    border-bottom: 0;
+    background-image: linear-gradient(
+      to right,
+      rgba(255, 196, 14, 0.8) 100%,
+      rgba(255, 196, 14, 0.8) 50%
+    );
+    text-decoration: none;
+  }
+}
+.single__details.inner {
+  background: white;
+  position: relative;
+  padding: 3rem;
+  margin-top: -10rem;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+}
+.inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+img.single__map {
+  width: calc(100% + 6rem);
+  max-width: none;
+  margin-top: -3rem;
+  margin-left: -3rem;
+}
+p.single__location {
+  margin: 0;
+  margin-top: -3rem;
+  margin-right: -5rem;
+  background: #303030;
+  color: white;
+  display: inline-block;
+  float: right;
+  position: relative;
+  padding: 1rem;
+}
+
+.summary__eventbrite {
+  div.fade--out {
+    position: relative;
+  }
+  .fade--out::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: linear-gradient(transparent 400px, white);
+  }
+}
+.summary {
+  .external__link {
+    text-align: center;
+  }
+}

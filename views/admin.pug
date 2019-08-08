@@ -1,0 +1,32 @@
+extends layout
+
+include mixins/_adminEventCard
+include mixins/_pagination
+
+block content
+	h2 #{title}
+
+	if expiredCount
+		h2 Expired events #{expiredCount} 
+		form.form(action="/admin/expired-events" method="POST")
+			p Click here to delete all expired events.
+			input(class="button button__danger" type="submit" value="Delete expired events" disabled=(expiredCount ===  0 ? true : false))
+
+	form(class="form card" method="POST")
+		.fc
+			p Events are pulled in starting from tomorrows date, please supply an end date.
+			label(for="endDate") End date:
+			input(type="date" id="endDate" name="end_date")
+			input(type="submit" class="button" formaction="/admin/get-eventbrite-events" value="Get EventBrite Events")
+
+	h2 Pending events #{pendingCount} 
+	if pendingCount
+		form(class="form" method="POST")
+			.events
+				each event in events
+					+adminEventCard(event)
+			input(type="submit", formaction=`/admin` value="Update", class="button")
+			input(type="submit", formaction="/admin/delete-all-pending" value="Delete all pending events", class="button")
+			+pagination(page, pages, count, parentSlug)
+	else
+		p Good job little buddy! You are all up to date.

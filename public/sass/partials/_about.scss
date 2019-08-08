@@ -1,0 +1,25 @@
+.about {
+  margin-bottom: 70px;
+}
+.about__container {
+  max-width: 849px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 1.2em;
+  background: #39364f;
+  padding: 40px 0;
+  box-shadow: 2px 2px 6px 1px #d4d4d4;
+  color: #ebeaf1;
+  strong {
+    color: #d6d3ea;
+    font-weight: 500;
+    font-size: 1.1em;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+  a {
+    color: #d6d3ea;
+    font-weight: 500;
+  }
+}

@@ -1,0 +1,84 @@
+mixin eventForm(event = {})
+
+	form(action=`/add/${event._id || ''}` method="POST" class="form card card__form" enctype="multipart/form-data")
+	
+		//- Event Name
+		.fc
+			label(for="event") Event name
+			input(type="text" id="event" name="name" value=event.name)
+
+		//- Organisation Name
+		.fc
+			label(for="organisation") Organisation
+			input(type="text" id="organisation" name="organisation" value=event.organisation || user.organisation)
+
+		//- Description (tinyMCE)
+		.fc.text--editor
+			label(for="description") Description
+			textarea(name="description" id="description")= event.description
+
+		.fr
+			//- Start Datetime
+			.fc
+				label(for="start") Start date
+				input(type="date" name="start_datetime" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" value=`${event.start_datetime ? event.start_datetime.toISOString().slice(0,10) : '' }`)
+
+			//- End Datetime
+			.fc
+				label(for="end") End date
+				input(type="date" id="end" name="end_datetime" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" value=`${event.end_datetime ? event.end_datetime.toISOString().slice(0,10) : '' }`)
+
+		//- Website
+		.fc
+			label(for="website") Event website
+			input(type="url" id="website" name="website" value=event.website)
+
+		//- Price
+		.fc 
+			label(for="price") Price
+			input(type="number" min="0.00" max="1000.00" step="0.01" id="price" name="price" value=event.price)
+
+		//- Price range
+		div
+			p If your event has different priced tickets then set the minimum and maximum price range instead:
+			.fr
+				.fc
+					label(for="minPrice") Minimum price
+					input(type="number" min="0.00" max="1000.00" step="0.01" id="minPrice" name="price_range[min_price]" value=(event.price_range && event.price_range.min_price))
+				.fc
+					label(for="maxRange") Maximum price
+					input(type="number" min="0.01" max="1000.00" step="0.01" id="maxRange" name="price_range[max_price]" value=(event.price_range && event.price_range.max_price))
+
+		//- Image upload
+		.fc
+			label(for="image") Image
+			input(type="file" name="image" id="image" accept="image/png, image/jpeg")
+			if event.image
+				img(src=`/uploads/${event.image}`, alt='' width=200)
+		
+		//- Address
+		.fc
+			label(for="address") Event address
+			input(type="text" id="address" name="location[address]" value=((event.location && event.location.address) || user.address) )
+
+		//- Extra tags
+		.fc
+			- const choices = ['Family Friendly', 'Donation']
+			- const tags = event.tags || []
+			p
+				ul.tags
+					each choice in choices
+						.tag.tag__choice
+							input(type="checkbox" id=choice value=choice name="tags" checked=(tags.includes(choice)))
+							label(for=choice) #{choice}
+			p
+				.tag.tag__choice
+					input(type="checkbox" id="free" name="is_free" value="true" checked=(event.is_free === "true"))
+					label(for="free") Free
+		
+		//- Submit
+		input(type="submit" value="Save" class="button")
+		
+	//- Delete event
+	form(action=`/events/${event._id}/delete` method="POST" class="card")
+		input(type="submit" value="Delete event" class="button button__danger")

@@ -1,0 +1,40 @@
+.map {
+  background: white;
+  box-shadow: $shad;
+  margin-bottom: 70px;
+  .autocomplete {
+    padding: 8px;
+    // margin: 0 auto;
+    // max-width: 960px;
+    form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    p {
+      margin-bottom: 0;
+    }
+  }
+  .autocomplete__label {
+    // margin-right: 8px;
+  }
+  .autocomplete__input {
+    margin: 0 16px 0 8px;
+    // max-width: 250px;
+    // float: left;
+    // margin-right: 16px;
+  }
+  [name="distance"] {
+    // margin-left: 8px;
+  }
+}
+#map {
+  height: 550px;
+}
+
+.popup {
+  width: 300px;
+  img {
+    width: 100%;
+  }
+}

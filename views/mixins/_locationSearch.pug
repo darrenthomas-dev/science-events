@@ -1,0 +1,28 @@
+mixin locationSearch()
+
+	.autocomplete
+		form(id="locationAutocomplete" method="POST")
+			label.autocomplete__label Enter your location:
+			input.autocomplete__input(type="text" name="geolocate" value=(location))
+			input(type="hidden" name="lat" id="lat" value=(lat))
+			input(type="hidden" name="lng" id="lng" value=(lng))
+			p Select a distance:
+			#distance-select
+				input(type="radio" value="" id="distanceAny" name='distance') 
+				label(for="distanceAny") Any
+				input(type="radio" value="10" id="distance10" name='distance')
+				label(for="distance10") 10 miles
+				input(type="radio" value="20" id="distance20" name='distance')
+				label(for="distance20") 20 miles
+				input(type="radio" value="30" id="distance30" name='distance')
+				label(for="distance30") 30 miles
+				input(type="radio" value="40" id="distance40" name='distance')
+				label(for="distance40") 40 miles
+			//- label(for="distance-select") Select a distance:
+			//- 	select(id="distance-select" name="distance")
+			//- 		option(value="") -- Any distance --
+			//- 		option(value="10" selected=(miles === '10')) 10 miles
+			//- 		option(value="20" selected=(miles === '20')) 20 miles
+			//- 		option(value="30" selected=(miles === '30')) 30 miles
+			//- 		option(value="40" selected=(miles === '40')) 40 miles
+			//- input(type="submit" value="Find!")

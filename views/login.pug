@@ -1,0 +1,25 @@
+extends layout
+
+include mixins/_loginForm
+include mixins/_forgot
+
+block content
+	.inner
+		+loginForm()
+		form(class="form card" action="/register" method="POST")
+			h2 Register
+			.fc
+				label(for="name") Name
+				input(type="text" name="name" id="name" )
+			.fc
+				label(for="email") Email
+				input(type="email" name="email" id="email" )
+			.fc
+				label(for="password") Password
+				input(type="password" name="password" id="password" )
+			.fc
+				label(for="password-confirm") Confirm Password
+				input(type="password" name="password-confirm" id="password-confirm" )
+			.fc
+				input.button(type="submit" value="Register")
+		+forgotForm()

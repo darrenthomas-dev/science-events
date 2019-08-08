@@ -1,0 +1,42 @@
+extends layout
+
+block content
+	//- pre=h.dump(user)
+	.inner
+		h2 Edit Your Account
+		form(method="POST")
+
+			//- User Name
+			label(for="name") Name
+			input(type="text" name="name" id="name" value=user.name)
+
+			//- User email address
+			label(for="email") Email Address
+			input(type="email" name="email" value=user.email)
+			hr
+
+			h3 Optional Event information
+
+			//- Organistaion
+			label(for="name") Organisation
+			input(type="text" name="organisation" id="organisation" value=user.organisation)
+
+			//- Address
+			label(for="address") Event address
+			input(type="text" id="address" name="address" value=user.address)
+
+			//- //- Image upload
+			//- label(for="image") Image
+			//- input(type="file" name="image" id="image" accept="image/png, image/jpeg")
+			//- if user.image
+			//- 	img(src=`/uploads/${user.image}`, alt='' width=200)
+
+			//- Update
+			input.button(type="submit" formaction="/account" value="Update My Account")
+
+			hr
+			
+			h3 Delete Account
+
+			//- Delete Account
+			input.button(type="submit" formaction="/delete" value="Delete My Account" class="button button__danger")

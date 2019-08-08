@@ -1,0 +1,11 @@
+mixin loginForm()
+	form(class="form card" action="/login" method="POST")
+		h2 Login
+		.fc
+			label(for="email") Email
+			input(type="email" name="email" id="email")
+		.fc
+			label(for="password") Password
+			input(type="password" name="password" id="password")
+		.fc
+			input.button(type="submit" value="Log In")

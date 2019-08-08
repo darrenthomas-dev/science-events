@@ -1,0 +1,32 @@
+mixin eventbriteCard(event = {})
+
+	.event
+		img(src=event.image)
+		h3= event.name
+		p
+			em= event.organisation
+		p= event.summary 
+			| ...
+		p
+			a(href=event.website target="_blank") View on EventBrite.
+		p= event.display_date
+
+		form(action="/my-events" method="POST")
+
+			input(type="hidden" name="name" value=event.name)
+			input(type="hidden" name="summary" value=event.summary )
+			input(type="hidden" name="description" value=event.description)
+			input(type="hidden" name="organisation" value=event.organisation)
+			input(type="hidden" name="start_datetime" value=event.start_datetime)
+			input(type="hidden" name="end_datetime" value=event.end_datetime)
+			input(type="hidden" name="is_free" value=event.is_free)
+			input(type="hidden" name="location[coordinates][0]" value=event.lat)
+			input(type="hidden" name="location[coordinates][1]" value=event.lng)
+			input(type="hidden" name="location[address]" value=event.address)
+			input(type="hidden" name="website" value=event.website)
+			input(type="hidden" name="image" value=event.image)
+			input(type="hidden" name="eb_id" value=event.eb_id)
+			input(type="hidden" name="display_date" value=event.display_date)
+		
+			input(type="submit" value="Add event")
+

@@ -1,0 +1,16 @@
+extends layout
+
+include mixins/_eventbriteCard
+include mixins/_pagination
+
+block content
+	h2.offscreen= title
+
+	if (count)
+		p= `${count || 0} events found.`
+		.events
+			each event in events
+				+eventbriteCard(event, start)
+
+	else 
+		p Sorry we are currently unable to find any events. 😞

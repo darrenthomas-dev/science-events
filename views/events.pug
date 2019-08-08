@@ -1,0 +1,53 @@
+extends layout
+
+include mixins/_eventCard
+include mixins/_pagination
+include mixins/_locationSearch
+
+block content
+	h2.offscreen= title
+	
+	.map
+		+locationSearch(location, lat,lng, miles)
+
+	aside
+		h3 Filters
+		.searchOrganisation
+			label(for="organisationSearch") Search by organisation:
+			input.search__input(type="text" id="organisationSearch" name="search_organisation")
+		.search__results--organisation
+			form(method="POST")
+				.filters 
+					//- TODO filters should be and or.
+					label(for="free") Free events
+					input(type="checkbox" id="free" name="free" checked=(free))
+					label(for="familyEvents") Family friendly
+					input(type="checkbox" id="familyEvents" name="family_friendly" checked=(familyFriendly))
+					//-   label(for="studentEvents") Ideal for students
+					//-   input(type="checkbox" id="studentEvents" 
+					label(for="donation") Donation
+					input(type="checkbox" id="donation" name="donation" checked=(donation))
+					//- Date range
+					label(for="startDatetime") Start date:
+					input(type="date" id="startDatetime" name="start_datetime" value=(start))
+					label(for="endDatetime") End date:
+					input(type="date" id="endDatetime" name="end_datetime" value=(end))
+					//- Price range
+					label(for="minPrice") Minimum price
+					input(type="number" min="0.00" max="1000.00" step="0.01" id="minPrice" name="min_price" value=(minPrice || "0.00"))
+					label(for="maxPrice") Maximum price
+					input(type="number" min="0.01" max="1000.00" step="0.01" id="maxPrice" name="max_price" value=(maxPrice || "1000.00"))
+					//- Filter Buttons
+					button(id="filterResetButton" type="button") Clear Filters
+					input(type="submit" value="Apply" id="filterButton")
+	p= `${count} events found.`
+
+	if (count)
+		.events
+			each event in events
+				+eventCard(event, start)
+		+pagination(page, pages, count, parentSlug)
+
+	else 
+		p Sorry there are currently no events listed in your area. 😞
+		p If you know of one why not list it? It's free and easy to do! ✨

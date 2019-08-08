@@ -1,0 +1,19 @@
+{
+  "name": "snm-update",
+  "version": "1.0.0",
+  "description": "Pulls Science events from EventBrite API and updates MongoDB.",
+  "main": "request.js",
+  "dependencies": {
+    "assert": "^2.0.0",
+    "axios": "^0.19.0",
+    "dotenv": "^8.0.0",
+    "mongodb": "^3.2.7",
+    "mongoose": "^5.6.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Darren Thomas",
+  "license": "ISC"
+}

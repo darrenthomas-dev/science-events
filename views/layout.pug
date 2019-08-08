@@ -1,0 +1,66 @@
+doctype html
+html
+  head
+    title= `${title} | ${h.siteName}`
+    link(rel='stylesheet', href='/dist/style.css')
+    link(rel="shortcut icon" type="image/png" href="/images/icons/favicon.png")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+  body
+    nav.nav
+      h2.offscreen Main navigation
+      button.nav__button.nav__button--close Menu
+      ul.nav__section
+        li.nav__item
+          a.nav__link(href="/") Science Near Me
+        each item in h.menu
+          li.nav__item
+            a.nav__link(href=item.slug class=(currentPath.startsWith(item.slug) ? 'nav__link--active' : '')) #{item.title}
+
+      .search
+        label(for="search" class="offscreen") Search by event name:
+        input.search__input(type="text" id="search" name="search" placeholder="Search by event name...")
+        .search__results
+
+      ul.nav__section
+        if user
+          each item in h.userMenu
+            li.nav__item
+              a.nav__link(href=item.slug class=(currentPath.startsWith(item.slug) ? 'nav__link--active' : '')) #{item.title}
+          if user.admin
+            each item in h.adminMenu
+              li.nav__item
+                a.nav__link(href=item.slug class=(currentPath.startsWith(item.slug) ? 'nav__link--active' : '')) #{item.title}
+          li.nav__item: a.nav__link(href="/logout") Logout
+          li.nav__item: a.nav__link(href="/account")
+            img.avatar(src=user.gravatar + '&d=retro')
+        else
+          li.nav__item.nav__item--right
+            a.nav__link(href="/login") Sign in or Register
+
+    block header
+    block messages
+      if locals.flashes
+        .inner
+          .flash-messages
+            - const categories = Object.keys(locals.flashes)
+            each category in categories
+              each message in flashes[category]
+                .flash(class=`flash--${category}`)
+                  p.flash__text!= message
+                  button.flash__remove(onClick="this.parentElement.remove()") &times;
+    
+    //- include about
+
+    block content
+
+    include footer
+
+    block scripts
+      script(src="https://cdn.tiny.cloud/1/2j0e390z4afzde1vmezs5gp43iqh04df9x0xygj082r4ujgy/tinymce/5/tinymce.min.js" referrerpolicy="origin")
+      script.
+        tinymce.init({
+          selector: '#description'
+        });
+      script(src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js")
+      script(src=`https://maps.googleapis.com/maps/api/js?key=${process.env.MAP_KEY}&libraries=places`)
+      script(src="/dist/App.bundle.js")
