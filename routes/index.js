@@ -84,9 +84,6 @@ router.post("/delete", catchErrors(userController.deleteAccount));
 // Map page
 router.get("/", eventController.mapPage);
 
-// Events for single organistaion
-router.post("/organisation", catchErrors(eventController.mapPage));
-
 // Admin page
 router.get(
   "/admin",

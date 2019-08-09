@@ -317,38 +317,41 @@ exports.searchOrganistaions = async (req, res) => {
 };
 
 exports.mapEvents = async (req, res) => {
-  const page = req.params.page || 1;
-  const limit = 12;
-  const skip = page * limit - limit;
-  const free = req.body.free;
+  // const page = req.params.page || 1;
+  // const limit = 12;
+  // const skip = page * limit - limit;
+  // const free = req.body.free;
   // const familyFriendly = req.body.family_friendly;
-  const start = req.body.start_datetime || undefined;
+  // const start = req.body.start_datetime || undefined;
   const end = req.body.end_datetime || undefined;
   const defaultStartDate = new Date().toISOString().slice(0, 10);
-  const organisation = req.body.search_organisation || undefined;
+  // const organisation = req.body.search_organisation || undefined;
   const coordinates = [req.query.lng, req.query.lat];
+  console.log("query:", req.query);
+  console.log("body:", req.body);
+  console.log("params:", req.params);
 
   let query = {
     display: true
   };
 
-  if (free) {
-    query.is_free = true;
-  }
-  if (start) {
-    query.start_datetime = {
-      $gte: new Date(`${start}T00:00:00Z`)
-    };
-  }
+  // if (free) {
+  //   query.is_free = true;
+  // }
+  // if (start) {
+  //   query.start_datetime = {
+  //     $gte: new Date(`${start}T00:00:00Z`)
+  //   };
+  // }
   if (end) {
     query.end_datetime = { $lte: new Date(`${end}T23:59:59Z`) };
   } else {
     query.end_datetime = { $gte: new Date(`${defaultStartDate}T00:00:00Z`) };
   }
-  if (organisation) {
-    console.log(organisation);
-    query.organisation = organisation;
-  }
+  // if (organisation) {
+  //   console.log(organisation);
+  //   query.organisation = organisation;
+  // }
 
   const miles = req.query.miles;
 
@@ -359,7 +362,7 @@ exports.mapEvents = async (req, res) => {
   if (miles === "30") distance = 48280;
   if (miles === "40") distance = 64373;
 
-  if (!coordinates[0] === null && !coordinates[1] === null) {
+  if (coordinates[0] !== null && coordinates[1] !== null) {
     distance
       ? (query.location = {
           $near: {

@@ -3,11 +3,9 @@ mixin filters()
 	aside
 		h3 Filters
 		.searchOrganisation
-			form(action=`/organisation` method="POST")
 				label(for="organisationSearch") Search by organisation:
 				input.search__input(type="text" id="organisationSearch" name="search_organisation")
 				.search__results--organisation
-				input(type="submit" value="Find")
 		form(method="POST")
 			.filters 
 				//- TODO filters should be and or.
