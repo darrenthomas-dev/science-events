@@ -4,17 +4,24 @@ block content
 	.inner
 		form(class="form card" action="/register" method="POST")
 			h2 Register
-			.fc
-				label(for="name") Name
-				input(type="text" name="name" id="name" )
-			.fc
-				label(for="email") Email
-				input(type="email" name="email" id="email" )
-			.fc
-				label(for="password") Password
-				input(type="password" name="password" id="password" )
-			.fc
-				label(for="password-confirm") Confirm Password
-				input(type="password" name="password-confirm" id="password-confirm" )
-			.fc
-				input.button(type="submit" value="Register")
+			div
+				//- .fc
+				//- 	label(for="name") Name
+				//- 	input(type="text" name="name" id="name" autocomplete="username")
+				.fc
+					label(for="email") Email
+					input(type="email" name="email" id="email" autocomplete="username")
+				.fc
+					label(for="password") Password
+					input(type="password" name="password" id="password" autocomplete="new-password")
+				.fc
+					label(for="password-confirm") Confirm Password
+					input(type="password" name="password-confirm" id="password-confirm" autocomplete="new-password")
+				.fc
+					input.button(type="submit" value="Register")
+			//- div
+			//- h3 Once you have Registered you will be able to:
+			//- ol
+			//- 	li Edit your own events.
+			//- 	li Link your Eventbrite account.
+			//- 	li Save form fields when adding multiple events. 

@@ -101,6 +101,13 @@ eventSchema.index(
 );
 
 eventSchema.pre("save", async function(next) {
+  if (!this.end_datetime || this.end_datetime < this.start_datetime) {
+    this.end_datetime = this.start_datetime;
+  }
+  next();
+});
+
+eventSchema.pre("save", async function(next) {
   if (!this.isModified("name")) {
     next();
     return;

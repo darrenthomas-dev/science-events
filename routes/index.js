@@ -57,8 +57,11 @@ router.get("/logout", authController.logout);
 // Account page
 router.get("/account", authController.isLoggedIn, userController.account);
 
+// Password Reset page
+router.get("/password-reset", authController.passwordReset);
+
 // Password reset DELETE THIS IF ALL IS WORKING FINE
-// router.get("/account/reset/:token", catchErrors(authController.reset));
+router.get("/account/reset/:token", catchErrors(authController.reset));
 
 // Password reset request
 router.post("/account/forgot", catchErrors(authController.forgot));
@@ -135,7 +138,7 @@ router.get(
 router.get("/api/events/near", catchErrors(eventController.mapEvents));
 
 // My Events for log in users
-router.get("/my-events", catchErrors(eventController.renderPage));
+router.get("/my-events", catchErrors(userController.getUserEvents));
 router.post("/my-events", catchErrors(eventController.addEventBriteEvents));
 
 module.exports = router;

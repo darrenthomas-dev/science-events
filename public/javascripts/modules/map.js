@@ -7,24 +7,23 @@ import {
   filterPlaces
 } from "./helpers";
 
-var places;
-var miles;
+if ($("#map")) {
+  var places;
+  var miles;
 
-const mapOptions = {
-  center: {
-    lat: 54.043667,
-    lng: -2.488511
-  },
-  zoom: 5
-};
-var markers = [];
-const input = $('[name="geolocate"]');
-const autocomplete = new google.maps.places.Autocomplete(input);
-// If hit enter do not submit form.
-input.on("keydown", e => {
-  if (e.keyCode === 13) e.preventDefault();
-});
-let map;
+  var mapOptions = {
+    center: {
+      lat: 54.043667,
+      lng: -2.488511
+    },
+    zoom: 5,
+    maxZoom: 18
+  };
+  var markers = [];
+  var input = $('[name="geolocate"]');
+  var autocomplete = new google.maps.places.Autocomplete(input);
+  var map;
+}
 
 // Make Google maps
 function makeMap(mapDiv) {
@@ -32,6 +31,11 @@ function makeMap(mapDiv) {
 
   //  make map
   map = new google.maps.Map(mapDiv, mapOptions);
+
+  // If hit enter do not submit form.
+  input.on("keydown", e => {
+    if (e.keyCode === 13) e.preventDefault();
+  });
 
   // const image = "/images/icons/current_location.png";
   // let current = new google.maps.Marker({
@@ -49,6 +53,44 @@ function makeMap(mapDiv) {
       loadPlaces();
     }
   );
+
+  // Event Listeners
+
+  // Search by keyword (event name and organisation)
+  $("#organisationSearch").addEventListener("input", function() {
+    renderEvents(filterPlaces(places));
+    renderMarkers(filterPlaces(places));
+  });
+
+  // Toggle free
+  $("#free").on("click", function() {
+    renderEvents(filterPlaces(places));
+    renderMarkers(filterPlaces(places));
+  });
+
+  // Distance changed
+  $("#distance-select").on("change", function() {
+    miles = this.querySelector('input[name="distance"]:checked').value;
+    const gmPlace = autocomplete.getPlace();
+    if (!gmPlace) return false;
+
+    loadPlaces(
+      gmPlace.geometry.location.lat(),
+      gmPlace.geometry.location.lng(),
+      miles
+    );
+  });
+
+  // Load events on place change
+  autocomplete.addListener("place_changed", () => {
+    const gmPlace = autocomplete.getPlace();
+    loadPlaces(
+      gmPlace.geometry.location.lat(),
+      gmPlace.geometry.location.lng(),
+      miles
+      // current
+    );
+  });
 }
 
 function loadPlaces(lat = 54.043667, lng = -2.488511, miles = false) {
@@ -174,41 +216,3 @@ function renderMarkers(places) {
 }
 
 export default makeMap;
-
-// Event Listeners
-
-// Search by keyword (event name and organisation)
-$("#organisationSearch").addEventListener("input", function() {
-  renderEvents(filterPlaces(places));
-  renderMarkers(filterPlaces(places));
-});
-
-// Toggle free
-$("#free").on("click", function() {
-  renderEvents(filterPlaces(places));
-  renderMarkers(filterPlaces(places));
-});
-
-// Distance changed
-$("#distance-select").on("change", function() {
-  miles = this.querySelector('input[name="distance"]:checked').value;
-  const gmPlace = autocomplete.getPlace();
-  if (!gmPlace) return false;
-
-  loadPlaces(
-    gmPlace.geometry.location.lat(),
-    gmPlace.geometry.location.lng(),
-    miles
-  );
-});
-
-// Load events on place change
-autocomplete.addListener("place_changed", () => {
-  const gmPlace = autocomplete.getPlace();
-  loadPlaces(
-    gmPlace.geometry.location.lat(),
-    gmPlace.geometry.location.lng(),
-    miles
-    // current
-  );
-});

@@ -12,8 +12,8 @@ exports.registerForm = (req, res) => {
 };
 
 exports.validateRegister = (req, res, next) => {
-  req.sanitizeBody("name");
-  req.checkBody("name", "You must supply a name!").notEmpty();
+  // req.sanitizeBody("name");
+  // req.checkBody("name", "You must supply a name!").notEmpty();
   req.checkBody("email", "That is not a valid email.").isEmail();
   req.sanitizeBody("email").normalizeEmail({
     remove_dots: false,
@@ -46,7 +46,10 @@ exports.validateRegister = (req, res, next) => {
 };
 
 exports.register = async (req, res, next) => {
-  const user = new User({ email: req.body.email, name: req.body.name });
+  const user = new User({
+    email: req.body.email
+    // name: req.body.name
+  });
   const register = promisify(User.register, User);
   await register(user, req.body.password);
   next();
@@ -58,7 +61,7 @@ exports.account = (req, res) => {
 
 exports.updateAccount = async (req, res) => {
   const updates = {
-    name: req.body.name,
+    // name: req.body.name,
     email: req.body.email,
     organisation: req.body.organisation,
     address: req.body.address
@@ -91,4 +94,16 @@ exports.deleteAccount = async (req, res) => {
 
   // redirect
   res.redirect("/");
+};
+
+exports.getUserEvents = async (req, res) => {
+  console.log();
+
+  const events = await Events.find({ author: req.user.id });
+  const count = events.length;
+
+  // confirmOwner(event, req.user);
+  console.log(req.user.id);
+
+  res.render("events", { title: "You Events", events, count });
 };

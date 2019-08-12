@@ -455,33 +455,29 @@ textarea {
   textarea.input--error {
     border-color: red; }
 
-.form label {
-  margin-bottom: 4px; }
-
-.form input {
-  margin-right: 24px;
-  margin-bottom: 24px; }
-
-.form textarea,
-.form .text--editor {
-  margin-bottom: 24px; }
-
-.form [type="text"],
-.form [type="email"],
-.form [type="password"],
-.form [type="submit"] {
-  max-width: 400px;
-  font-size: 0.9rem; }
-
-.form input[type="number"] {
-  width: 150px; }
-
-.form input[type="url"] {
-  max-width: 400px;
-  font-size: 0.9rem; }
-
-.form input[type="date"] {
-  width: 150px; }
+.form {
+  margin: 70px 0; }
+  .form label {
+    margin-bottom: 4px; }
+  .form input {
+    margin-right: 24px;
+    margin-bottom: 24px; }
+  .form textarea,
+  .form .text--editor {
+    margin-bottom: 24px; }
+  .form [type="text"],
+  .form [type="email"],
+  .form [type="password"],
+  .form [type="submit"] {
+    max-width: 400px;
+    font-size: 0.9rem; }
+  .form input[type="number"] {
+    width: 150px; }
+  .form input[type="url"] {
+    max-width: 400px;
+    font-size: 0.9rem; }
+  .form input[type="date"] {
+    width: 150px; }
 
 @keyframes slideIn {
   0% {
@@ -875,7 +871,7 @@ p.single__location {
     margin: 0 16px 0 8px; }
 
 #map {
-  height: 550px; }
+  height: 750px; }
 
 .popup {
   width: 300px; }

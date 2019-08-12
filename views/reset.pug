@@ -2,10 +2,16 @@ extends layout
 
 block content
 	.inner
-		form.form(method="POST")
+		form(class="form card" action="/account/forgot" method="POST")
 			h2 Reset Your Password
-			label(for="password") Password
-			input(type="password" name="password" id="password")
-			label(for="password-confirm") Confirm Password
-			input(type="password" name="password-confirm")
-			input(type="submit" value="Reset Password")
+			.fc
+				label(for="email") Email
+				input(type="email" name="email" id="email" autocomplete="username")
+			.fc
+				label(for="password") Password
+				input(type="password" name="password" id="password" autocomplete="new-password")
+			.fc
+				label(for="password-confirm") Confirm Password
+				input(type="password" name="password-confirm" autocomplete="new-password")
+			.fc
+				input(type="submit" value="Reset Password" class="button")

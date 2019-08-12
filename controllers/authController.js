@@ -59,6 +59,10 @@ exports.forgot = async (req, res) => {
   res.redirect("/login");
 };
 
+exports.passwordReset = (req, res) => {
+  res.render("reset", { title: "Password Reset" });
+};
+
 exports.reset = async (req, res) => {
   const user = await User.findOne({
     resetPasswordToken: req.params.token,

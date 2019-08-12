@@ -2,13 +2,13 @@ mixin locationSearch()
 
 	.autocomplete
 		form(id="locationAutocomplete" method="POST")
-			label.autocomplete__label Enter your location:
+			label.autocomplete__label Enter your location
 			input.autocomplete__input(type="text" name="geolocate" value=(location))
 			input(type="hidden" name="lat" id="lat" value=(lat))
 			input(type="hidden" name="lng" id="lng" value=(lng))
-			p Select a distance:
+			p and select a distance:
 			#distance-select
-				input(type="radio" value="" id="distanceAny" name='distance') 
+				input(type="radio" value="" id="distanceAny" name='distance' checked) 
 				label(for="distanceAny") Any
 				input(type="radio" value="10" id="distance10" name='distance')
 				label(for="distance10") 10 miles

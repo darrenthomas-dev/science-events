@@ -63,12 +63,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 35);
+/******/ 	return __webpack_require__(__webpack_require__.s = 36);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 0:
+/******/ ([
+/* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -405,8 +404,7 @@ module.exports = {
 };
 
 /***/ }),
-
-/***/ 1:
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -436,824 +434,7 @@ exports.$ = $;
 exports.$$ = $$;
 
 /***/ }),
-
-/***/ 10:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-function encode(val) {
-  return encodeURIComponent(val).replace(/%40/gi, '@').replace(/%3A/gi, ':').replace(/%24/g, '$').replace(/%2C/gi, ',').replace(/%20/g, '+').replace(/%5B/gi, '[').replace(/%5D/gi, ']');
-}
-
-/**
- * Build a URL by appending params to the end
- *
- * @param {string} url The base of the url (e.g., http://www.google.com)
- * @param {object} [params] The params to be appended
- * @returns {string} The formatted url
- */
-module.exports = function buildURL(url, params, paramsSerializer) {
-  /*eslint no-param-reassign:0*/
-  if (!params) {
-    return url;
-  }
-
-  var serializedParams;
-  if (paramsSerializer) {
-    serializedParams = paramsSerializer(params);
-  } else if (utils.isURLSearchParams(params)) {
-    serializedParams = params.toString();
-  } else {
-    var parts = [];
-
-    utils.forEach(params, function serialize(val, key) {
-      if (val === null || typeof val === 'undefined') {
-        return;
-      }
-
-      if (utils.isArray(val)) {
-        key = key + '[]';
-      } else {
-        val = [val];
-      }
-
-      utils.forEach(val, function parseValue(v) {
-        if (utils.isDate(v)) {
-          v = v.toISOString();
-        } else if (utils.isObject(v)) {
-          v = JSON.stringify(v);
-        }
-        parts.push(encode(key) + '=' + encode(v));
-      });
-    });
-
-    serializedParams = parts.join('&');
-  }
-
-  if (serializedParams) {
-    var hashmarkIndex = url.indexOf('#');
-    if (hashmarkIndex !== -1) {
-      url = url.slice(0, hashmarkIndex);
-    }
-
-    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
-  }
-
-  return url;
-};
-
-/***/ }),
-
-/***/ 11:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-function autocomplete(input) {
-  if (!input) return;
-
-  new google.maps.places.Autocomplete(input);
-
-  // addEventListener;
-  // dropdown.addListener("place_changed", () => {
-  //   const place = dropdown.getPlace();
-  //   latInput.value = place.geometry.location.lat();
-  //   lngInput.value = place.geometry.location.lng();
-  // });
-
-  // If hit enter do not submit form.
-  input.on("keydown", function (e) {
-    if (e.keyCode === 13) e.preventDefault();
-  });
-}
-
-exports.default = autocomplete;
-
-/***/ }),
-
-/***/ 12:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _bling = __webpack_require__(1);
-
-var clearFilters = function clearFilters(reset) {
-  if (!reset) return;
-  reset.on("click", function () {
-    resetCheckboxes();
-    resetDate();
-    resetPrice();
-  });
-};
-
-var resetCheckboxes = function resetCheckboxes() {
-  var checkboxes = (0, _bling.$$)("input[type=checkbox]");
-  for (var i = 0; i < checkboxes.length; i++) {
-    checkboxes[i].checked = false;
-  }
-};
-
-var resetDate = function resetDate() {
-  var start = (0, _bling.$)("#startDatetime");
-  var end = (0, _bling.$)("#endDatetime");
-  start.value = new Date().toISOString().slice(0, 10);
-  end.value = "";
-};
-
-var resetPrice = function resetPrice() {
-  var min = (0, _bling.$)("#minPrice");
-  var max = (0, _bling.$)("#maxPrice");
-  min.value = "0.00";
-  max.value = "1000.00";
-};
-
-exports.default = clearFilters;
-
-/***/ }),
-
-/***/ 13:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var _axios = __webpack_require__(2);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _bling = __webpack_require__(1);
-
-var _helpers = __webpack_require__(168);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var places;
-var miles;
-
-var mapOptions = {
-  center: {
-    lat: 54.043667,
-    lng: -2.488511
-  },
-  zoom: 5
-};
-var markers = [];
-var input = (0, _bling.$)('[name="geolocate"]');
-var autocomplete = new google.maps.places.Autocomplete(input);
-// If hit enter do not submit form.
-input.on("keydown", function (e) {
-  if (e.keyCode === 13) e.preventDefault();
-});
-var map = void 0;
-
-// Make Google maps
-function makeMap(mapDiv) {
-  if (!mapDiv) return;
-
-  //  make map
-  map = new google.maps.Map(mapDiv, mapOptions);
-
-  // const image = "/images/icons/current_location.png";
-  // let current = new google.maps.Marker({
-  //   map: map,
-  //   icon: image,
-  //   animation: google.maps.Animation.DROP,
-  //   title: "Current location"
-  // });
-
-  navigator.geolocation.getCurrentPosition(function (data) {
-    loadPlaces(data.coords.latitude, data.coords.longitude);
-  }, function (err) {
-    loadPlaces();
-  });
-}
-
-function loadPlaces() {
-  var lat = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 54.043667;
-  var lng = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -2.488511;
-  var miles = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-
-  console.log(lat, lng, miles);
-  _axios2.default.get("/api/events/near?lat=" + lat + "&lng=" + lng + "&miles=" + miles).then(function (res) {
-    places = res.data;
-
-    if (!places.length) {
-      alert("no places found!");
-      return;
-    }
-
-    // Check for any filters that may be applied
-    places = (0, _helpers.filterPlaces)(places);
-
-    (0, _helpers.renderEvents)(places);
-    renderMarkers(places);
-  });
-}
-
-function renderMarkers(places) {
-  // create bounds
-  var bounds = new google.maps.LatLngBounds();
-  var infoWindow = new google.maps.InfoWindow();
-
-  // Group by lat and lng
-  var groupedPlaces = places.reduce(function (acc, place) {
-    var key = place.location.coordinates;
-    (acc[key] ? acc[key] : acc[key] = null || []).push(place);
-    return acc;
-  }, {});
-
-  // Convert to an array
-  groupedPlaces = Object.keys(groupedPlaces).map(function (key) {
-    return groupedPlaces[key];
-  });
-
-  console.log("Grouped:", groupedPlaces);
-
-  google.maps.event.addListener(infoWindow, "domready", function () {
-    // Bind click event to button
-    var btn = document.querySelector(".info__button");
-    if (btn) {
-      btn.addEventListener("click", function () {
-        (0, _helpers.nextEvent)();
-      });
-    }
-  });
-
-  markers = (0, _helpers.clearOverlays)(markers);
-  markers = groupedPlaces.map(function (place) {
-    var _place$0$location$coo = _slicedToArray(place[0].location.coordinates, 2),
-        placeLng = _place$0$location$coo[0],
-        placeLat = _place$0$location$coo[1];
-
-    var position = { lat: placeLat, lng: placeLng };
-    var label = null;
-
-    if (place.length > 1) {
-      label = place.length.toString();
-    }
-
-    bounds.extend(position);
-    var marker = new google.maps.Marker({ map: map, position: position, label: label });
-    marker.place = place;
-    return marker;
-  });
-
-  // show infoWindow on click
-  markers.forEach(function (marker) {
-    return marker.addListener("click", function () {
-      var lat = this.place[0].location.coordinates[1];
-      var lng = this.place[0].location.coordinates[0];
-
-      console.log(places);
-      (0, _helpers.renderEvents)((0, _helpers.filterPlaces)(places, lat, lng));
-
-      var html = "<div class='popup'>";
-
-      for (var i = 0; i < this.place.length; i++) {
-        html += "\n        <div class=\"popup__event" + (i > 0 ? " hide" : "") + "\">\n          <h3>" + this.place[i].name + "</h3>\n          <p><em>" + this.place[i].organisation + "</em></p>\n          <p>" + this.place[i].location.address + "</p>\n            </div>";
-      }
-
-      html += (this.place.length > 1 ? '<button class="button info__button">Next</button>' : "") + "</div>";
-
-      infoWindow.setContent(html);
-      infoWindow.open(map, this);
-    });
-  });
-
-  // if (currentLocationMarker) {
-  //   const currentLatLng = new google.maps.LatLng(lat, lng);
-  //   currentLocationMarker.setPosition(currentLatLng);
-  // }
-
-  // Show all events (within specified distance) on marker close
-  google.maps.event.addListener(infoWindow, "closeclick", function () {
-    (0, _helpers.renderEvents)((0, _helpers.filterPlaces)(places));
-    // renderMarkers(filterPlaces(places));
-  });
-
-  var clusterOptions = {
-    gridSize: 20,
-    maxZoom: 10,
-    // zoomOnClick: false,
-    imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
-  };
-
-  // Add a marker clusterer to manage the markers.
-  new MarkerClusterer(map, markers, clusterOptions);
-
-  //  zoom map to fit markers
-  map.setCenter(bounds.getCenter());
-  // map.fitBounds(bounds, renderEvents(places));
-  map.fitBounds(bounds);
-}
-
-exports.default = makeMap;
-
-// Event Listeners
-
-// Search by keyword (event name and organisation)
-
-(0, _bling.$)("#organisationSearch").addEventListener("input", function () {
-  (0, _helpers.renderEvents)((0, _helpers.filterPlaces)(places));
-  renderMarkers((0, _helpers.filterPlaces)(places));
-});
-
-// Toggle free
-(0, _bling.$)("#free").on("click", function () {
-  (0, _helpers.renderEvents)((0, _helpers.filterPlaces)(places));
-  renderMarkers((0, _helpers.filterPlaces)(places));
-});
-
-// Distance changed
-(0, _bling.$)("#distance-select").on("change", function () {
-  miles = this.querySelector('input[name="distance"]:checked').value;
-  var gmPlace = autocomplete.getPlace();
-  if (!gmPlace) return false;
-
-  loadPlaces(gmPlace.geometry.location.lat(), gmPlace.geometry.location.lng(), miles);
-});
-
-// Load events on place change
-autocomplete.addListener("place_changed", function () {
-  var gmPlace = autocomplete.getPlace();
-  loadPlaces(gmPlace.geometry.location.lat(), gmPlace.geometry.location.lng(), miles
-  // current
-  );
-});
-
-/***/ }),
-
-/***/ 14:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _bling = __webpack_require__(1);
-
-function displayNavigation(btn) {
-  var nav = (0, _bling.$)(".nav__section");
-
-  btn.addEventListener("click", function () {
-    if (nav.style.display === "grid") {
-      btn.className = "nav__button nav__button--close";
-      nav.style.display = "none";
-    } else {
-      nav.style.display = "grid";
-      btn.className = "nav__button nav__button--open";
-    }
-  });
-}
-
-exports.default = displayNavigation;
-
-/***/ }),
-
-/***/ 15:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _axios = __webpack_require__(2);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _dompurify = __webpack_require__(33);
-
-var _dompurify2 = _interopRequireDefault(_dompurify);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function searchResultsHTML(events) {
-  return events.map(function (event) {
-    return "\n\t\t<a href=\"/event/" + event.slug + "\" class=\"search__result\">\n\t\t\t<strong>" + event.name + "</strong>\n\t\t</a>";
-  }).join("");
-}
-
-function typeAhead(search) {
-  if (!search) return;
-
-  var searchInput = search.querySelector('input[name="search"]');
-  var searchResults = search.querySelector(".search__results");
-
-  searchInput.on("input", function () {
-    var _this = this;
-
-    if (!this.value) {
-      searchResults.style.display = "none";
-      return;
-    }
-
-    //  Show search result
-    searchResults.style.display = "block";
-
-    _axios2.default.get("/api/search?q=" + this.value).then(function (res) {
-      if (res.data.length) {
-        searchResults.innerHTML = _dompurify2.default.sanitize(searchResultsHTML(res.data));
-        return;
-      }
-      // no return data
-      searchResults.innerHTML = _dompurify2.default.sanitize("<div class=\"search__result\">No results for " + _this.value + "</div>");
-    }).catch(function (err) {
-      console.error(err);
-    });
-  });
-
-  // handle keyboard inputs
-  searchInput.on("keyup", function (e) {
-    if (![38, 40, 13].includes(e.keyCode)) {
-      return;
-    }
-    var activeClass = "search__result--active";
-    var current = search.querySelector("." + activeClass);
-    var items = search.querySelectorAll(".search__result");
-    var next = void 0;
-    if (e.keyCode === 40 && current) {
-      next = current.nextElementSibling || items[0];
-    } else if (e.keyCode === 40) {
-      next = items[0];
-    } else if (e.keyCode === 38 && current) {
-      next = current.previousElementSibling || items[items.length - 1];
-    } else if (e.keyCode === 38) {
-      next = items[items.length - 1];
-    } else if (e.keyCode === 13 && current.href) {
-      window.location = current.href;
-      return;
-    }
-
-    if (current) {
-      current.classList.remove(activeClass);
-    }
-    next.classList.add(activeClass);
-  });
-}
-
-exports.default = typeAhead;
-
-/***/ }),
-
-/***/ 16:
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ 168:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _bling = __webpack_require__(1);
-
-// Clear Google markers
-exports.clearOverlays = function (markers) {
-  for (var i = 0; i < markers.length; i++) {
-    markers[i].setMap(null);
-  }
-  markers.length = 0;
-
-  return markers;
-};
-
-// Show / hide events info window button
-var current = 0;
-exports.nextEvent = function () {
-  var events = document.querySelectorAll(".popup__event");
-  events[current].classList.add("hide");
-  current = events.length - 1 === current ? current = 0 : current = current + 1;
-  events[current].classList.remove("hide");
-};
-
-// Returns human readable price range
-var getPriceRange = function getPriceRange(min, max) {
-  if (!min && !max) return "";
-
-  min = Number(min).toFixed(2);
-  max = Number(max).toFixed(2);
-
-  var cost = "";
-
-  if (min === "0.00") {
-    cost = "Free - \xA3" + max;
-  } else if (min === max) {
-    cost = "\xA3" + min;
-  } else {
-    cost = "\xA3" + min + " - \xA3" + max;
-  }
-
-  return cost;
-};
-
-// Filter places
-exports.filterPlaces = function (places) {
-  var lat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-  var lng = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
-  var free = (0, _bling.$)("#free");
-  var searchTerm = (0, _bling.$)("#organisationSearch").value;
-
-  if (searchTerm) {
-    places = places.filter(function (place) {
-      return (place.name + " " + place.organisation).toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0;
-    });
-  }
-
-  if (lat && lng) {
-    places = places.filter(function (place) {
-      return place.location.coordinates[1] === lat && place.location.coordinates[0] === lng;
-    });
-  }
-
-  if (free.checked) {
-    places = places.filter(function (place) {
-      return place.is_free;
-    });
-  }
-
-  return places;
-};
-
-// Render Events
-exports.renderEvents = function (places) {
-  // "name organisation image slug location display_date free"
-  var newHTML = "";
-  var count = places.length;
-
-  for (var i in places) {
-    var image = places[i].image ? places[i].image : "store.png";
-
-    if (!image.startsWith("http")) {
-      image = "/uploads/" + image;
-    }
-
-    // price range
-    var priceRange = places[i].price_range && places[i].price_range.max_price ? getPriceRange(places[i].price_range.min_price, places[i].price_range.max_price) : "";
-
-    // price
-    var price = priceRange ? "<div class=\"event__price\"><p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M20 12v5H0v-5a2 2 0 1 0 0-4V3h20v5a2 2 0 1 0 0 4zM3 5v10h14V5H3zm7 7.08l-2.92 2.04L8.1 10.7 5.27 8.56l3.56-.08L10 5.12l1.17 3.36 3.56.08-2.84 2.15 1.03 3.4L10 12.09z\"/></svg>" + priceRange + "</p></div>" : "";
-
-    // free
-    var free = places[i].is_free ? "<div class=\"event__free\"><p>Free</p></div>" : "";
-
-    var event = "\n        <div class=\"event\">          \n          <div class=\"event__hero\">\n            <img src=" + image + ">\n          </div>          \n          <div class=\"event__details\">            \n            <div class=\"event__title\">\n              <a href=/event/" + places[i].slug + "><h3 class=\"title\">" + places[i].name + "</h3></a>\n            </div>\n            <div class=\"event__organiser\">\n              <p><em>" + places[i].organisation + "</em></p>\n            </div>            \n            <div class=\"event__description\">              \n              <div class=\"event__location\">\n                <p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M10 20S3 10.87 3 7a7 7 0 1 1 14 0c0 3.87-7 13-7 13zm0-11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z\"></path></svg><span>" + places[i].location.address + "</span></p>\n              </div>              \n              <div class=\"event__date\">\n                <p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M1 4c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4zm2 2v12h14V6H3zm2-6h2v2H5V0zm8 0h2v2h-2V0zM5 9h2v2H5V9zm0 4h2v2H5v-2zm4-4h2v2H9V9zm0 4h2v2H9v-2zm4-4h2v2h-2V9zm0 4h2v2h-2v-2z\"></path></svg><span>" + places[i].display_date + "</span></p>\n              </div>\n              " + price + "\n              " + free + "\n            </div>\n          </div>\n        </div>";
-    newHTML += event;
-  }
-
-  (0, _bling.$)(".events__count").innerHTML = "<p>" + count + " events found.</p>";
-  (0, _bling.$)(".events").innerHTML = newHTML;
-};
-
-/***/ }),
-
-/***/ 17:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-var bind = __webpack_require__(9);
-var Axios = __webpack_require__(19);
-var mergeConfig = __webpack_require__(7);
-var defaults = __webpack_require__(8);
-
-/**
- * Create an instance of Axios
- *
- * @param {Object} defaultConfig The default config for the instance
- * @return {Axios} A new instance of Axios
- */
-function createInstance(defaultConfig) {
-  var context = new Axios(defaultConfig);
-  var instance = bind(Axios.prototype.request, context);
-
-  // Copy axios.prototype to instance
-  utils.extend(instance, Axios.prototype, context);
-
-  // Copy context to instance
-  utils.extend(instance, context);
-
-  return instance;
-}
-
-// Create the default instance to be exported
-var axios = createInstance(defaults);
-
-// Expose Axios class to allow class inheritance
-axios.Axios = Axios;
-
-// Factory for creating new instances
-axios.create = function create(instanceConfig) {
-  return createInstance(mergeConfig(axios.defaults, instanceConfig));
-};
-
-// Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(4);
-axios.CancelToken = __webpack_require__(18);
-axios.isCancel = __webpack_require__(5);
-
-// Expose all/spread
-axios.all = function all(promises) {
-  return Promise.all(promises);
-};
-axios.spread = __webpack_require__(31);
-
-module.exports = axios;
-
-// Allow use of default import syntax in TypeScript
-module.exports.default = axios;
-
-/***/ }),
-
-/***/ 18:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Cancel = __webpack_require__(4);
-
-/**
- * A `CancelToken` is an object that can be used to request cancellation of an operation.
- *
- * @class
- * @param {Function} executor The executor function.
- */
-function CancelToken(executor) {
-  if (typeof executor !== 'function') {
-    throw new TypeError('executor must be a function.');
-  }
-
-  var resolvePromise;
-  this.promise = new Promise(function promiseExecutor(resolve) {
-    resolvePromise = resolve;
-  });
-
-  var token = this;
-  executor(function cancel(message) {
-    if (token.reason) {
-      // Cancellation has already been requested
-      return;
-    }
-
-    token.reason = new Cancel(message);
-    resolvePromise(token.reason);
-  });
-}
-
-/**
- * Throws a `Cancel` if cancellation has been requested.
- */
-CancelToken.prototype.throwIfRequested = function throwIfRequested() {
-  if (this.reason) {
-    throw this.reason;
-  }
-};
-
-/**
- * Returns an object that contains a new `CancelToken` and a function that, when called,
- * cancels the `CancelToken`.
- */
-CancelToken.source = function source() {
-  var cancel;
-  var token = new CancelToken(function executor(c) {
-    cancel = c;
-  });
-  return {
-    token: token,
-    cancel: cancel
-  };
-};
-
-module.exports = CancelToken;
-
-/***/ }),
-
-/***/ 19:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-var buildURL = __webpack_require__(10);
-var InterceptorManager = __webpack_require__(20);
-var dispatchRequest = __webpack_require__(21);
-var mergeConfig = __webpack_require__(7);
-
-/**
- * Create a new instance of Axios
- *
- * @param {Object} instanceConfig The default config for the instance
- */
-function Axios(instanceConfig) {
-  this.defaults = instanceConfig;
-  this.interceptors = {
-    request: new InterceptorManager(),
-    response: new InterceptorManager()
-  };
-}
-
-/**
- * Dispatch a request
- *
- * @param {Object} config The config specific for this request (merged with this.defaults)
- */
-Axios.prototype.request = function request(config) {
-  /*eslint no-param-reassign:0*/
-  // Allow for axios('example/url'[, config]) a la fetch API
-  if (typeof config === 'string') {
-    config = arguments[1] || {};
-    config.url = arguments[0];
-  } else {
-    config = config || {};
-  }
-
-  config = mergeConfig(this.defaults, config);
-  config.method = config.method ? config.method.toLowerCase() : 'get';
-
-  // Hook up interceptors middleware
-  var chain = [dispatchRequest, undefined];
-  var promise = Promise.resolve(config);
-
-  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
-    chain.unshift(interceptor.fulfilled, interceptor.rejected);
-  });
-
-  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
-    chain.push(interceptor.fulfilled, interceptor.rejected);
-  });
-
-  while (chain.length) {
-    promise = promise.then(chain.shift(), chain.shift());
-  }
-
-  return promise;
-};
-
-Axios.prototype.getUri = function getUri(config) {
-  config = mergeConfig(this.defaults, config);
-  return buildURL(config.url, config.params, config.paramsSerializer).replace(/^\?/, '');
-};
-
-// Provide aliases for supported request methods
-utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
-  /*eslint func-names:0*/
-  Axios.prototype[method] = function (url, config) {
-    return this.request(utils.merge(config || {}, {
-      method: method,
-      url: url
-    }));
-  };
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  /*eslint func-names:0*/
-  Axios.prototype[method] = function (url, data, config) {
-    return this.request(utils.merge(config || {}, {
-      method: method,
-      url: url,
-      data: data
-    }));
-  };
-});
-
-module.exports = Axios;
-
-/***/ }),
-
-/***/ 2:
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1262,436 +443,7 @@ module.exports = Axios;
 module.exports = __webpack_require__(17);
 
 /***/ }),
-
-/***/ 20:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-function InterceptorManager() {
-  this.handlers = [];
-}
-
-/**
- * Add a new interceptor to the stack
- *
- * @param {Function} fulfilled The function to handle `then` for a `Promise`
- * @param {Function} rejected The function to handle `reject` for a `Promise`
- *
- * @return {Number} An ID used to remove interceptor later
- */
-InterceptorManager.prototype.use = function use(fulfilled, rejected) {
-  this.handlers.push({
-    fulfilled: fulfilled,
-    rejected: rejected
-  });
-  return this.handlers.length - 1;
-};
-
-/**
- * Remove an interceptor from the stack
- *
- * @param {Number} id The ID that was returned by `use`
- */
-InterceptorManager.prototype.eject = function eject(id) {
-  if (this.handlers[id]) {
-    this.handlers[id] = null;
-  }
-};
-
-/**
- * Iterate over all the registered interceptors
- *
- * This method is particularly useful for skipping over any
- * interceptors that may have become `null` calling `eject`.
- *
- * @param {Function} fn The function to call for each interceptor
- */
-InterceptorManager.prototype.forEach = function forEach(fn) {
-  utils.forEach(this.handlers, function forEachHandler(h) {
-    if (h !== null) {
-      fn(h);
-    }
-  });
-};
-
-module.exports = InterceptorManager;
-
-/***/ }),
-
-/***/ 21:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-var transformData = __webpack_require__(24);
-var isCancel = __webpack_require__(5);
-var defaults = __webpack_require__(8);
-var isAbsoluteURL = __webpack_require__(27);
-var combineURLs = __webpack_require__(25);
-
-/**
- * Throws a `Cancel` if cancellation has been requested.
- */
-function throwIfCancellationRequested(config) {
-  if (config.cancelToken) {
-    config.cancelToken.throwIfRequested();
-  }
-}
-
-/**
- * Dispatch a request to the server using the configured adapter.
- *
- * @param {object} config The config that is to be used for the request
- * @returns {Promise} The Promise to be fulfilled
- */
-module.exports = function dispatchRequest(config) {
-  throwIfCancellationRequested(config);
-
-  // Support baseURL config
-  if (config.baseURL && !isAbsoluteURL(config.url)) {
-    config.url = combineURLs(config.baseURL, config.url);
-  }
-
-  // Ensure headers exist
-  config.headers = config.headers || {};
-
-  // Transform request data
-  config.data = transformData(config.data, config.headers, config.transformRequest);
-
-  // Flatten headers
-  config.headers = utils.merge(config.headers.common || {}, config.headers[config.method] || {}, config.headers || {});
-
-  utils.forEach(['delete', 'get', 'head', 'post', 'put', 'patch', 'common'], function cleanHeaderConfig(method) {
-    delete config.headers[method];
-  });
-
-  var adapter = config.adapter || defaults.adapter;
-
-  return adapter(config).then(function onAdapterResolution(response) {
-    throwIfCancellationRequested(config);
-
-    // Transform response data
-    response.data = transformData(response.data, response.headers, config.transformResponse);
-
-    return response;
-  }, function onAdapterRejection(reason) {
-    if (!isCancel(reason)) {
-      throwIfCancellationRequested(config);
-
-      // Transform response data
-      if (reason && reason.response) {
-        reason.response.data = transformData(reason.response.data, reason.response.headers, config.transformResponse);
-      }
-    }
-
-    return Promise.reject(reason);
-  });
-};
-
-/***/ }),
-
-/***/ 22:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Update an Error with the specified config, error code, and response.
- *
- * @param {Error} error The error to update.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- * @param {Object} [request] The request.
- * @param {Object} [response] The response.
- * @returns {Error} The error.
- */
-
-module.exports = function enhanceError(error, config, code, request, response) {
-  error.config = config;
-  if (code) {
-    error.code = code;
-  }
-
-  error.request = request;
-  error.response = response;
-  error.isAxiosError = true;
-
-  error.toJSON = function () {
-    return {
-      // Standard
-      message: this.message,
-      name: this.name,
-      // Microsoft
-      description: this.description,
-      number: this.number,
-      // Mozilla
-      fileName: this.fileName,
-      lineNumber: this.lineNumber,
-      columnNumber: this.columnNumber,
-      stack: this.stack,
-      // Axios
-      config: this.config,
-      code: this.code
-    };
-  };
-  return error;
-};
-
-/***/ }),
-
-/***/ 23:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var createError = __webpack_require__(6);
-
-/**
- * Resolve or reject a Promise based on response status.
- *
- * @param {Function} resolve A function that resolves the promise.
- * @param {Function} reject A function that rejects the promise.
- * @param {object} response The response.
- */
-module.exports = function settle(resolve, reject, response) {
-  var validateStatus = response.config.validateStatus;
-  if (!validateStatus || validateStatus(response.status)) {
-    resolve(response);
-  } else {
-    reject(createError('Request failed with status code ' + response.status, response.config, null, response.request, response));
-  }
-};
-
-/***/ }),
-
-/***/ 24:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-/**
- * Transform the data for a request or a response
- *
- * @param {Object|String} data The data to be transformed
- * @param {Array} headers The headers for the request or response
- * @param {Array|Function} fns A single function or Array of functions
- * @returns {*} The resulting transformed data
- */
-module.exports = function transformData(data, headers, fns) {
-  /*eslint no-param-reassign:0*/
-  utils.forEach(fns, function transform(fn) {
-    data = fn(data, headers);
-  });
-
-  return data;
-};
-
-/***/ }),
-
-/***/ 25:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Creates a new URL by combining the specified URLs
- *
- * @param {string} baseURL The base URL
- * @param {string} relativeURL The relative URL
- * @returns {string} The combined URL
- */
-
-module.exports = function combineURLs(baseURL, relativeURL) {
-  return relativeURL ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '') : baseURL;
-};
-
-/***/ }),
-
-/***/ 26:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-module.exports = utils.isStandardBrowserEnv() ?
-
-// Standard browser envs support document.cookie
-function standardBrowserEnv() {
-  return {
-    write: function write(name, value, expires, path, domain, secure) {
-      var cookie = [];
-      cookie.push(name + '=' + encodeURIComponent(value));
-
-      if (utils.isNumber(expires)) {
-        cookie.push('expires=' + new Date(expires).toGMTString());
-      }
-
-      if (utils.isString(path)) {
-        cookie.push('path=' + path);
-      }
-
-      if (utils.isString(domain)) {
-        cookie.push('domain=' + domain);
-      }
-
-      if (secure === true) {
-        cookie.push('secure');
-      }
-
-      document.cookie = cookie.join('; ');
-    },
-
-    read: function read(name) {
-      var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
-      return match ? decodeURIComponent(match[3]) : null;
-    },
-
-    remove: function remove(name) {
-      this.write(name, '', Date.now() - 86400000);
-    }
-  };
-}() :
-
-// Non standard browser env (web workers, react-native) lack needed support.
-function nonStandardBrowserEnv() {
-  return {
-    write: function write() {},
-    read: function read() {
-      return null;
-    },
-    remove: function remove() {}
-  };
-}();
-
-/***/ }),
-
-/***/ 27:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Determines whether the specified URL is absolute
- *
- * @param {string} url The URL to test
- * @returns {boolean} True if the specified URL is absolute, otherwise false
- */
-
-module.exports = function isAbsoluteURL(url) {
-  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
-  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
-  // by any combination of letters, digits, plus, period, or hyphen.
-  return (/^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url)
-  );
-};
-
-/***/ }),
-
-/***/ 28:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-module.exports = utils.isStandardBrowserEnv() ?
-
-// Standard browser envs have full support of the APIs needed to test
-// whether the request URL is of the same origin as current location.
-function standardBrowserEnv() {
-  var msie = /(msie|trident)/i.test(navigator.userAgent);
-  var urlParsingNode = document.createElement('a');
-  var originURL;
-
-  /**
-  * Parse a URL to discover it's components
-  *
-  * @param {String} url The URL to be parsed
-  * @returns {Object}
-  */
-  function resolveURL(url) {
-    var href = url;
-
-    if (msie) {
-      // IE needs attribute set twice to normalize properties
-      urlParsingNode.setAttribute('href', href);
-      href = urlParsingNode.href;
-    }
-
-    urlParsingNode.setAttribute('href', href);
-
-    // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
-    return {
-      href: urlParsingNode.href,
-      protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
-      host: urlParsingNode.host,
-      search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
-      hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
-      hostname: urlParsingNode.hostname,
-      port: urlParsingNode.port,
-      pathname: urlParsingNode.pathname.charAt(0) === '/' ? urlParsingNode.pathname : '/' + urlParsingNode.pathname
-    };
-  }
-
-  originURL = resolveURL(window.location.href);
-
-  /**
-  * Determine if a URL shares the same origin as the current location
-  *
-  * @param {String} requestURL The URL to test
-  * @returns {boolean} True if URL shares the same origin, otherwise false
-  */
-  return function isURLSameOrigin(requestURL) {
-    var parsed = utils.isString(requestURL) ? resolveURL(requestURL) : requestURL;
-    return parsed.protocol === originURL.protocol && parsed.host === originURL.host;
-  };
-}() :
-
-// Non standard browser envs (web workers, react-native) lack needed support.
-function nonStandardBrowserEnv() {
-  return function isURLSameOrigin() {
-    return true;
-  };
-}();
-
-/***/ }),
-
-/***/ 29:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-module.exports = function normalizeHeaderName(headers, normalizedName) {
-  utils.forEach(headers, function processHeader(value, name) {
-    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
-      headers[normalizedName] = value;
-      delete headers[name];
-    }
-  });
-};
-
-/***/ }),
-
-/***/ 3:
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1868,8 +620,1354 @@ module.exports = function xhrAdapter(config) {
 };
 
 /***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
 
-/***/ 30:
+"use strict";
+
+
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+
+function Cancel(message) {
+  this.message = message;
+}
+
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
+};
+
+Cancel.prototype.__CANCEL__ = true;
+
+module.exports = Cancel;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
+};
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var enhanceError = __webpack_require__(22);
+
+/**
+ * Create an Error with the specified message, config, error code, request and response.
+ *
+ * @param {string} message The error message.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The created error.
+ */
+module.exports = function createError(message, config, code, request, response) {
+  var error = new Error(message);
+  return enhanceError(error, config, code, request, response);
+};
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+/**
+ * Config-specific merge-function which creates a new config-object
+ * by merging two configuration objects together.
+ *
+ * @param {Object} config1
+ * @param {Object} config2
+ * @returns {Object} New object resulting from merging config2 to config1
+ */
+module.exports = function mergeConfig(config1, config2) {
+  // eslint-disable-next-line no-param-reassign
+  config2 = config2 || {};
+  var config = {};
+
+  utils.forEach(['url', 'method', 'params', 'data'], function valueFromConfig2(prop) {
+    if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    }
+  });
+
+  utils.forEach(['headers', 'auth', 'proxy'], function mergeDeepProperties(prop) {
+    if (utils.isObject(config2[prop])) {
+      config[prop] = utils.deepMerge(config1[prop], config2[prop]);
+    } else if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    } else if (utils.isObject(config1[prop])) {
+      config[prop] = utils.deepMerge(config1[prop]);
+    } else if (typeof config1[prop] !== 'undefined') {
+      config[prop] = config1[prop];
+    }
+  });
+
+  utils.forEach(['baseURL', 'transformRequest', 'transformResponse', 'paramsSerializer', 'timeout', 'withCredentials', 'adapter', 'responseType', 'xsrfCookieName', 'xsrfHeaderName', 'onUploadProgress', 'onDownloadProgress', 'maxContentLength', 'validateStatus', 'maxRedirects', 'httpAgent', 'httpsAgent', 'cancelToken', 'socketPath'], function defaultToConfig2(prop) {
+    if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    } else if (typeof config1[prop] !== 'undefined') {
+      config[prop] = config1[prop];
+    }
+  });
+
+  return config;
+};
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(0);
+var normalizeHeaderName = __webpack_require__(29);
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  // Only Node.JS has a process variable that is of [[Class]] process
+  if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(3);
+  } else if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(3);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Accept');
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) || utils.isArrayBuffer(data) || utils.isBuffer(data) || utils.isStream(data) || utils.isFile(data) || utils.isBlob(data)) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) {/* Ignore */}
+    }
+    return data;
+  }],
+
+  /**
+   * A timeout in milliseconds to abort a request. If set to 0 (default) a
+   * timeout is not created.
+   */
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)))
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+    return fn.apply(thisArg, args);
+  };
+};
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+function encode(val) {
+  return encodeURIComponent(val).replace(/%40/gi, '@').replace(/%3A/gi, ':').replace(/%24/g, '$').replace(/%2C/gi, ',').replace(/%20/g, '+').replace(/%5B/gi, '[').replace(/%5D/gi, ']');
+}
+
+/**
+ * Build a URL by appending params to the end
+ *
+ * @param {string} url The base of the url (e.g., http://www.google.com)
+ * @param {object} [params] The params to be appended
+ * @returns {string} The formatted url
+ */
+module.exports = function buildURL(url, params, paramsSerializer) {
+  /*eslint no-param-reassign:0*/
+  if (!params) {
+    return url;
+  }
+
+  var serializedParams;
+  if (paramsSerializer) {
+    serializedParams = paramsSerializer(params);
+  } else if (utils.isURLSearchParams(params)) {
+    serializedParams = params.toString();
+  } else {
+    var parts = [];
+
+    utils.forEach(params, function serialize(val, key) {
+      if (val === null || typeof val === 'undefined') {
+        return;
+      }
+
+      if (utils.isArray(val)) {
+        key = key + '[]';
+      } else {
+        val = [val];
+      }
+
+      utils.forEach(val, function parseValue(v) {
+        if (utils.isDate(v)) {
+          v = v.toISOString();
+        } else if (utils.isObject(v)) {
+          v = JSON.stringify(v);
+        }
+        parts.push(encode(key) + '=' + encode(v));
+      });
+    });
+
+    serializedParams = parts.join('&');
+  }
+
+  if (serializedParams) {
+    var hashmarkIndex = url.indexOf('#');
+    if (hashmarkIndex !== -1) {
+      url = url.slice(0, hashmarkIndex);
+    }
+
+    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
+  }
+
+  return url;
+};
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+function autocomplete(input) {
+  if (!input) return;
+
+  new google.maps.places.Autocomplete(input);
+
+  // addEventListener;
+  // dropdown.addListener("place_changed", () => {
+  //   const place = dropdown.getPlace();
+  //   latInput.value = place.geometry.location.lat();
+  //   lngInput.value = place.geometry.location.lng();
+  // });
+
+  // If hit enter do not submit form.
+  input.on("keydown", function (e) {
+    if (e.keyCode === 13) e.preventDefault();
+  });
+}
+
+exports.default = autocomplete;
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _bling = __webpack_require__(1);
+
+var clearFilters = function clearFilters(reset) {
+  if (!reset) return;
+  reset.on("click", function () {
+    resetCheckboxes();
+    resetDate();
+    resetPrice();
+  });
+};
+
+var resetCheckboxes = function resetCheckboxes() {
+  var checkboxes = (0, _bling.$$)("input[type=checkbox]");
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].checked = false;
+  }
+};
+
+var resetDate = function resetDate() {
+  var start = (0, _bling.$)("#startDatetime");
+  var end = (0, _bling.$)("#endDatetime");
+  start.value = new Date().toISOString().slice(0, 10);
+  end.value = "";
+};
+
+var resetPrice = function resetPrice() {
+  var min = (0, _bling.$)("#minPrice");
+  var max = (0, _bling.$)("#maxPrice");
+  min.value = "0.00";
+  max.value = "1000.00";
+};
+
+exports.default = clearFilters;
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _axios = __webpack_require__(2);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _bling = __webpack_require__(1);
+
+var _helpers = __webpack_require__(35);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+if ((0, _bling.$)("#map")) {
+  var places;
+  var miles;
+
+  var mapOptions = {
+    center: {
+      lat: 54.043667,
+      lng: -2.488511
+    },
+    zoom: 5,
+    maxZoom: 18
+  };
+  var markers = [];
+  var input = (0, _bling.$)('[name="geolocate"]');
+  var autocomplete = new google.maps.places.Autocomplete(input);
+  var map;
+}
+
+// Make Google maps
+function makeMap(mapDiv) {
+  if (!mapDiv) return;
+
+  //  make map
+  map = new google.maps.Map(mapDiv, mapOptions);
+
+  // If hit enter do not submit form.
+  input.on("keydown", function (e) {
+    if (e.keyCode === 13) e.preventDefault();
+  });
+
+  // const image = "/images/icons/current_location.png";
+  // let current = new google.maps.Marker({
+  //   map: map,
+  //   icon: image,
+  //   animation: google.maps.Animation.DROP,
+  //   title: "Current location"
+  // });
+
+  navigator.geolocation.getCurrentPosition(function (data) {
+    loadPlaces(data.coords.latitude, data.coords.longitude);
+  }, function (err) {
+    loadPlaces();
+  });
+
+  // Event Listeners
+
+  // Search by keyword (event name and organisation)
+  (0, _bling.$)("#organisationSearch").addEventListener("input", function () {
+    (0, _helpers.renderEvents)((0, _helpers.filterPlaces)(places));
+    renderMarkers((0, _helpers.filterPlaces)(places));
+  });
+
+  // Toggle free
+  (0, _bling.$)("#free").on("click", function () {
+    (0, _helpers.renderEvents)((0, _helpers.filterPlaces)(places));
+    renderMarkers((0, _helpers.filterPlaces)(places));
+  });
+
+  // Distance changed
+  (0, _bling.$)("#distance-select").on("change", function () {
+    miles = this.querySelector('input[name="distance"]:checked').value;
+    var gmPlace = autocomplete.getPlace();
+    if (!gmPlace) return false;
+
+    loadPlaces(gmPlace.geometry.location.lat(), gmPlace.geometry.location.lng(), miles);
+  });
+
+  // Load events on place change
+  autocomplete.addListener("place_changed", function () {
+    var gmPlace = autocomplete.getPlace();
+    loadPlaces(gmPlace.geometry.location.lat(), gmPlace.geometry.location.lng(), miles
+    // current
+    );
+  });
+}
+
+function loadPlaces() {
+  var lat = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 54.043667;
+  var lng = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -2.488511;
+  var miles = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+  console.log(lat, lng, miles);
+  _axios2.default.get("/api/events/near?lat=" + lat + "&lng=" + lng + "&miles=" + miles).then(function (res) {
+    places = res.data;
+
+    if (!places.length) {
+      alert("no places found!");
+      return;
+    }
+
+    // Check for any filters that may be applied
+    places = (0, _helpers.filterPlaces)(places);
+
+    (0, _helpers.renderEvents)(places);
+    renderMarkers(places);
+  });
+}
+
+function renderMarkers(places) {
+  // create bounds
+  var bounds = new google.maps.LatLngBounds();
+  var infoWindow = new google.maps.InfoWindow();
+
+  // Group by lat and lng
+  var groupedPlaces = places.reduce(function (acc, place) {
+    var key = place.location.coordinates;
+    (acc[key] ? acc[key] : acc[key] = null || []).push(place);
+    return acc;
+  }, {});
+
+  // Convert to an array
+  groupedPlaces = Object.keys(groupedPlaces).map(function (key) {
+    return groupedPlaces[key];
+  });
+
+  console.log("Grouped:", groupedPlaces);
+
+  google.maps.event.addListener(infoWindow, "domready", function () {
+    // Bind click event to button
+    var btn = document.querySelector(".info__button");
+    if (btn) {
+      btn.addEventListener("click", function () {
+        (0, _helpers.nextEvent)();
+      });
+    }
+  });
+
+  markers = (0, _helpers.clearOverlays)(markers);
+  markers = groupedPlaces.map(function (place) {
+    var _place$0$location$coo = _slicedToArray(place[0].location.coordinates, 2),
+        placeLng = _place$0$location$coo[0],
+        placeLat = _place$0$location$coo[1];
+
+    var position = { lat: placeLat, lng: placeLng };
+    var label = null;
+
+    if (place.length > 1) {
+      label = place.length.toString();
+    }
+
+    bounds.extend(position);
+    var marker = new google.maps.Marker({ map: map, position: position, label: label });
+    marker.place = place;
+    return marker;
+  });
+
+  // show infoWindow on click
+  markers.forEach(function (marker) {
+    return marker.addListener("click", function () {
+      var lat = this.place[0].location.coordinates[1];
+      var lng = this.place[0].location.coordinates[0];
+
+      console.log(places);
+      (0, _helpers.renderEvents)((0, _helpers.filterPlaces)(places, lat, lng));
+
+      var html = "<div class='popup'>";
+
+      for (var i = 0; i < this.place.length; i++) {
+        html += "\n        <div class=\"popup__event" + (i > 0 ? " hide" : "") + "\">\n          <h3>" + this.place[i].name + "</h3>\n          <p><em>" + this.place[i].organisation + "</em></p>\n          <p>" + this.place[i].location.address + "</p>\n            </div>";
+      }
+
+      html += (this.place.length > 1 ? '<button class="button info__button">Next</button>' : "") + "</div>";
+
+      infoWindow.setContent(html);
+      infoWindow.open(map, this);
+    });
+  });
+
+  // if (currentLocationMarker) {
+  //   const currentLatLng = new google.maps.LatLng(lat, lng);
+  //   currentLocationMarker.setPosition(currentLatLng);
+  // }
+
+  // Show all events (within specified distance) on marker close
+  google.maps.event.addListener(infoWindow, "closeclick", function () {
+    (0, _helpers.renderEvents)((0, _helpers.filterPlaces)(places));
+    // renderMarkers(filterPlaces(places));
+  });
+
+  var clusterOptions = {
+    gridSize: 20,
+    maxZoom: 10,
+    // zoomOnClick: false,
+    imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
+  };
+
+  // Add a marker clusterer to manage the markers.
+  new MarkerClusterer(map, markers, clusterOptions);
+
+  //  zoom map to fit markers
+  map.setCenter(bounds.getCenter());
+  // map.fitBounds(bounds, renderEvents(places));
+  map.fitBounds(bounds);
+}
+
+exports.default = makeMap;
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _bling = __webpack_require__(1);
+
+function displayNavigation(btn) {
+  var nav = (0, _bling.$)(".nav__section");
+
+  btn.addEventListener("click", function () {
+    if (nav.style.display === "grid") {
+      btn.className = "nav__button nav__button--close";
+      nav.style.display = "none";
+    } else {
+      nav.style.display = "grid";
+      btn.className = "nav__button nav__button--open";
+    }
+  });
+}
+
+exports.default = displayNavigation;
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _axios = __webpack_require__(2);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _dompurify = __webpack_require__(33);
+
+var _dompurify2 = _interopRequireDefault(_dompurify);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function searchResultsHTML(events) {
+  return events.map(function (event) {
+    return "\n\t\t<a href=\"/event/" + event.slug + "\" class=\"search__result\">\n\t\t\t<strong>" + event.name + "</strong>\n\t\t</a>";
+  }).join("");
+}
+
+function typeAhead(search) {
+  if (!search) return;
+
+  var searchInput = search.querySelector('input[name="search"]');
+  var searchResults = search.querySelector(".search__results");
+
+  searchInput.on("input", function () {
+    var _this = this;
+
+    if (!this.value) {
+      searchResults.style.display = "none";
+      return;
+    }
+
+    //  Show search result
+    searchResults.style.display = "block";
+
+    _axios2.default.get("/api/search?q=" + this.value).then(function (res) {
+      if (res.data.length) {
+        searchResults.innerHTML = _dompurify2.default.sanitize(searchResultsHTML(res.data));
+        return;
+      }
+      // no return data
+      searchResults.innerHTML = _dompurify2.default.sanitize("<div class=\"search__result\">No results for " + _this.value + "</div>");
+    }).catch(function (err) {
+      console.error(err);
+    });
+  });
+
+  // handle keyboard inputs
+  searchInput.on("keyup", function (e) {
+    if (![38, 40, 13].includes(e.keyCode)) {
+      return;
+    }
+    var activeClass = "search__result--active";
+    var current = search.querySelector("." + activeClass);
+    var items = search.querySelectorAll(".search__result");
+    var next = void 0;
+    if (e.keyCode === 40 && current) {
+      next = current.nextElementSibling || items[0];
+    } else if (e.keyCode === 40) {
+      next = items[0];
+    } else if (e.keyCode === 38 && current) {
+      next = current.previousElementSibling || items[items.length - 1];
+    } else if (e.keyCode === 38) {
+      next = items[items.length - 1];
+    } else if (e.keyCode === 13 && current.href) {
+      window.location = current.href;
+      return;
+    }
+
+    if (current) {
+      current.classList.remove(activeClass);
+    }
+    next.classList.add(activeClass);
+  });
+}
+
+exports.default = typeAhead;
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+var bind = __webpack_require__(9);
+var Axios = __webpack_require__(19);
+var mergeConfig = __webpack_require__(7);
+var defaults = __webpack_require__(8);
+
+/**
+ * Create an instance of Axios
+ *
+ * @param {Object} defaultConfig The default config for the instance
+ * @return {Axios} A new instance of Axios
+ */
+function createInstance(defaultConfig) {
+  var context = new Axios(defaultConfig);
+  var instance = bind(Axios.prototype.request, context);
+
+  // Copy axios.prototype to instance
+  utils.extend(instance, Axios.prototype, context);
+
+  // Copy context to instance
+  utils.extend(instance, context);
+
+  return instance;
+}
+
+// Create the default instance to be exported
+var axios = createInstance(defaults);
+
+// Expose Axios class to allow class inheritance
+axios.Axios = Axios;
+
+// Factory for creating new instances
+axios.create = function create(instanceConfig) {
+  return createInstance(mergeConfig(axios.defaults, instanceConfig));
+};
+
+// Expose Cancel & CancelToken
+axios.Cancel = __webpack_require__(4);
+axios.CancelToken = __webpack_require__(18);
+axios.isCancel = __webpack_require__(5);
+
+// Expose all/spread
+axios.all = function all(promises) {
+  return Promise.all(promises);
+};
+axios.spread = __webpack_require__(31);
+
+module.exports = axios;
+
+// Allow use of default import syntax in TypeScript
+module.exports.default = axios;
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Cancel = __webpack_require__(4);
+
+/**
+ * A `CancelToken` is an object that can be used to request cancellation of an operation.
+ *
+ * @class
+ * @param {Function} executor The executor function.
+ */
+function CancelToken(executor) {
+  if (typeof executor !== 'function') {
+    throw new TypeError('executor must be a function.');
+  }
+
+  var resolvePromise;
+  this.promise = new Promise(function promiseExecutor(resolve) {
+    resolvePromise = resolve;
+  });
+
+  var token = this;
+  executor(function cancel(message) {
+    if (token.reason) {
+      // Cancellation has already been requested
+      return;
+    }
+
+    token.reason = new Cancel(message);
+    resolvePromise(token.reason);
+  });
+}
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+CancelToken.prototype.throwIfRequested = function throwIfRequested() {
+  if (this.reason) {
+    throw this.reason;
+  }
+};
+
+/**
+ * Returns an object that contains a new `CancelToken` and a function that, when called,
+ * cancels the `CancelToken`.
+ */
+CancelToken.source = function source() {
+  var cancel;
+  var token = new CancelToken(function executor(c) {
+    cancel = c;
+  });
+  return {
+    token: token,
+    cancel: cancel
+  };
+};
+
+module.exports = CancelToken;
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+var buildURL = __webpack_require__(10);
+var InterceptorManager = __webpack_require__(20);
+var dispatchRequest = __webpack_require__(21);
+var mergeConfig = __webpack_require__(7);
+
+/**
+ * Create a new instance of Axios
+ *
+ * @param {Object} instanceConfig The default config for the instance
+ */
+function Axios(instanceConfig) {
+  this.defaults = instanceConfig;
+  this.interceptors = {
+    request: new InterceptorManager(),
+    response: new InterceptorManager()
+  };
+}
+
+/**
+ * Dispatch a request
+ *
+ * @param {Object} config The config specific for this request (merged with this.defaults)
+ */
+Axios.prototype.request = function request(config) {
+  /*eslint no-param-reassign:0*/
+  // Allow for axios('example/url'[, config]) a la fetch API
+  if (typeof config === 'string') {
+    config = arguments[1] || {};
+    config.url = arguments[0];
+  } else {
+    config = config || {};
+  }
+
+  config = mergeConfig(this.defaults, config);
+  config.method = config.method ? config.method.toLowerCase() : 'get';
+
+  // Hook up interceptors middleware
+  var chain = [dispatchRequest, undefined];
+  var promise = Promise.resolve(config);
+
+  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
+    chain.unshift(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
+    chain.push(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  while (chain.length) {
+    promise = promise.then(chain.shift(), chain.shift());
+  }
+
+  return promise;
+};
+
+Axios.prototype.getUri = function getUri(config) {
+  config = mergeConfig(this.defaults, config);
+  return buildURL(config.url, config.params, config.paramsSerializer).replace(/^\?/, '');
+};
+
+// Provide aliases for supported request methods
+utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function (url, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url
+    }));
+  };
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function (url, data, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url,
+      data: data
+    }));
+  };
+});
+
+module.exports = Axios;
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+function InterceptorManager() {
+  this.handlers = [];
+}
+
+/**
+ * Add a new interceptor to the stack
+ *
+ * @param {Function} fulfilled The function to handle `then` for a `Promise`
+ * @param {Function} rejected The function to handle `reject` for a `Promise`
+ *
+ * @return {Number} An ID used to remove interceptor later
+ */
+InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+  this.handlers.push({
+    fulfilled: fulfilled,
+    rejected: rejected
+  });
+  return this.handlers.length - 1;
+};
+
+/**
+ * Remove an interceptor from the stack
+ *
+ * @param {Number} id The ID that was returned by `use`
+ */
+InterceptorManager.prototype.eject = function eject(id) {
+  if (this.handlers[id]) {
+    this.handlers[id] = null;
+  }
+};
+
+/**
+ * Iterate over all the registered interceptors
+ *
+ * This method is particularly useful for skipping over any
+ * interceptors that may have become `null` calling `eject`.
+ *
+ * @param {Function} fn The function to call for each interceptor
+ */
+InterceptorManager.prototype.forEach = function forEach(fn) {
+  utils.forEach(this.handlers, function forEachHandler(h) {
+    if (h !== null) {
+      fn(h);
+    }
+  });
+};
+
+module.exports = InterceptorManager;
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+var transformData = __webpack_require__(24);
+var isCancel = __webpack_require__(5);
+var defaults = __webpack_require__(8);
+var isAbsoluteURL = __webpack_require__(27);
+var combineURLs = __webpack_require__(25);
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+function throwIfCancellationRequested(config) {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested();
+  }
+}
+
+/**
+ * Dispatch a request to the server using the configured adapter.
+ *
+ * @param {object} config The config that is to be used for the request
+ * @returns {Promise} The Promise to be fulfilled
+ */
+module.exports = function dispatchRequest(config) {
+  throwIfCancellationRequested(config);
+
+  // Support baseURL config
+  if (config.baseURL && !isAbsoluteURL(config.url)) {
+    config.url = combineURLs(config.baseURL, config.url);
+  }
+
+  // Ensure headers exist
+  config.headers = config.headers || {};
+
+  // Transform request data
+  config.data = transformData(config.data, config.headers, config.transformRequest);
+
+  // Flatten headers
+  config.headers = utils.merge(config.headers.common || {}, config.headers[config.method] || {}, config.headers || {});
+
+  utils.forEach(['delete', 'get', 'head', 'post', 'put', 'patch', 'common'], function cleanHeaderConfig(method) {
+    delete config.headers[method];
+  });
+
+  var adapter = config.adapter || defaults.adapter;
+
+  return adapter(config).then(function onAdapterResolution(response) {
+    throwIfCancellationRequested(config);
+
+    // Transform response data
+    response.data = transformData(response.data, response.headers, config.transformResponse);
+
+    return response;
+  }, function onAdapterRejection(reason) {
+    if (!isCancel(reason)) {
+      throwIfCancellationRequested(config);
+
+      // Transform response data
+      if (reason && reason.response) {
+        reason.response.data = transformData(reason.response.data, reason.response.headers, config.transformResponse);
+      }
+    }
+
+    return Promise.reject(reason);
+  });
+};
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Update an Error with the specified config, error code, and response.
+ *
+ * @param {Error} error The error to update.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The error.
+ */
+
+module.exports = function enhanceError(error, config, code, request, response) {
+  error.config = config;
+  if (code) {
+    error.code = code;
+  }
+
+  error.request = request;
+  error.response = response;
+  error.isAxiosError = true;
+
+  error.toJSON = function () {
+    return {
+      // Standard
+      message: this.message,
+      name: this.name,
+      // Microsoft
+      description: this.description,
+      number: this.number,
+      // Mozilla
+      fileName: this.fileName,
+      lineNumber: this.lineNumber,
+      columnNumber: this.columnNumber,
+      stack: this.stack,
+      // Axios
+      config: this.config,
+      code: this.code
+    };
+  };
+  return error;
+};
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var createError = __webpack_require__(6);
+
+/**
+ * Resolve or reject a Promise based on response status.
+ *
+ * @param {Function} resolve A function that resolves the promise.
+ * @param {Function} reject A function that rejects the promise.
+ * @param {object} response The response.
+ */
+module.exports = function settle(resolve, reject, response) {
+  var validateStatus = response.config.validateStatus;
+  if (!validateStatus || validateStatus(response.status)) {
+    resolve(response);
+  } else {
+    reject(createError('Request failed with status code ' + response.status, response.config, null, response.request, response));
+  }
+};
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+/**
+ * Transform the data for a request or a response
+ *
+ * @param {Object|String} data The data to be transformed
+ * @param {Array} headers The headers for the request or response
+ * @param {Array|Function} fns A single function or Array of functions
+ * @returns {*} The resulting transformed data
+ */
+module.exports = function transformData(data, headers, fns) {
+  /*eslint no-param-reassign:0*/
+  utils.forEach(fns, function transform(fn) {
+    data = fn(data, headers);
+  });
+
+  return data;
+};
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Creates a new URL by combining the specified URLs
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} relativeURL The relative URL
+ * @returns {string} The combined URL
+ */
+
+module.exports = function combineURLs(baseURL, relativeURL) {
+  return relativeURL ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '') : baseURL;
+};
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+module.exports = utils.isStandardBrowserEnv() ?
+
+// Standard browser envs support document.cookie
+function standardBrowserEnv() {
+  return {
+    write: function write(name, value, expires, path, domain, secure) {
+      var cookie = [];
+      cookie.push(name + '=' + encodeURIComponent(value));
+
+      if (utils.isNumber(expires)) {
+        cookie.push('expires=' + new Date(expires).toGMTString());
+      }
+
+      if (utils.isString(path)) {
+        cookie.push('path=' + path);
+      }
+
+      if (utils.isString(domain)) {
+        cookie.push('domain=' + domain);
+      }
+
+      if (secure === true) {
+        cookie.push('secure');
+      }
+
+      document.cookie = cookie.join('; ');
+    },
+
+    read: function read(name) {
+      var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+      return match ? decodeURIComponent(match[3]) : null;
+    },
+
+    remove: function remove(name) {
+      this.write(name, '', Date.now() - 86400000);
+    }
+  };
+}() :
+
+// Non standard browser env (web workers, react-native) lack needed support.
+function nonStandardBrowserEnv() {
+  return {
+    write: function write() {},
+    read: function read() {
+      return null;
+    },
+    remove: function remove() {}
+  };
+}();
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the specified URL is absolute
+ *
+ * @param {string} url The URL to test
+ * @returns {boolean} True if the specified URL is absolute, otherwise false
+ */
+
+module.exports = function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return (/^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url)
+  );
+};
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+module.exports = utils.isStandardBrowserEnv() ?
+
+// Standard browser envs have full support of the APIs needed to test
+// whether the request URL is of the same origin as current location.
+function standardBrowserEnv() {
+  var msie = /(msie|trident)/i.test(navigator.userAgent);
+  var urlParsingNode = document.createElement('a');
+  var originURL;
+
+  /**
+  * Parse a URL to discover it's components
+  *
+  * @param {String} url The URL to be parsed
+  * @returns {Object}
+  */
+  function resolveURL(url) {
+    var href = url;
+
+    if (msie) {
+      // IE needs attribute set twice to normalize properties
+      urlParsingNode.setAttribute('href', href);
+      href = urlParsingNode.href;
+    }
+
+    urlParsingNode.setAttribute('href', href);
+
+    // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+    return {
+      href: urlParsingNode.href,
+      protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+      host: urlParsingNode.host,
+      search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+      hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+      hostname: urlParsingNode.hostname,
+      port: urlParsingNode.port,
+      pathname: urlParsingNode.pathname.charAt(0) === '/' ? urlParsingNode.pathname : '/' + urlParsingNode.pathname
+    };
+  }
+
+  originURL = resolveURL(window.location.href);
+
+  /**
+  * Determine if a URL shares the same origin as the current location
+  *
+  * @param {String} requestURL The URL to test
+  * @returns {boolean} True if URL shares the same origin, otherwise false
+  */
+  return function isURLSameOrigin(requestURL) {
+    var parsed = utils.isString(requestURL) ? resolveURL(requestURL) : requestURL;
+    return parsed.protocol === originURL.protocol && parsed.host === originURL.host;
+  };
+}() :
+
+// Non standard browser envs (web workers, react-native) lack needed support.
+function nonStandardBrowserEnv() {
+  return function isURLSameOrigin() {
+    return true;
+  };
+}();
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+module.exports = function normalizeHeaderName(headers, normalizedName) {
+  utils.forEach(headers, function processHeader(value, name) {
+    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
+      headers[normalizedName] = value;
+      delete headers[name];
+    }
+  });
+};
+
+/***/ }),
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1925,8 +2023,7 @@ module.exports = function parseHeaders(headers) {
 };
 
 /***/ }),
-
-/***/ 31:
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1960,8 +2057,7 @@ module.exports = function spread(callback) {
 };
 
 /***/ }),
-
-/***/ 32:
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1979,8 +2075,7 @@ module.exports = function isBuffer(obj) {
 };
 
 /***/ }),
-
-/***/ 33:
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2793,8 +2888,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 });
 
 /***/ }),
-
-/***/ 34:
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2987,8 +3081,114 @@ process.umask = function () {
 };
 
 /***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
 
-/***/ 35:
+"use strict";
+
+
+var _bling = __webpack_require__(1);
+
+// Clear Google markers
+exports.clearOverlays = function (markers) {
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(null);
+  }
+  markers.length = 0;
+
+  return markers;
+};
+
+// Show / hide events info window button
+var current = 0;
+exports.nextEvent = function () {
+  var events = document.querySelectorAll(".popup__event");
+  events[current].classList.add("hide");
+  current = events.length - 1 === current ? current = 0 : current = current + 1;
+  events[current].classList.remove("hide");
+};
+
+// Returns human readable price range
+var getPriceRange = function getPriceRange(min, max) {
+  if (!min && !max) return "";
+
+  min = Number(min).toFixed(2);
+  max = Number(max).toFixed(2);
+
+  var cost = "";
+
+  if (min === "0.00") {
+    cost = "Free - \xA3" + max;
+  } else if (min === max) {
+    cost = "\xA3" + min;
+  } else {
+    cost = "\xA3" + min + " - \xA3" + max;
+  }
+
+  return cost;
+};
+
+// Filter places
+exports.filterPlaces = function (places) {
+  var lat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  var lng = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+  var free = (0, _bling.$)("#free");
+  var searchTerm = (0, _bling.$)("#organisationSearch").value;
+
+  if (searchTerm) {
+    places = places.filter(function (place) {
+      return (place.name + " " + place.organisation).toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0;
+    });
+  }
+
+  if (lat && lng) {
+    places = places.filter(function (place) {
+      return place.location.coordinates[1] === lat && place.location.coordinates[0] === lng;
+    });
+  }
+
+  if (free.checked) {
+    places = places.filter(function (place) {
+      return place.is_free;
+    });
+  }
+
+  return places;
+};
+
+// Render Events
+exports.renderEvents = function (places) {
+  // "name organisation image slug location display_date free"
+  var newHTML = "";
+  var count = places.length;
+
+  for (var i in places) {
+    var image = places[i].image ? places[i].image : "store.png";
+
+    if (!image.startsWith("http")) {
+      image = "/uploads/" + image;
+    }
+
+    // price range
+    var priceRange = places[i].price_range && places[i].price_range.max_price ? getPriceRange(places[i].price_range.min_price, places[i].price_range.max_price) : "";
+
+    // price
+    var price = priceRange ? "<div class=\"event__price\"><p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M20 12v5H0v-5a2 2 0 1 0 0-4V3h20v5a2 2 0 1 0 0 4zM3 5v10h14V5H3zm7 7.08l-2.92 2.04L8.1 10.7 5.27 8.56l3.56-.08L10 5.12l1.17 3.36 3.56.08-2.84 2.15 1.03 3.4L10 12.09z\"/></svg>" + priceRange + "</p></div>" : "";
+
+    // free
+    var free = places[i].is_free ? "<div class=\"event__free\"><p>Free</p></div>" : "";
+
+    var event = "\n        <div class=\"event\">          \n          <div class=\"event__hero\">\n            <img src=" + image + ">\n          </div>          \n          <div class=\"event__details\">            \n            <div class=\"event__title\">\n              <a href=/event/" + places[i].slug + "><h3 class=\"title\">" + places[i].name + "</h3></a>\n            </div>\n            <div class=\"event__organiser\">\n              <p><em>" + places[i].organisation + "</em></p>\n            </div>            \n            <div class=\"event__description\">              \n              <div class=\"event__location\">\n                <p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M10 20S3 10.87 3 7a7 7 0 1 1 14 0c0 3.87-7 13-7 13zm0-11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z\"></path></svg><span>" + places[i].location.address + "</span></p>\n              </div>              \n              <div class=\"event__date\">\n                <p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M1 4c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4zm2 2v12h14V6H3zm2-6h2v2H5V0zm8 0h2v2h-2V0zM5 9h2v2H5V9zm0 4h2v2H5v-2zm4-4h2v2H9V9zm0 4h2v2H9v-2zm4-4h2v2h-2V9zm0 4h2v2h-2v-2z\"></path></svg><span>" + places[i].display_date + "</span></p>\n              </div>\n              " + price + "\n              " + free + "\n            </div>\n          </div>\n        </div>";
+    newHTML += event;
+  }
+
+  (0, _bling.$)(".events__count").innerHTML = "<p>" + count + " events found.</p>";
+  (0, _bling.$)(".events").innerHTML = newHTML;
+};
+
+/***/ }),
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3038,241 +3238,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // searchByLocation($("#locationAutocomplete"));
 
-/***/ }),
-
-/***/ 4:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * A `Cancel` is an object that is thrown when an operation is canceled.
- *
- * @class
- * @param {string=} message The message.
- */
-
-function Cancel(message) {
-  this.message = message;
-}
-
-Cancel.prototype.toString = function toString() {
-  return 'Cancel' + (this.message ? ': ' + this.message : '');
-};
-
-Cancel.prototype.__CANCEL__ = true;
-
-module.exports = Cancel;
-
-/***/ }),
-
-/***/ 5:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function isCancel(value) {
-  return !!(value && value.__CANCEL__);
-};
-
-/***/ }),
-
-/***/ 6:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var enhanceError = __webpack_require__(22);
-
-/**
- * Create an Error with the specified message, config, error code, request and response.
- *
- * @param {string} message The error message.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- * @param {Object} [request] The request.
- * @param {Object} [response] The response.
- * @returns {Error} The created error.
- */
-module.exports = function createError(message, config, code, request, response) {
-  var error = new Error(message);
-  return enhanceError(error, config, code, request, response);
-};
-
-/***/ }),
-
-/***/ 7:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-/**
- * Config-specific merge-function which creates a new config-object
- * by merging two configuration objects together.
- *
- * @param {Object} config1
- * @param {Object} config2
- * @returns {Object} New object resulting from merging config2 to config1
- */
-module.exports = function mergeConfig(config1, config2) {
-  // eslint-disable-next-line no-param-reassign
-  config2 = config2 || {};
-  var config = {};
-
-  utils.forEach(['url', 'method', 'params', 'data'], function valueFromConfig2(prop) {
-    if (typeof config2[prop] !== 'undefined') {
-      config[prop] = config2[prop];
-    }
-  });
-
-  utils.forEach(['headers', 'auth', 'proxy'], function mergeDeepProperties(prop) {
-    if (utils.isObject(config2[prop])) {
-      config[prop] = utils.deepMerge(config1[prop], config2[prop]);
-    } else if (typeof config2[prop] !== 'undefined') {
-      config[prop] = config2[prop];
-    } else if (utils.isObject(config1[prop])) {
-      config[prop] = utils.deepMerge(config1[prop]);
-    } else if (typeof config1[prop] !== 'undefined') {
-      config[prop] = config1[prop];
-    }
-  });
-
-  utils.forEach(['baseURL', 'transformRequest', 'transformResponse', 'paramsSerializer', 'timeout', 'withCredentials', 'adapter', 'responseType', 'xsrfCookieName', 'xsrfHeaderName', 'onUploadProgress', 'onDownloadProgress', 'maxContentLength', 'validateStatus', 'maxRedirects', 'httpAgent', 'httpsAgent', 'cancelToken', 'socketPath'], function defaultToConfig2(prop) {
-    if (typeof config2[prop] !== 'undefined') {
-      config[prop] = config2[prop];
-    } else if (typeof config1[prop] !== 'undefined') {
-      config[prop] = config1[prop];
-    }
-  });
-
-  return config;
-};
-
-/***/ }),
-
-/***/ 8:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(29);
-
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  // Only Node.JS has a process variable that is of [[Class]] process
-  if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(3);
-  } else if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(3);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Accept');
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) || utils.isArrayBuffer(data) || utils.isBuffer(data) || utils.isStream(data) || utils.isFile(data) || utils.isBlob(data)) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      try {
-        data = JSON.parse(data);
-      } catch (e) {/* Ignore */}
-    }
-    return data;
-  }],
-
-  /**
-   * A timeout in milliseconds to abort a request. If set to 0 (default) a
-   * timeout is not created.
-   */
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)))
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function bind(fn, thisArg) {
-  return function wrap() {
-    var args = new Array(arguments.length);
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
-    return fn.apply(thisArg, args);
-  };
-};
-
 /***/ })
-
-/******/ });
+/******/ ]);
 //# sourceMappingURL=App.bundle.js.map
