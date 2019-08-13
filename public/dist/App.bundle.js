@@ -1226,6 +1226,8 @@ Object.defineProperty(exports, "__esModule", {
 var _bling = __webpack_require__(1);
 
 function displayNavigation(btn) {
+  if (!btn) return;
+
   var nav = (0, _bling.$)(".nav__section");
 
   btn.addEventListener("click", function () {

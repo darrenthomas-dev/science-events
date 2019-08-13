@@ -32,8 +32,7 @@ const userSchema = new Schema({
   },
   image: String,
   admin: {
-    type: Boolean,
-    default: false
+    type: Boolean
   }
 });
 

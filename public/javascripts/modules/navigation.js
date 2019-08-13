@@ -1,6 +1,8 @@
 import { $ } from "./bling";
 
 function displayNavigation(btn) {
+  if (!btn) return;
+
   const nav = $(".nav__section");
 
   btn.addEventListener("click", function() {

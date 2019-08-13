@@ -10,13 +10,20 @@ textarea {
 }
 
 .form {
-  margin: 70px 0;
+  margin: 70px 0 35px 0;
+  background: white;
+  padding: 16px;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
   label {
     margin-bottom: 4px;
   }
   input {
     margin-right: 24px;
     margin-bottom: 24px;
+    border-radius: 0.4rem;
+    border: 0.2rem solid #dbe0e6;
+    background-color: #dbe0e6;
+    height: 48px;
   }
   textarea,
   .text--editor {

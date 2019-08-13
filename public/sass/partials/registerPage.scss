@@ -1,0 +1,73 @@
+body {
+  background-color: #385072;
+  background: radial-gradient(
+    circle,
+    rgb(75, 114, 169) 0%,
+    rgba(56, 80, 114, 1) 100%
+  );
+  color: #f7faff;
+}
+
+label {
+  color: #092142;
+}
+
+a {
+  color: #f7faff;
+}
+h1 {
+  margin-top: 40px;
+  text-align: center;
+}
+.form {
+  p,
+  a {
+    color: #092142;
+  }
+}
+form.register {
+  padding: 0;
+  display: flex;
+  > div:first-child {
+    flex-basis: 50%;
+  }
+  > div:last-child {
+    flex-basis: 50%;
+    padding: 42px;
+  }
+  img {
+    width: 450px;
+    height: 483px;
+    object-fit: cover;
+    object-position: right top;
+  }
+  .button__google--signup {
+    margin-bottom: 0;
+  }
+}
+.info {
+  text-align: center;
+}
+
+// Login page
+
+form.login {
+  padding: 0;
+  display: flex;
+  > div:first-child {
+    flex-basis: 50%;
+    padding: 42px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  > div:last-child {
+    flex-basis: 50%;
+  }
+  img {
+    width: 450px;
+    height: 483px;
+    object-fit: cover;
+    object-position: -190px;
+  }
+}
