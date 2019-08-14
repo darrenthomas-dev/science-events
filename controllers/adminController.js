@@ -147,7 +147,7 @@ exports.getEventbriteEvents = async (req, res) => {
       runValidators: true,
       ordered: false,
       upsert: false
-    }).exec();
+    });
     console.log(events);
   } catch (err) {
     // console.log(err);

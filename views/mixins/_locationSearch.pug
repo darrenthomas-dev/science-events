@@ -3,10 +3,10 @@ mixin locationSearch()
 	.autocomplete
 		form(id="locationAutocomplete" method="POST")
 			label.autocomplete__label Enter your location
-			input.autocomplete__input(type="text" name="geolocate" value=(location))
+			input.autocomplete__input(type="text" name="geolocate" value=(location) placeholder="")
 			input(type="hidden" name="lat" id="lat" value=(lat))
 			input(type="hidden" name="lng" id="lng" value=(lng))
-			p and select a distance:
+			p and select a distance 
 			#distance-select
 				input(type="radio" value="" id="distanceAny" name='distance' checked) 
 				label(for="distanceAny") Any

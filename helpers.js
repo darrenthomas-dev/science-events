@@ -26,14 +26,14 @@ exports.icon = name => fs.readFileSync(`./public/images/icons/${name}.svg`);
 exports.siteName = `Science Near Me`;
 
 exports.menu = [
-  { slug: "/", title: "Events", icon: "calendar" },
+  { slug: "/", title: "Search events", icon: "calendar" },
   // { slug: "/map", title: "Map", icon: "globe" }
   // { slug: "/about", title: "About", icon: "about" }
-  { slug: "/add", title: "Add", icon: "add-outline" }
+  { slug: "/add", title: "Create events", icon: "add-outline" }
 ];
 
 exports.userMenu = [
-  { slug: "/my-events", title: "My Events", icon: "compose" }
+  { slug: "/my-events", title: "My events", icon: "compose" }
 ];
 
 exports.adminMenu = [{ slug: "/admin", title: "Pending", icon: "shield" }];

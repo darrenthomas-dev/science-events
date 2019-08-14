@@ -1,9 +1,6 @@
-extends layoutEmpty
+extends layout
 
 block content
-	div
-		p
-			a(href="/") Science Near Me
 	.inner
 		h1 Register for free!
 		form(class="form register" action="/register" method="POST")
@@ -13,7 +10,7 @@ block content
 					span
 						!=h.icon("unsplash")
 						span NASA
-			div
+			.form__inner
 				.fc
 					label(for="email") Email Address:
 					input(type="email" name="email" id="email" autocomplete="username" required)

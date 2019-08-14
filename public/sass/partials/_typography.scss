@@ -1,19 +1,15 @@
-// @font-face {
-// font-family: "panama";
-// src: url("/fonts/panama-bold-webfont.woff2") format("woff2"),
-// url("/fonts/panama-bold-webfont.woff") format("woff");
-// font-weight: normal;
-// font-style: normal;
-// }
-
-html {
+@font-face {
+  font-family: "sunday";
+  src: url("/fonts/Sunday.woff2") format("woff2"),
+    url("/fonts/Sunday.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
   overflow-wrap: break-word;
 }
 
-h1,
 h2,
 h3,
 h4,
@@ -25,13 +21,4 @@ li,
 ol {
   margin-top: 0;
   line-height: 1.5;
-}
-
-a {
-}
-
-p a {
-}
-
-p {
 }

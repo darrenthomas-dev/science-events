@@ -2,18 +2,20 @@ mixin eventCard(event = {})
 
 	.event
 		.event__hero
-			//- .event__actions
-			//- 	if user 
-			//- 		if user.admin === true || (event.author && event.author.equals(user._id))
-			//- 			.event__action.event__action--edit
-			//- 				a(href=`/events/${event._id}/edit`)
-			//- 					!= h.icon('pencil') 
+			.event__actions
+				if user 
+					if user.admin || (event.author && event.author.equals(user._id))
+						.event__action.event__action--edit
+							a(href=`/event/${event._id}/edit`)
+								!= h.icon('pencil') 
 			// donation banner
 			if event.eb_id
 				img(src=`${event.image || '/uploads/store.png'}`)
 			else
 				img(src=`/uploads/${event.image || 'store.png'}`)
 		.event__details
+			if event.end_datetime < new Date()
+				p.text--warning: em This event has expired and will soon be deleted.
 			.event__title
 				h3.title
 					a(href=`/event/${event.slug}`) #{event.name}

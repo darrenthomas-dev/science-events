@@ -54,7 +54,7 @@ mixin adminEventCard(event = {})
 			p
 				a(href=`/event/${event.slug}` target="_blank") View more details
 
-			label(for="display_true") Add event
-			input(type="checkbox", id="display_true" name="display_true", value=event.eb_id)
-			label(for="display_false") Remove event
-			input(type="checkbox", id="display_false" name="display_false", value=event._id)
+		label(for=`add_${event._id}`) Add event
+		input(type="checkbox", id=`add_${event._id}` name="display_true", value=event.eb_id)
+		label(for=`remove_${event._id}`) Remove event
+		input(type="checkbox", id=`remove_${event._id}` name="display_false", value=event._id)

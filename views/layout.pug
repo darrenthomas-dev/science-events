@@ -11,15 +11,15 @@ html
       button.nav__button.nav__button--close Menu
       ul.nav__section
         li.nav__item
-          a.nav__link(href="/") Science Near Me
+          a.nav__link.nav__logo(href="/") Science Near Me
         each item in h.menu
           li.nav__item
             a.nav__link(href=item.slug class=(currentPath.startsWith(item.slug) ? 'nav__link--active' : '')) #{item.title}
 
-      .search
-        label(for="search" class="offscreen") Search by event name:
-        input.search__input(type="text" id="search" name="search" placeholder="Search by event name...")
-        .search__results
+      //- .search
+      //-   label(for="search" class="offscreen") Search by event name:
+      //-   input.search__input(type="text" id="search" name="search" placeholder="Search by event name...")
+      //-   .search__results
 
       ul.nav__section
         if user
@@ -34,9 +34,8 @@ html
           li.nav__item: a.nav__link(href="/account")
             img.avatar(src=user.gravatar + '&d=retro')
         else
-          li.nav__item.nav__item--right
-            a.nav__link(href="/register") Register
-            a.nav__link(href="/login") Sign in
+          li.nav__item.nav__item--right: a.nav__link(href="/register") Register
+          li.nav__item.nav__item--right: a.nav__link(href="/login") Sign in
 
     block header
     block messages
@@ -54,7 +53,7 @@ html
 
     block content
 
-    include footer
+    //- include footer
 
     block scripts
       script(src="https://cdn.tiny.cloud/1/2j0e390z4afzde1vmezs5gp43iqh04df9x0xygj082r4ujgy/tinymce/5/tinymce.min.js" referrerpolicy="origin")

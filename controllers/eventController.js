@@ -58,7 +58,12 @@ exports.createEvent = async (req, res) => {
 
   req.body.author = req.user._id;
   const event = await new Event(req.body).save();
-  req.flash("success", `Event "${event.name}" has been successfully created.`);
+  req.flash(
+    "success",
+    `Event <a href="/event/${event.slug}">${
+      event.name
+    }</a> has been successfully created.`
+  );
   res.redirect("back");
 };
 
@@ -250,11 +255,11 @@ exports.updateEvent = async (req, res) => {
   // redirect to event and tell them it worked
   req.flash(
     "success",
-    `Successfully updated <strong>${event.name}</strong>. <a href="/events/${
+    `Successfully updated <strong>${event.name}</strong>. <a href="/event/${
       event.slug
     }">View event</a>`
   );
-  res.redirect(`/events/${event._id}/edit`);
+  res.redirect(`back`);
 };
 
 exports.deleteEvent = async (req, res) => {
@@ -389,7 +394,7 @@ exports.mapEvents = async (req, res) => {
     .select(
       "name organisation location.address location.coordinates image slug display_date is_free price price_range"
     )
-    .limit(50)
+    // .limit(50)
     .sort("start_datetime");
 
   res.json(events);
