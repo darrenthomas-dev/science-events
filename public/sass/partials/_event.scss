@@ -35,8 +35,25 @@
 }
 
 .event__action--edit {
-  width: 24px;
   float: right;
+  color: #ffffff;
+  background: #ffffff;
+  position: absolute;
+  padding: 8px;
+  top: -8px;
+  right: -8px;
+  box-shadow: 2px 0px 6px 0px #dcdfe2;
+  a {
+    color: #2b3b48;
+    text-decoration: none;
+    position: relative;
+    top: -2px;
+    svg {
+      fill: #2b3b48;
+      position: relative;
+      top: 4px;
+    }
+  }
 }
 .event__description {
   padding: 1rem;
@@ -86,4 +103,12 @@
 .event__free p {
   margin-bottom: 0;
   text-transform: uppercase;
+}
+
+.events__count {
+  max-width: 1776px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 0 16px;
 }

@@ -33,7 +33,8 @@ const userSchema = new Schema({
   image: String,
   admin: {
     type: Boolean
-  }
+  },
+  eb_organiser_id: String
 });
 
 userSchema.virtual("gravatar").get(function() {

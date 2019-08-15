@@ -72,6 +72,7 @@ const eventSchema = new mongoose.Schema({
   },
   slug: String,
   eb_id: String,
+  eb_organisation_id: String,
   eb_organiser_id: String,
   created: {
     type: Date,

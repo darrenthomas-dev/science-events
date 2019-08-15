@@ -7,7 +7,8 @@ mixin eventCard(event = {})
 					if user.admin || (event.author && event.author.equals(user._id))
 						.event__action.event__action--edit
 							a(href=`/event/${event._id}/edit`)
-								!= h.icon('pencil') 
+								!= h.icon('pencil')
+								| Edit
 			// donation banner
 			if event.eb_id
 				img(src=`${event.image || '/uploads/store.png'}`)

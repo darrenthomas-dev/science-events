@@ -1,5 +1,10 @@
 mixin eventForm(event = {})
 
+	form(action=`/events/eb` method="POST" class="form card card__form")
+		label(for="ebEventId") Eventbrite event id:
+		input(type="text" id="ebEventId" name="eb_event_id")
+		input(type="submit" value="Get details" class="button")
+
 	form(action=`/add/${event._id || ''}` method="POST" class="form card card__form" enctype="multipart/form-data")
 
 		p Fields marked with an * are required.

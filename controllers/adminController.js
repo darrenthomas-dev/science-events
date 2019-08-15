@@ -134,7 +134,9 @@ exports.getEventbriteEvents = async (req, res) => {
         ? e.logo.original.url
         : null,
     eb_id: e.id,
-    slug: `eb${e.id}`,
+    eb_organisation_id: e.organization_id,
+    eb_organiser_id: e.organizer_id,
+    eb_slug: `eb${e.id}`,
     display_date: displayDate(new Date(e.start.utc), new Date(e.end.utc)),
     display: null
   }));

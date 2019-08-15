@@ -28,6 +28,8 @@ router.post(
   catchErrors(eventController.updateEvent)
 );
 
+router.post("/events/eb", catchErrors(eventController.getEventByEventbriteId));
+
 // Delete an event
 router.post("/events/:id/delete", catchErrors(eventController.deleteEvent));
 
@@ -47,7 +49,7 @@ router.get("/register", userController.registerForm);
 router.post(
   "/register",
   userController.validateRegister,
-  userController.register,
+  catchErrors(userController.register),
   authController.login
 );
 

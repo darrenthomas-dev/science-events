@@ -205,9 +205,33 @@ exports.getEvents = async (req, res) => {
 };
 
 const confirmOwner = (event, user) => {
-  if (!user.admin && !event.author.equals(user._id)) {
+  let test = false;
+  if (event.author && event.author.equals(user._id)) {
+    test = true;
+    console.log("You are the author!");
+  }
+
+  if (event.eb_organiser_id === user.eb_organiser_id) {
+    test = true;
+    console.log("You are the oganiser!");
+  }
+
+  if (user.admin) {
+    test = true;
+    console.log("You are an admin!");
+  }
+
+  if (!test) {
     throw Error("You must own the event in order to edit it!");
   }
+};
+
+exports.getEventByEventbriteId = async (req, res) => {
+  const event = await Event.findOne({ eb_id: req.body.eb_event_id });
+  confirmOwner(event, req.user);
+  // TODO
+  // If no event exsits then make api call to grab it
+  res.render("editEvent", { title: `Edit ${event.name}`, event });
 };
 
 exports.editEvent = async (req, res) => {
@@ -418,4 +442,48 @@ exports.addEventBriteEvents = async (req, res) => {
   const event = await new Event(req.body).save();
   req.flash("success", `Event "${event.name}" has been successfully created.`);
   res.redirect("back");
+};
+
+exports.addSingleEventbriteEvent = async (req, res) => {
+  const ebOrganizerId = "60700531925";
+  const ebEventId = "61355639369";
+  const url = `https://www.eventbriteapi.com/v3/events/${ebOrganizerId}/?expand=organizer,venue&id=${ebEventId}&token=${
+    process.env.EVENTBRITE_KEY
+  }`;
+
+  // Event GET request
+  async function getEvent() {
+    const response = await axios.get(url);
+
+    const event = response.map(e => ({
+      name: e.name.text,
+      summary: e.summary ? e.summary : "",
+      description: e.description.html ? stripInlineCss(e.description.html) : "",
+      organisation: e.organizer.name,
+      start_datetime: new Date(e.start.utc),
+      end_datetime: new Date(e.end.utc),
+      is_free: e.is_free,
+      location: {
+        type: "Point",
+        coordinates: [
+          e.venue.longitude ? parseFloat(e.venue.longitude) : "",
+          e.venue.latitude ? parseFloat(e.venue.latitude) : ""
+        ],
+        address:
+          e.venue.address && e.venue.address.localized_address_display
+            ? e.venue.address.localized_address_display
+            : ""
+      },
+      website: e.url ? e.url : null,
+      image: e.logo && e.logo.url ? e.logo.url : null,
+      poster:
+        e.logo && e.logo.original && e.logo.original.url
+          ? e.logo.original.url
+          : null,
+      eb_id: e.id,
+      slug: `eb${e.id}`,
+      display_date: displayDate(new Date(e.start.utc), new Date(e.end.utc)),
+      display: null
+    }));
+  }
 };

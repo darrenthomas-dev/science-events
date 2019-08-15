@@ -1,3 +1,25 @@
-aside {
-  // display: none;
+.filters {
+  padding: 0 16px;
+  max-width: 1776px;
+  margin: 0 auto 16px auto;
+  label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 8px;
+  }
+  button svg {
+    transform: rotate(90deg);
+    position: relative;
+    top: 2px;
+  }
+}
+
+.search__input {
+  width: 100%;
+  max-width: 350px;
+  margin-right: 32px;
+}
+
+.advanced__filters {
+  display: none;
 }

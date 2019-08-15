@@ -6,7 +6,9 @@ include mixins/_pagination
 block content
 	h2.offscreen= title
 
-	p= `Displaying ${count} events.`
+	.events__count
+		p= `You have ${count} events. To create an event click `
+			a(href="/add") here.
 
 	if (count)
 		.events

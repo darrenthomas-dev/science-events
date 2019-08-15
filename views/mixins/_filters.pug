@@ -1,12 +1,14 @@
 mixin filters()
 
-	aside
+	aside.filters
 		h3.offscreen Filters
 		.searchOrganisation
-				label(for="organisationSearch") Search by event name or organisation:
-				input.search__input(type="text" id="organisationSearch" name="search_organisation")
-				.search__results--organisation
-		.filters
+			label(for="organisationSearch") Search by event name or organisation:
+			input.search__input(type="text" id="organisationSearch" name="search_organisation")
+			button.button
+				!= h.icon('tuning')
+				| Filters
+		.advanced__filters
 			//- TODO filters should be and or.
 			label(for="free") Free events
 			input(type="checkbox" id="free" name="free" checked=(free))

@@ -655,8 +655,23 @@ textarea {
     fill: #dcdcdc; }
 
 .event__action--edit {
-  width: 24px;
-  float: right; }
+  float: right;
+  color: #ffffff;
+  background: #ffffff;
+  position: absolute;
+  padding: 8px;
+  top: -8px;
+  right: -8px;
+  box-shadow: 2px 0px 6px 0px #dcdfe2; }
+  .event__action--edit a {
+    color: #2b3b48;
+    text-decoration: none;
+    position: relative;
+    top: -2px; }
+    .event__action--edit a svg {
+      fill: #2b3b48;
+      position: relative;
+      top: 4px; }
 
 .event__description {
   padding: 1rem; }
@@ -707,6 +722,13 @@ textarea {
 .event__free p {
   margin-bottom: 0;
   text-transform: uppercase; }
+
+.events__count {
+  max-width: 1776px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 0 16px; }
 
 .single {
   margin-bottom: 70px; }
@@ -837,7 +859,7 @@ p.single__location {
 .map {
   background: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
-  margin-bottom: 70px; }
+  margin-bottom: 35px; }
   .map .autocomplete {
     padding: 8px; }
     .map .autocomplete form {
@@ -937,6 +959,28 @@ pre.error {
     color: #d6d3ea;
     font-weight: 500; }
 
+.filters {
+  padding: 0 16px;
+  max-width: 1776px;
+  margin: 0 auto 16px auto; }
+  .filters label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 8px; }
+  .filters button svg {
+    -ms-transform: rotate(90deg);
+        transform: rotate(90deg);
+    position: relative;
+    top: 2px; }
+
+.search__input {
+  width: 100%;
+  max-width: 350px;
+  margin-right: 32px; }
+
+.advanced__filters {
+  display: none; }
+
 .unsplash__container {
   position: relative; }
 
@@ -970,11 +1014,16 @@ pre.error {
 
 form input.button,
 .button {
-  background: #4770a5;
-  border: 0;
-  border-radius: 2.4rem;
-  text-transform: uppercase;
-  color: #fcfdff; }
+  background: #2b3b48;
+  border: 1px solid transparent;
+  color: #fcfdff;
+  padding: 8px 16px;
+  border-radius: 4px; }
+  form input.button svg,
+  .button svg {
+    fill: #e0e2e4;
+    margin-right: 6px;
+    width: 16px; }
 
 form.register {
   padding: 0;
