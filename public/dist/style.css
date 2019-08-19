@@ -494,6 +494,32 @@ textarea {
   .form input[type="date"] {
     width: 175px; }
 
+.card.form__eb {
+  margin: 0;
+  padding: 28px 5rem; }
+  .card.form__eb .fc {
+    -ms-flex-direction: row;
+        flex-direction: row;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap; }
+    .card.form__eb .fc label {
+      -ms-flex-preferred-size: 100%;
+          flex-basis: 100%; }
+    .card.form__eb .fc input[type="text"] {
+      -ms-flex-preferred-size: 50%;
+          flex-basis: 50%;
+      margin: 0;
+      margin-right: 16px;
+      height: 38px;
+      max-width: 267px; }
+    .card.form__eb .fc input[type="submit"] {
+      margin-bottom: 0;
+      -ms-flex-preferred-size: calc(50% - 16px);
+          flex-basis: calc(50% - 16px);
+      margin: 0 16px 0 0;
+      height: 38px;
+      max-width: 120px; }
+
 @keyframes slideIn {
   0% {
     transform: translateX(-10px); }

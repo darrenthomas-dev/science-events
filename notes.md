@@ -1,22 +1,23 @@
-<!-- Delete event button -->
-<!-- Delete account -->
-On delete account: assign to admin or delete all events
-<!-- Admin account -->
-<!-- Search within distance. -->
-<!-- Map display multiple events. -->
-<!-- Map zooms to geo location. -->
-<!-- Delete all events passed previous day. -->
-<!-- EventBrite ticket info - https://stackoverflow.com/questions/51290911/eventbrite-api-get-ticket-price-information-for-events -->
-Pull in event by API, check on database first.
-<!-- Make passwords secure -->
-Filters or tags (multiple tags).
-<!-- Admin select display. -->
-<!-- Save organisation, address for registered users. -->
+Make passwords strength indicator
+Try hacking site (hacksplaining)
+Filters date, tags
+lock delete acount (greyed out) with checkbox and padlock icon, check to unlock to avoid pressing by mistake
+Email admin for event updates
+Save image on account
+Add meetup API
+
+<!-- If no description given the event should link to owners website -->
+<!-- All Eventbrite events link to Eventbrite -->
+<!-- Register users can add and edit there own events -->
+<!-- Adding a description to the event should create a single event page, and therefore a slug. -->
+<!-- Events with no descritption should not have event pages and will link to the authors own site, and therefore a slug should not be created. -->
+A registered user with an oganiser id can pull an event from Eventbrite, if an Eventbrite event already exists they will be assigned as the author and the event added to their 'my events' page (as long as the eventbrite oganiser id matches).
+Guests can submit events
 
 
-lock delete acount (greyed out) with checkbox and padlock icon, check to unlock to avoid pressing by mistake.
-Email admin for event updates.
-Save image on account.
-Subscribe for events in radius of set location.
-Request ownership of API events.
-Add meetup API.
+Pulling eventbrite event
+Add to database / update
+check if user organiser ids match
+display on form
+
+Form submit updates event and assign user as author

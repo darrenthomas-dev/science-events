@@ -47,13 +47,14 @@ block content
 			.summary 
 				h3 Summary
 				if (event.eb_id)
-					.summary__eventbrite
-						.fade--out
-							-let description = event.description.trim().split(' ').slice(0, 250).join(' ')
-							- if(!/<[a-z][\s\S]*>/i.test(description)) { description = `<p>${description}`}
-							!= description
-						p.external__link
-							a(target="_blank", rel="noopener noreferrer", href=event.website) More details available on EventBrite.
+					p!= event.description
+					//- .summary__eventbrite
+					//- 	.fade--out
+					//- 		-let description = event.description.trim().split(' ').slice(0, 250).join(' ')
+					//- 		- if(!/<[a-z][\s\S]*>/i.test(description)) { description = `<p>${description}`}
+					//- 		!= description
+					p.external__link
+						a(target="_blank", rel="noopener noreferrer", href=event.website) More details available on EventBrite.
 				else
 					p!= event.description
 

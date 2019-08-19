@@ -35,6 +35,13 @@ block content
 			input.button(type="submit" formaction="/account" value="Update My Account")
 
 			hr
+
+			if user.eb_organiser_id
+				h3.offscreen Eventbrite Account
+				p Eventbrite organsiser id: 
+					span #{user.eb_organiser_id} 
+					a(href="#") change id
+				hr
 			
 			h3 Delete Account
 

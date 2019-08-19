@@ -28,7 +28,8 @@ router.post(
   catchErrors(eventController.updateEvent)
 );
 
-router.post("/events/eb", catchErrors(eventController.getEventByEventbriteId));
+// router.post("/events/eb", catchErrors(eventController.getEventByEventbriteId));
+router.post("/eb/add", catchErrors(eventController.addSingleEventbriteEvent));
 
 // Delete an event
 router.post("/events/:id/delete", catchErrors(eventController.deleteEvent));
@@ -142,5 +143,11 @@ router.get("/api/events/near", catchErrors(eventController.mapEvents));
 // My Events for log in users
 router.get("/my-events", catchErrors(userController.getUserEvents));
 router.post("/my-events", catchErrors(eventController.addEventBriteEvents));
+
+// My Eventbrite Events for log in users
+router.get(
+  "/my-eb-events",
+  catchErrors(userController.getUserEventbriteEvents)
+);
 
 module.exports = router;

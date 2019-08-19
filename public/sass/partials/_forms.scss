@@ -48,3 +48,29 @@ textarea {
     width: 175px;
   }
 }
+
+.card.form__eb {
+  margin: 0;
+  padding: 28px 5rem;
+  .fc {
+    flex-direction: row;
+    flex-wrap: wrap;
+    label {
+      flex-basis: 100%;
+    }
+    input[type="text"] {
+      flex-basis: 50%;
+      margin: 0;
+      margin-right: 16px;
+      height: 38px;
+      max-width: 267px;
+    }
+    input[type="submit"] {
+      margin-bottom: 0;
+      flex-basis: calc(50% - 16px);
+      margin: 0 16px 0 0;
+      height: 38px;
+      max-width: 120px;
+    }
+  }
+}

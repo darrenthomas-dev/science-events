@@ -14,8 +14,7 @@ const eventSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    trim: true,
-    required: "Please enter a brief description."
+    trim: true
   },
   organisation: {
     type: String,
@@ -81,7 +80,6 @@ const eventSchema = new mongoose.Schema({
   author: {
     type: mongoose.Schema.ObjectId,
     ref: "User"
-    // required: "You must supply an author"
   }
 });
 
@@ -102,17 +100,17 @@ eventSchema.index(
 );
 
 eventSchema.pre("save", async function(next) {
-  if (!this.end_datetime || this.end_datetime < this.start_datetime) {
-    this.end_datetime = this.start_datetime;
-  }
-  next();
-});
+  // if (!this.description) {
+  //   this.slug = "";
+  //   next();
+  //   return;
+  // }
 
-eventSchema.pre("save", async function(next) {
   if (!this.isModified("name")) {
     next();
     return;
   }
+
   this.slug = slug(this.name);
   // Check for events with same slug and set as numerical
   const slugRegEx = new RegExp(`^(${this.slug})((-[0-9]*$)?)$`, "i");

@@ -3,6 +3,9 @@
 */
 
 const moment = require("moment");
+const slug = require("slugs");
+const mongoose = require("mongoose");
+const Event = mongoose.model("Event");
 
 // FS is a built in module to node that let's us read files from the system we're running on
 const fs = require("fs");
@@ -91,4 +94,19 @@ exports.getDatetime = x => {
   }
   date = date.toISOString().split(".")[0] + "Z"; // remove milliseconds
   return date;
+};
+
+exports.createSlug = async name => {
+  let permalink = slug(name);
+
+  // Check for events with same slug and set as numerical
+  const slugRegEx = new RegExp(`^(${permalink})((-[0-9]*$)?)$`, "i");
+
+  const eventsWithSlug = await Event.find({ slug: slugRegEx });
+
+  if (eventsWithSlug.length) {
+    permalink = `${permalink}-${eventsWithSlug.length + 1}`;
+  }
+
+  return permalink;
 };

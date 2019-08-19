@@ -82,20 +82,19 @@ exports.deleteAllPendingEvents = async (req, res) => {
 };
 
 exports.getEventbriteEvents = async (req, res) => {
-  // Set start date
+  // Set start date to tomorrow
   const startDate = getDatetime(1);
-  // Set end date
+  // Set end date to correct format
   const endDate = new Date(req.body.end_date).toISOString().split(".")[0] + "Z";
-
-  // Get Eventbrite json list
+  // Construct Eventbrite url
   const url = `https://www.eventbriteapi.com/v3/events/search/?categories=102&expand=organizer,venue&location.viewport.northeast.latitude=59.950197&location.viewport.northeast.longitude=1.255643&location.viewport.southwest.latitude=49.232844&location.viewport.southwest.longitude=-10.600715&categories=102&start_date.range_start=${startDate}&start_date.range_end=${endDate}&token=${
     process.env.EVENTBRITE_KEY
   }`;
-
+  // Declare page number for pagination
   let pageNo = 1;
 
   // Add to array including paginated pages
-  // Events GET request
+  // GET request
   async function getEvents(data = []) {
     const fullURL = `${url}&page=${pageNo}`;
     const response = await axios.get(fullURL);
@@ -107,11 +106,11 @@ exports.getEventbriteEvents = async (req, res) => {
 
   let data = await getEvents();
 
-  // push to mongodb
+  // Add to mongodb
   data = data.map(e => ({
     name: e.name.text,
     summary: e.summary ? e.summary : "",
-    description: e.description.html ? stripInlineCss(e.description.html) : "",
+    // description: e.description.html ? stripInlineCss(e.description.html) : "",
     organisation: e.organizer.name,
     start_datetime: new Date(e.start.utc),
     end_datetime: new Date(e.end.utc),
@@ -136,7 +135,6 @@ exports.getEventbriteEvents = async (req, res) => {
     eb_id: e.id,
     eb_organisation_id: e.organization_id,
     eb_organiser_id: e.organizer_id,
-    eb_slug: `eb${e.id}`,
     display_date: displayDate(new Date(e.start.utc), new Date(e.end.utc)),
     display: null
   }));
@@ -170,7 +168,6 @@ exports.updateEventDisplay = async (req, res) => {
 
   if (req.body.display_true) {
     const x = req.body.display_true;
-    console.log(x);
     const ids = Array.isArray(x) ? x : [x];
 
     for (const id of ids) {

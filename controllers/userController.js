@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const Events = mongoose.model("Event");
 const promisify = require("es6-promisify");
+const axios = require("axios");
+const { getDatetime, stripInlineCss, displayDate } = require("../helpers");
 
 exports.loginForm = (req, res) => {
   res.render("login", { title: "Login" });
@@ -109,4 +111,50 @@ exports.getUserEvents = async (req, res) => {
   console.log(req.user.id);
 
   res.render("events", { title: "My Events", events, count });
+};
+
+exports.getUserEventbriteEvents = async (req, res) => {
+  // Eventbrite organiser id
+  const ebOrganizerId = req.user.eb_organiser_id;
+  // Get tomorrows date
+  const startDate = getDatetime(1);
+
+  // Add start date equal to tomorrow
+  const url = `https://www.eventbriteapi.com/v3/organizers/${ebOrganizerId}/events/?expand=organizer,venue&start_date.range_start=${startDate}&token=${
+    process.env.EVENTBRITE_KEY
+  }`;
+
+  // Event GET request
+  const response = await axios.get(url);
+  // Add to an array
+  const dataArr = [...response.data.events];
+  // Extract chosen values to an array of objects
+  const events = dataArr.map(e => ({
+    name: e.name.text,
+    summary: e.summary ? e.summary : "",
+    description: e.description.html ? stripInlineCss(e.description.html) : "",
+    organisation: e.organizer.name,
+    start_datetime: new Date(e.start.utc),
+    end_datetime: new Date(e.end.utc),
+    is_free: e.is_free,
+    location: {
+      type: "Point",
+      coordinates: [
+        e.venue.longitude ? parseFloat(e.venue.longitude) : "",
+        e.venue.latitude ? parseFloat(e.venue.latitude) : ""
+      ],
+      address:
+        e.venue.address && e.venue.address.localized_address_display
+          ? e.venue.address.localized_address_display
+          : ""
+    },
+    website: e.url ? e.url : null,
+    image: e.logo && e.logo.url ? e.logo.url : null,
+    eb_id: e.id,
+    display_date: displayDate(new Date(e.start.utc), new Date(e.end.utc))
+  }));
+
+  const count = events.length;
+
+  res.render("events", { title: "Eventbrite Events", events, count });
 };

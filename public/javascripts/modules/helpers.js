@@ -101,17 +101,23 @@ exports.renderEvents = places => {
       ? `<div class="event__free"><p>Free</p></div>`
       : "";
 
+    const link = places[i].slug
+      ? `<a href=/event/${places[i].slug}><h3 class="title">${
+          places[i].name
+        }</h3></a>`
+      : `<a href=${
+          places[i].website
+        } target="_blank" rel="noopener noreferrer"><h3 class="title">${
+          places[i].name
+        }</h3></a>`;
+
     const event = `
         <div class="event">          
           <div class="event__hero">
             <img src=${image}>
           </div>          
           <div class="event__details">            
-            <div class="event__title">
-              <a href=/event/${places[i].slug}><h3 class="title">${
-      places[i].name
-    }</h3></a>
-            </div>
+            <div class="event__title">${link}</div>
             <div class="event__organiser">
               <p><em>${places[i].organisation}</em></p>
             </div>            

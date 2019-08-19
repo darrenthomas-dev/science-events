@@ -19,7 +19,10 @@ mixin eventCard(event = {})
 				p.text--warning: em This event has expired and will soon be deleted.
 			.event__title
 				h3.title
-					a(href=`/event/${event.slug}`) #{event.name}
+					if (event.slug === "")
+						a(href=event.website) #{event.name}
+					else
+						a(href=`/event/${event.slug}`) #{event.name}
 			.event__organiser
 				p= event.organisation
 			.event__description

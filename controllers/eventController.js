@@ -4,8 +4,7 @@ const multer = require("multer");
 const jimp = require("jimp");
 const uuid = require("uuid");
 const findLatLong = require("find-lat-lng");
-const { displayDate } = require("../helpers");
-const { stripInlineCss } = require("../helpers");
+const { displayDate, stripInlineCss, createSlug } = require("../helpers");
 const axios = require("axios");
 
 const multerOptions = {
@@ -48,23 +47,30 @@ exports.resize = async (req, res, next) => {
 };
 
 exports.createEvent = async (req, res) => {
+  // Add human readable display date to body
   req.body.display_date = displayDate(
     req.body.start_datetime,
     req.body.end_datetime
   );
 
+  // Add latlng coordinates to body
   const latLng = await getLatLng(req.body.location.address);
   req.body.location.coordinates = [latLng[1], latLng[0]];
 
+  // Add author id to body
   req.body.author = req.user._id;
-  const event = await new Event(req.body).save();
-  req.flash(
-    "success",
-    `Event <a href="/event/${event.slug}">${
-      event.name
-    }</a> has been successfully created.`
-  );
-  res.redirect("back");
+
+  res.json(req.body);
+
+  // Add body data to database
+  // const event = await new Event(req.body).save();
+  // req.flash(
+  //   "success",
+  //   `Event <a href="/event/${event.slug}">${
+  //     event.name
+  //   }</a> has been successfully created.`
+  // );
+  // res.redirect("back");
 };
 
 exports.getEvents = async (req, res) => {
@@ -258,6 +264,14 @@ exports.updateEvent = async (req, res) => {
     req.body.end_datetime
   );
 
+  // Check and add end datetime
+  if (
+    !req.body.end_datetime ||
+    req.body.end_datetime < req.body.start_datetime
+  ) {
+    req.body.end_datetime = req.body.start_datetime;
+  }
+
   // If there are no tags add set to null
   if (!req.body.tags) req.body.tags = [];
 
@@ -271,18 +285,29 @@ exports.updateEvent = async (req, res) => {
   req.body.location.type = "Point";
   req.body.location.coordinates = [latLng[1], latLng[0]];
 
+  // Set slug if required
+  if (req.body.description === "") {
+    console.log("no description");
+    req.body.slug = "";
+    console.log("setting slug to blank string");
+  } else {
+    const slug = await createSlug(req.body.name);
+    req.body.slug = slug;
+  }
+
   // find and update the event
   const event = await Event.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true, // return new event
     runValidators: true
   }).exec();
+
   // redirect to event and tell them it worked
-  req.flash(
-    "success",
-    `Successfully updated <strong>${event.name}</strong>. <a href="/event/${
-      event.slug
-    }">View event</a>`
-  );
+  const link =
+    event.slug === ""
+      ? event.name
+      : `<a href=/event/${event.slug}>${event.name}</a>`;
+
+  req.flash("success", `Successfully updated <strong>${link}</strong>..`);
   res.redirect(`back`);
 };
 
@@ -416,7 +441,7 @@ exports.mapEvents = async (req, res) => {
 
   const events = await Event.find(query)
     .select(
-      "name organisation location.address location.coordinates image slug display_date is_free price price_range"
+      "name organisation location.address location.coordinates image slug display_date is_free price price_range website"
     )
     // .limit(50)
     .sort("start_datetime");
@@ -445,45 +470,128 @@ exports.addEventBriteEvents = async (req, res) => {
 };
 
 exports.addSingleEventbriteEvent = async (req, res) => {
-  const ebOrganizerId = "60700531925";
-  const ebEventId = "61355639369";
-  const url = `https://www.eventbriteapi.com/v3/events/${ebOrganizerId}/?expand=organizer,venue&id=${ebEventId}&token=${
+  const ebOrganizerId = req.user.eb_organiser_id;
+  const ebEventId = req.body.eb_event_id;
+  // Return if event id false
+  if (!ebEventId) {
+    res.redirect("back");
+  }
+  // Return if not admin or owner of event
+  if (!req.user.admin) {
+    if (!ebOrganizerId) {
+      res.redirect("back");
+    }
+  }
+
+  // Single event details url
+  const eventUrl = `https://www.eventbriteapi.com/v3/events/${ebEventId}/?expand=organizer,venue&token=${
     process.env.EVENTBRITE_KEY
   }`;
 
-  // Event GET request
-  async function getEvent() {
-    const response = await axios.get(url);
+  // Price range url
+  const priceUrl = `https://www.eventbriteapi.com/v3/events/${ebEventId}/ticket_classes/?token=${
+    process.env.EVENTBRITE_KEY
+  }`;
 
-    const event = response.map(e => ({
-      name: e.name.text,
-      summary: e.summary ? e.summary : "",
-      description: e.description.html ? stripInlineCss(e.description.html) : "",
-      organisation: e.organizer.name,
-      start_datetime: new Date(e.start.utc),
-      end_datetime: new Date(e.end.utc),
-      is_free: e.is_free,
-      location: {
-        type: "Point",
-        coordinates: [
-          e.venue.longitude ? parseFloat(e.venue.longitude) : "",
-          e.venue.latitude ? parseFloat(e.venue.latitude) : ""
-        ],
-        address:
-          e.venue.address && e.venue.address.localized_address_display
-            ? e.venue.address.localized_address_display
-            : ""
-      },
-      website: e.url ? e.url : null,
-      image: e.logo && e.logo.url ? e.logo.url : null,
-      poster:
-        e.logo && e.logo.original && e.logo.original.url
-          ? e.logo.original.url
-          : null,
-      eb_id: e.id,
-      slug: `eb${e.id}`,
-      display_date: displayDate(new Date(e.start.utc), new Date(e.end.utc)),
-      display: null
-    }));
+  // Add GET requests to promise
+  const eventPromise = axios.get(eventUrl);
+  const pricePromise = axios.get(priceUrl);
+
+  // Destructure responses
+  const [eventResponse, priceResponse] = await Promise.all([
+    eventPromise,
+    pricePromise
+  ]);
+
+  // Return if user is not the event organiser on Eventbrite or not an admin
+  if (!req.user.admin && ebOrganizerId !== eventResponse.data.organizer_id) {
+    req.flash("error", `This event can not be imported.`);
+    res.redirect("back");
   }
+
+  // hiddenEventDetails = {
+  //   eb_id: response.data.id,
+  //   eb_organiser_id: response.data.organizer_id,
+  //   eb_organisation_id: response.data.organization_id,
+  //   poster:
+  //     response.data.logo &&
+  //     response.data.logo.original &&
+  //     response.data.logo.original.url
+  //       ? response.data.logo.original.url
+  //       : null
+  // };
+
+  const event = {
+    name: eventResponse.data.name.text,
+    summary: eventResponse.data.summary ? eventResponse.data.summary : "",
+    description: eventResponse.data.description.html
+      ? stripInlineCss(eventResponse.data.description.html)
+      : "",
+    organisation: eventResponse.data.organizer.name,
+    start_datetime: new Date(eventResponse.data.start.utc),
+    end_datetime: new Date(eventResponse.data.end.utc),
+    is_free: eventResponse.data.is_free,
+    location: {
+      type: "Point",
+      coordinates: [
+        eventResponse.data.venue.longitude
+          ? parseFloat(eventResponse.data.venue.longitude)
+          : "",
+        eventResponse.data.venue.latitude
+          ? parseFloat(eventResponse.data.venue.latitude)
+          : ""
+      ],
+      address:
+        eventResponse.data.venue.address &&
+        eventResponse.data.venue.address.localized_address_display
+          ? eventResponse.data.venue.address.localized_address_display
+          : ""
+    },
+    website: eventResponse.data.url ? eventResponse.data.url : null,
+    image:
+      eventResponse.data.logo && eventResponse.data.logo.url
+        ? eventResponse.data.logo.url
+        : null,
+    poster:
+      eventResponse.data.logo &&
+      eventResponse.data.logo.original &&
+      eventResponse.data.logo.original.url
+        ? eventResponse.data.logo.original.url
+        : null,
+    display_date: displayDate(
+      new Date(eventResponse.data.start.utc),
+      new Date(eventResponse.data.end.utc)
+    ),
+    eb_id: eventResponse.data.id,
+    eb_organiser_id: eventResponse.data.organizer_id,
+    eb_organisation_id: eventResponse.data.organization_id
+  };
+
+  const tickets = priceResponse.data.ticket_classes;
+  let prices = [];
+  let donation = false;
+
+  if (tickets.length > 0) {
+    for (let item of tickets) {
+      if (item.cost) {
+        prices.push(item.cost.major_value);
+      }
+      if (item.donation) {
+        donation = true;
+      }
+    }
+
+    prices = prices.map(Number); // convert to numbers
+
+    event["price_range"] = {
+      min_price: Math.min(...prices),
+      max_price: Math.max(...prices)
+    };
+    event["donation"] = donation;
+  } else {
+    event["donation"] = donation;
+    console.log("no price details, adding donation details.");
+  }
+
+  res.render("editEvent", { title: `Edit ${event.name}`, event });
 };

@@ -1,14 +1,19 @@
 mixin eventForm(event = {})
 
-	form(action=`/events/eb` method="POST" class="form card card__form")
-		label(for="ebEventId") Eventbrite event id:
-		input(type="text" id="ebEventId" name="eb_event_id")
-		input(type="submit" value="Get details" class="button")
+
+	if user.eb_organiser_id
+		form(action=`/eb/add` method="POST" class="form form__eb card card__form")
+			.fc
+				//- p To import event details from Eventbrite enter the event ID number. Note you can only import events where you are register as the organiser. More information on how to find the event id can be found 
+					a(href="https://www.eventbrite.co.uk/support/articles/en_US/How_To/how-to-find-the-event-id" target="_blank" rel="noopener noreferrer") here.
+				label(for="ebEventId") Eventbrite event id:
+				input(type="text" id="ebEventId" name="eb_event_id")
+				input(type="submit" value="Get details" class="button")
 
 	form(action=`/add/${event._id || ''}` method="POST" class="form card card__form" enctype="multipart/form-data")
 
 		p Fields marked with an * are required.
-	
+
 		//- Event Name
 		.fc
 			label(for="event") Event name*
@@ -59,7 +64,10 @@ mixin eventForm(event = {})
 			span If no image is uploaded then a default image will be displayed.
 			input(type="file" name="image" id="image" accept="image/png, image/jpeg")
 			if event.image
-				img(src=`/uploads/${event.image}`, alt='' width=200)
+				if event.eb_id
+					img(src=`${event.image}`, alt='' width=200)
+				else
+					img(src=`/uploads/${event.image}`, alt='' width=200)
 		
 		//- Address
 		.fc
@@ -81,7 +89,7 @@ mixin eventForm(event = {})
 				.tag.tag__choice
 					input(type="checkbox" id="free" name="is_free" value="true" checked=(event.is_free === "true"))
 					label(for="free") Free
-		
+			
 		//- Submit
 		input(type="submit" value="Save" class="button")
 		
