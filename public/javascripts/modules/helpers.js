@@ -114,7 +114,7 @@ exports.renderEvents = places => {
     const event = `
         <div class="event">          
           <div class="event__hero">
-            <img src=${image}>
+            <img src=${image} alt="">
           </div>          
           <div class="event__details">            
             <div class="event__title">${link}</div>

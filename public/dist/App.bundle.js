@@ -3183,7 +3183,7 @@ exports.renderEvents = function (places) {
 
     var link = places[i].slug ? "<a href=/event/" + places[i].slug + "><h3 class=\"title\">" + places[i].name + "</h3></a>" : "<a href=" + places[i].website + " target=\"_blank\" rel=\"noopener noreferrer\"><h3 class=\"title\">" + places[i].name + "</h3></a>";
 
-    var event = "\n        <div class=\"event\">          \n          <div class=\"event__hero\">\n            <img src=" + image + ">\n          </div>          \n          <div class=\"event__details\">            \n            <div class=\"event__title\">" + link + "</div>\n            <div class=\"event__organiser\">\n              <p><em>" + places[i].organisation + "</em></p>\n            </div>            \n            <div class=\"event__description\">              \n              <div class=\"event__location\">\n                <p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M10 20S3 10.87 3 7a7 7 0 1 1 14 0c0 3.87-7 13-7 13zm0-11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z\"></path></svg><span>" + places[i].location.address + "</span></p>\n              </div>              \n              <div class=\"event__date\">\n                <p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M1 4c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4zm2 2v12h14V6H3zm2-6h2v2H5V0zm8 0h2v2h-2V0zM5 9h2v2H5V9zm0 4h2v2H5v-2zm4-4h2v2H9V9zm0 4h2v2H9v-2zm4-4h2v2h-2V9zm0 4h2v2h-2v-2z\"></path></svg><span>" + places[i].display_date + "</span></p>\n              </div>\n              " + price + "\n              " + free + "\n            </div>\n          </div>\n        </div>";
+    var event = "\n        <div class=\"event\">          \n          <div class=\"event__hero\">\n            <img src=" + image + " alt=\"\">\n          </div>          \n          <div class=\"event__details\">            \n            <div class=\"event__title\">" + link + "</div>\n            <div class=\"event__organiser\">\n              <p><em>" + places[i].organisation + "</em></p>\n            </div>            \n            <div class=\"event__description\">              \n              <div class=\"event__location\">\n                <p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M10 20S3 10.87 3 7a7 7 0 1 1 14 0c0 3.87-7 13-7 13zm0-11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z\"></path></svg><span>" + places[i].location.address + "</span></p>\n              </div>              \n              <div class=\"event__date\">\n                <p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M1 4c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4zm2 2v12h14V6H3zm2-6h2v2H5V0zm8 0h2v2h-2V0zM5 9h2v2H5V9zm0 4h2v2H5v-2zm4-4h2v2H9V9zm0 4h2v2H9v-2zm4-4h2v2h-2V9zm0 4h2v2h-2v-2z\"></path></svg><span>" + places[i].display_date + "</span></p>\n              </div>\n              " + price + "\n              " + free + "\n            </div>\n          </div>\n        </div>";
     newHTML += event;
   }
 
@@ -3222,13 +3222,16 @@ var _clearFilters = __webpack_require__(12);
 
 var _clearFilters2 = _interopRequireDefault(_clearFilters);
 
+var _showHideMap = __webpack_require__(38);
+
+var _showHideMap2 = _interopRequireDefault(_showHideMap);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // import searchByLocation from "./modules/locationSearch";
 
-(0, _autocomplete2.default)((0, _bling.$)("#address"));
 // import typeAheadOrganisation from "./modules/typeAheadOrganisation";
-
+(0, _autocomplete2.default)((0, _bling.$)("#address"));
 
 (0, _typeAhead2.default)((0, _bling.$)(".search"));
 
@@ -3241,6 +3244,32 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 (0, _clearFilters2.default)((0, _bling.$)("#filterResetButton"));
 
 // searchByLocation($("#locationAutocomplete"));
+
+(0, _showHideMap2.default)((0, _bling.$)("#map"));
+
+/***/ }),
+/* 37 */,
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _bling = __webpack_require__(1);
+
+function displayMap(mapDiv) {
+  if (!mapDiv) return;
+  (0, _bling.$)(".map__button").on("click", function () {
+    this.innerText = this.textContent === "Hide map" ? "Show map" : "Hide map";
+    mapDiv.style.display = mapDiv.style.display === "none" ? "block" : "none";
+  });
+}
+
+exports.default = displayMap;
 
 /***/ })
 /******/ ]);

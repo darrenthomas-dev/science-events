@@ -7,6 +7,7 @@ import typeAhead from "./modules/typeAhead";
 import makeMap from "./modules/map";
 import displayNavigation from "./modules/navigation";
 import clearFilters from "./modules/clearFilters";
+import displayMap from "./modules/showHideMap";
 // import searchByLocation from "./modules/locationSearch";
 
 autocomplete($("#address"));
@@ -22,3 +23,5 @@ displayNavigation($(".nav__button"));
 clearFilters($("#filterResetButton"));
 
 // searchByLocation($("#locationAutocomplete"));
+
+displayMap($("#map"));

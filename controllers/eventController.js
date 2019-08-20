@@ -60,17 +60,17 @@ exports.createEvent = async (req, res) => {
   // Add author id to body
   req.body.author = req.user._id;
 
-  res.json(req.body);
+  // res.json(req.body);
 
   // Add body data to database
-  // const event = await new Event(req.body).save();
-  // req.flash(
-  //   "success",
-  //   `Event <a href="/event/${event.slug}">${
-  //     event.name
-  //   }</a> has been successfully created.`
-  // );
-  // res.redirect("back");
+  const event = await new Event(req.body).save();
+  req.flash(
+    "success",
+    `Event <a href="/event/${event.slug}">${
+      event.name
+    }</a> has been successfully created.`
+  );
+  res.redirect("back");
 };
 
 exports.getEvents = async (req, res) => {
@@ -263,6 +263,12 @@ exports.updateEvent = async (req, res) => {
     req.body.start_datetime,
     req.body.end_datetime
   );
+
+  // Add display type to true
+  req.body.display = true;
+
+  // Add author id to body
+  req.body.author = req.user._id;
 
   // Check and add end datetime
   if (
@@ -462,7 +468,6 @@ exports.mapPage = (req, res) => {
 exports.addEventBriteEvents = async (req, res) => {
   req.body.author = req.user._id;
   req.body.description = stripInlineCss(req.body.description);
-  // req.body.location.type = "Point";
 
   const event = await new Event(req.body).save();
   req.flash("success", `Event "${event.name}" has been successfully created.`);
@@ -508,18 +513,6 @@ exports.addSingleEventbriteEvent = async (req, res) => {
     req.flash("error", `This event can not be imported.`);
     res.redirect("back");
   }
-
-  // hiddenEventDetails = {
-  //   eb_id: response.data.id,
-  //   eb_organiser_id: response.data.organizer_id,
-  //   eb_organisation_id: response.data.organization_id,
-  //   poster:
-  //     response.data.logo &&
-  //     response.data.logo.original &&
-  //     response.data.logo.original.url
-  //       ? response.data.logo.original.url
-  //       : null
-  // };
 
   const event = {
     name: eventResponse.data.name.text,
@@ -593,5 +586,21 @@ exports.addSingleEventbriteEvent = async (req, res) => {
     console.log("no price details, adding donation details.");
   }
 
-  res.render("editEvent", { title: `Edit ${event.name}`, event });
+  // Add to database if not already
+  try {
+    await new Event(event).save();
+  } catch (err) {
+    console.log("unable to add event, probably already exsits");
+  }
+
+  // Search for event in database
+  const currentEvent = await Event.findOne({ eb_id: event.eb_id });
+
+  // Return if event is already assigned to an organiser
+  if (req.user.admin && currentEvent["author"]) {
+    req.flash("error", `This event has been assigned to an author.`);
+    res.redirect("back");
+  }
+
+  res.redirect(`/event/${currentEvent["id"]}/edit`);
 };

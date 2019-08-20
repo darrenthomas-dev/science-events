@@ -66,8 +66,7 @@ const eventSchema = new mongoose.Schema({
   image: String,
   poster: String,
   display: {
-    type: String,
-    default: "true"
+    type: String
   },
   slug: String,
   eb_id: String,

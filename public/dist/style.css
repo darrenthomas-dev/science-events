@@ -886,7 +886,14 @@ p.single__location {
   background: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
   margin-bottom: 35px; }
+  .map > div:first-child {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+        align-items: center; }
   .map .autocomplete {
+    -ms-flex: 1;
+        flex: 1;
     padding: 8px; }
     .map .autocomplete form {
       display: -ms-flexbox;
@@ -1050,6 +1057,11 @@ form input.button,
     fill: #e0e2e4;
     margin-right: 6px;
     width: 16px; }
+
+.map__button {
+  height: 42px;
+  margin-right: 10px;
+  width: 110px; }
 
 form.register {
   padding: 0;

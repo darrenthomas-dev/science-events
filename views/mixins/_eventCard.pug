@@ -11,9 +11,9 @@ mixin eventCard(event = {})
 								| Edit
 			// donation banner
 			if event.eb_id
-				img(src=`${event.image || '/uploads/store.png'}`)
+				img(src=`${event.image || '/uploads/store.png'}` alt="")
 			else
-				img(src=`/uploads/${event.image || 'store.png'}`)
+				img(src=`/uploads/${event.image || 'store.png'}` alt="")
 		.event__details
 			if event.end_datetime < new Date()
 				p.text--warning: em This event has expired and will soon be deleted.

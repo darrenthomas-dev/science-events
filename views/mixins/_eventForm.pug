@@ -1,7 +1,7 @@
 mixin eventForm(event = {})
 
 
-	if user.eb_organiser_id
+	if user.eb_organiser_id || user.admin
 		form(action=`/eb/add` method="POST" class="form form__eb card card__form")
 			.fc
 				//- p To import event details from Eventbrite enter the event ID number. Note you can only import events where you are register as the organiser. More information on how to find the event id can be found 

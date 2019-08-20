@@ -6,7 +6,9 @@ include mixins/_filters
 block content
 	h2.offscreen= title
 	.map
-		+locationSearch()
+		div
+			+locationSearch()
+			button(class="button map__button map__button--show") Hide map
 		#map
 			p Loading Map...
 	+filters()
