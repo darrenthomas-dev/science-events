@@ -90,6 +90,9 @@ router.post("/delete", catchErrors(userController.deleteAccount));
 // Map page
 router.get("/", eventController.mapPage);
 
+// Events page
+router.get("/events/page/:page", catchErrors(eventController.getEvents));
+
 // Admin page
 router.get(
   "/admin",

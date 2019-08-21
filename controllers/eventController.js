@@ -77,6 +77,7 @@ exports.getEvents = async (req, res) => {
   const page = req.params.page || 1;
   const limit = 12;
   const skip = page * limit - limit;
+
   const free = req.body.free || undefined;
   const familyFriendly = req.body.family_friendly || undefined;
   const donation = req.body.donation || undefined;
@@ -189,7 +190,7 @@ exports.getEvents = async (req, res) => {
     return;
   }
 
-  res.render("map", {
+  res.render("events", {
     title: "Events",
     parentSlug: "events",
     events,
