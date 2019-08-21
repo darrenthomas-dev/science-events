@@ -2,7 +2,6 @@ import { $ } from "./bling";
 
 function searchByLocation(locationAutocomplete) {
   if (!locationAutocomplete) return;
-  let miles = "";
   const distance = $("#distance-select");
   const input = $('[name="geolocate"]');
   const lat = $("#lat");
@@ -10,11 +9,15 @@ function searchByLocation(locationAutocomplete) {
   const autocomplete = new google.maps.places.Autocomplete(input);
 
   distance.on("change", function() {
-    miles = distance.querySelector('input[name="distance"]:checked').value;
-    const place = autocomplete.getPlace();
+    if (!input.value && lat.value && lng.value) {
+      lat.value = "";
+      lng.value = "";
+      document.location.href = "/";
+    }
 
-    lat.value = place.geometry.location.lat();
-    lng.value = place.geometry.location.lng();
+    if (lat.value && lng.value && input.value) {
+      locationAutocomplete.submit();
+    }
   });
 
   autocomplete.addListener("place_changed", () => {
@@ -22,6 +25,8 @@ function searchByLocation(locationAutocomplete) {
 
     lat.value = place.geometry.location.lat();
     lng.value = place.geometry.location.lng();
+
+    locationAutocomplete.submit();
   });
 
   // If hit enter do not submit form.

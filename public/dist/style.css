@@ -891,24 +891,9 @@ p.single__location {
     display: flex;
     -ms-flex-align: center;
         align-items: center; }
-  .map .autocomplete {
-    -ms-flex: 1;
-        flex: 1;
-    padding: 8px; }
-    .map .autocomplete form {
-      display: -ms-flexbox;
-      display: flex;
-      -ms-flex-pack: center;
-          justify-content: center;
-      -ms-flex-align: center;
-          align-items: center; }
-    .map .autocomplete p {
-      margin-bottom: 0; }
-  .map .autocomplete__input {
-    margin: 0 16px 0 8px; }
 
 #map {
-  height: 750px; }
+  height: calc(100vh - 132px); }
 
 .popup {
   width: 300px; }
@@ -1119,6 +1104,22 @@ form.login {
   .layout--min .form__inner p,
   .layout--min .form__inner a {
     color: #092142; }
+
+.autocomplete {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+      justify-content: center;
+  -ms-flex-align: center;
+      align-items: center;
+  padding: 8px;
+  background: #fff; }
+  .autocomplete__label {
+    padding-right: 8px; }
+  .autocomplete__input {
+    margin-right: 8px; }
+  .autocomplete p {
+    margin-bottom: 0; }
 
 [id="distance-select"] [type="radio"] {
   display: none; }

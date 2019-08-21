@@ -15,8 +15,10 @@ mixin eventCard(event = {})
 			else
 				img(src=`/uploads/${event.image || 'store.png'}` alt="")
 		.event__details
-			if event.end_datetime < new Date()
-				p.text--warning: em This event has expired and will soon be deleted.
+			if user 		
+				if user.admin || (event.author && event.author.equals(user._id))
+					if event.end_datetime < new Date()
+						p.text--warning: em This event has expired and will soon be deleted.
 			.event__title
 				h3.title
 					if (event.slug === "")

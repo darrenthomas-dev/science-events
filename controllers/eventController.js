@@ -73,143 +73,143 @@ exports.createEvent = async (req, res) => {
   res.redirect("back");
 };
 
-exports.getEvents = async (req, res) => {
-  const page = req.params.page || 1;
-  const limit = 12;
-  const skip = page * limit - limit;
+// exports.getEvents = async (req, res) => {
+//   const page = req.params.page || 1;
+//   const limit = 12;
+//   const skip = page * limit - limit;
 
-  const free = req.body.free || undefined;
-  const familyFriendly = req.body.family_friendly || undefined;
-  const donation = req.body.donation || undefined;
-  const start = req.body.start_datetime || undefined;
-  const end = req.body.end_datetime || undefined;
-  const minPrice = req.body.min_price || undefined;
-  const maxPrice = req.body.max_price || undefined;
-  const location = req.body.geolocate || undefined;
-  const lat = req.body.lat || undefined;
-  const lng = req.body.lng || undefined;
-  const miles = req.body.distance || undefined;
-  const organisation = req.body.search_organisation || undefined;
-  console.log(organisation);
+//   const free = req.body.free || undefined;
+//   const familyFriendly = req.body.family_friendly || undefined;
+//   const donation = req.body.donation || undefined;
+//   const start = req.body.start_datetime || undefined;
+//   const end = req.body.end_datetime || undefined;
+//   const minPrice = req.body.min_price || undefined;
+//   const maxPrice = req.body.max_price || undefined;
+//   const location = req.body.geolocate || undefined;
+//   const lat = req.body.lat || undefined;
+//   const lng = req.body.lng || undefined;
+//   const miles = req.body.distance || undefined;
+//   const organisation = req.body.search_organisation || undefined;
+//   console.log(organisation);
 
-  const tags = [];
+//   const tags = [];
 
-  let query = {
-    display: true
-  };
+//   let query = {
+//     display: true
+//   };
 
-  if (familyFriendly) {
-    tags.push("Family Friendly");
-  }
-  if (donation) {
-    tags.push("Donation");
-  }
-  if (tags.length) {
-    query.tags = { $all: tags };
-  }
-  if (free) {
-    query.is_free = true;
-  }
-  if (start) {
-    query.start_datetime = {
-      $gte: new Date(`${start}T00:00:00Z`)
-    };
-  }
-  if (end) {
-    query.end_datetime = { $lte: new Date(`${end}T23:59:59Z`) };
-  } else {
-    const start = new Date().toISOString().slice(0, 10);
-    query.end_datetime = { $gte: new Date(`${start}T00:00:00Z`) };
-  }
-  if (organisation) {
-    console.log(organisation);
-    query.organisation = organisation;
-  }
+//   if (familyFriendly) {
+//     tags.push("Family Friendly");
+//   }
+//   if (donation) {
+//     tags.push("Donation");
+//   }
+//   if (tags.length) {
+//     query.tags = { $all: tags };
+//   }
+//   if (free) {
+//     query.is_free = true;
+//   }
+//   if (start) {
+//     query.start_datetime = {
+//       $gte: new Date(`${start}T00:00:00Z`)
+//     };
+//   }
+//   if (end) {
+//     query.end_datetime = { $lte: new Date(`${end}T23:59:59Z`) };
+//   } else {
+//     const start = new Date().toISOString().slice(0, 10);
+//     query.end_datetime = { $gte: new Date(`${start}T00:00:00Z`) };
+//   }
+//   if (organisation) {
+//     console.log(organisation);
+//     query.organisation = organisation;
+//   }
 
-  if (minPrice && minPrice > 0) {
-    query["price_range.min_price"] = { $gte: minPrice };
-  }
+//   if (minPrice && minPrice > 0) {
+//     query["price_range.min_price"] = { $gte: minPrice };
+//   }
 
-  if (maxPrice) {
-    query["$or"] = [
-      { "price_range.min_price": { $lte: maxPrice } },
-      { is_free: true }
-    ];
-  }
-  if (lat && lng) {
-    const coordinates = [lng, lat];
+//   if (maxPrice) {
+//     query["$or"] = [
+//       { "price_range.min_price": { $lte: maxPrice } },
+//       { is_free: true }
+//     ];
+//   }
+//   if (lat && lng) {
+//     const coordinates = [lng, lat];
 
-    let distance = false;
+//     let distance = false;
 
-    if (miles) {
-      if (miles === "10") distance = 16093;
-      if (miles === "20") distance = 32186;
-      if (miles === "30") distance = 48280;
-      if (miles === "40") distance = 64373;
-    }
+//     if (miles) {
+//       if (miles === "10") distance = 16093;
+//       if (miles === "20") distance = 32186;
+//       if (miles === "30") distance = 48280;
+//       if (miles === "40") distance = 64373;
+//     }
 
-    distance
-      ? (query["location"] = {
-          $near: {
-            $geometry: {
-              type: "Point",
-              coordinates
-            },
-            $maxDistance: distance
-          }
-        })
-      : (query["location"] = {
-          $near: {
-            $geometry: {
-              type: "Point",
-              coordinates
-            }
-          }
-        });
-  }
+//     distance
+//       ? (query["location"] = {
+//           $near: {
+//             $geometry: {
+//               type: "Point",
+//               coordinates
+//             },
+//             $maxDistance: distance
+//           }
+//         })
+//       : (query["location"] = {
+//           $near: {
+//             $geometry: {
+//               type: "Point",
+//               coordinates
+//             }
+//           }
+//         });
+//   }
 
-  console.log(query);
+//   console.log(query);
 
-  // 1. Query database for all events
-  const eventsPromise = Event.find(query)
-    .skip(skip)
-    .limit(limit)
-    .populate("author", "admin")
-    .sort("start_datetime");
+//   // 1. Query database for all events
+//   const eventsPromise = Event.find(query)
+//     .skip(skip)
+//     .limit(limit)
+//     .populate("author", "admin")
+//     .sort("start_datetime");
 
-  const countPromise = Event.find(query).count();
-  const [events, count] = await Promise.all([eventsPromise, countPromise]);
-  const pages = Math.ceil(count / limit);
+//   const countPromise = Event.find(query).count();
+//   const [events, count] = await Promise.all([eventsPromise, countPromise]);
+//   const pages = Math.ceil(count / limit);
 
-  if (!events.length && skip) {
-    req.flash(
-      "info",
-      `Page ${page} does not exist. You have been redirected to page ${pages} which is the last page.`
-    );
-    res.redirect(`/events/page/${pages}`);
-    return;
-  }
+//   if (!events.length && skip) {
+//     req.flash(
+//       "info",
+//       `Page ${page} does not exist. You have been redirected to page ${pages} which is the last page.`
+//     );
+//     res.redirect(`/events/page/${pages}`);
+//     return;
+//   }
 
-  res.render("events", {
-    title: "Events",
-    parentSlug: "events",
-    events,
-    page,
-    pages,
-    count,
-    free,
-    familyFriendly,
-    donation,
-    start,
-    end,
-    minPrice,
-    maxPrice,
-    location,
-    lat,
-    lng,
-    miles
-  });
-};
+//   res.render("events", {
+//     title: "Events",
+//     parentSlug: "events",
+//     events,
+//     page,
+//     pages,
+//     count,
+//     free,
+//     familyFriendly,
+//     donation,
+//     start,
+//     end,
+//     minPrice,
+//     maxPrice,
+//     location,
+//     lat,
+//     lng,
+//     miles
+//   });
+// };
 
 const confirmOwner = (event, user) => {
   let test = false;
@@ -388,9 +388,8 @@ exports.mapEvents = async (req, res) => {
   const defaultStartDate = new Date().toISOString().slice(0, 10);
   // const organisation = req.body.search_organisation || undefined;
   const coordinates = [req.query.lng, req.query.lat];
-  console.log("query:", req.query);
-  console.log("body:", req.body);
-  console.log("params:", req.params);
+
+  console.log(coordinates);
 
   let query = {
     display: true
@@ -414,7 +413,7 @@ exports.mapEvents = async (req, res) => {
   //   query.organisation = organisation;
   // }
 
-  const miles = req.query.miles;
+  const miles = req.query.distance;
 
   let distance = false;
 
@@ -604,4 +603,82 @@ exports.addSingleEventbriteEvent = async (req, res) => {
   }
 
   res.redirect(`/event/${currentEvent["id"]}/edit`);
+};
+
+exports.getEvents = async (req, res) => {
+  const page = req.params.page || 1;
+  const limit = 12;
+  const skip = page * limit - limit;
+  const location = req.query.geolocate;
+  const miles = req.query.distance;
+  const coordinates = [req.query.lng, req.query.lat];
+  const start = new Date().toISOString().slice(0, 10);
+
+  // Start constructing query
+  let query = {
+    display: true
+  };
+
+  query.end_datetime = { $gte: new Date(`${start}T00:00:00Z`) };
+
+  if (miles) {
+    let distance = 0;
+
+    switch (miles) {
+      case "10":
+        distance = 16093;
+        break;
+      case "20":
+        distance = 32186;
+        break;
+      case "30":
+        distance = 48280;
+        break;
+      case "40":
+        distance = 64373;
+        break;
+    }
+
+    query.location = {
+      $near: {
+        $geometry: {
+          type: "Point",
+          coordinates
+        },
+        $maxDistance: distance
+      }
+    };
+  }
+
+  console.log(query);
+
+  // 1. Query database for all events
+  const events = await Event.find(query)
+    .skip(skip)
+    .sort("start_datetime");
+  const count = events.length;
+  const pages = Math.ceil(count / limit);
+
+  if (!events.length && skip) {
+    req.flash(
+      "info",
+      `Page ${page} does not exist. You have been redirected to page ${pages} which is the last page.`
+    );
+    res.redirect(`/events/page/${pages}`);
+    return;
+  }
+
+  res.render("events", {
+    title: "Events",
+    parentSlug: "events",
+    events,
+    count,
+    page,
+    pages,
+    count,
+    location,
+    miles,
+    lat: req.query.lat,
+    lng: req.query.lng
+  });
 };

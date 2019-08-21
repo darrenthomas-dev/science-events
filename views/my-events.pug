@@ -7,13 +7,15 @@ include mixins/_pagination
 block content
 	h2.offscreen= title
 	
-	+locationSearch(lat, lng, location, miles)
+	div
+		+locationSearch()
 
 	.events__count
-		p= `Total events found: ${count}`
+		p= `You have ${count} events. To create a new event click `
+			a(href="/add") here.
 
 	if (count)
 		.events
 			each event in events
-				+eventCard(event)
+				+eventCard(event, start)
 		+pagination(page, pages, count, parentSlug)

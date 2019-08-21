@@ -1,16 +1,10 @@
 extends layout
 
 include mixins/_locationSearch
-include mixins/_filters
 
 block content
 	h2.offscreen= title
 	.map
-		div
-			+locationSearch()
-			button(class="button map__button map__button--show") Hide map
+		+locationSearch()
 		#map
 			p Loading Map...
-	+filters()
-	.events__count
-	.events
