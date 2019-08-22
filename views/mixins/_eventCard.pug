@@ -25,36 +25,35 @@ mixin eventCard(event = {})
 						a(href=event.website) #{event.name}
 					else
 						a(href=`/event/${event.slug}`) #{event.name}
-			.event__organiser
-				p= event.organisation
-			.event__description
-				.event__location
-					p
-						!= h.icon('location')
-						span=	event.location.address
-				.event__date
-					p
-						!= h.icon('calendar')
-						span= event.display_date
-				// price
-				if event.price
-					.event__price
-						-const price = Number(event.price).toFixed(2)
-						p
-							!= h.icon('ticket')
-							span= `£${price}`
-				// price range
-				if event.price_range && event.price_range.max_price
+			dl
+				dt(class="event__organiser offscreen") Organiser:
+				dd= event.organisation
+				dt(class="event__location offscreen") Address:
+				dd!= h.icon('location')
+					span=	event.location.address
+				dt(class="event__date offscreen") Event date:
+				dd!= h.icon('calendar')
+					span= event.display_date
+				//- Price
+				if event.price_range && !event.price_range.max_price && event.price_range.min_price
+					-const price = Number(event.price_range.min_price).toFixed(2)
+					dt(class="event__price offscreen") Price:
+					dd!= h.icon('ticket')
+						span= `£${price}`
+				//- Price range
+				if event.price_range && event.price_range.max_price && event.price_range.min_price
 					-const min = Number(event.price_range.min_price).toFixed(2)
 					-const max = Number(event.price_range.max_price).toFixed(2)
-					.event__price
-						p
-							!= h.icon('ticket')
-							if (min === '0.00')
-								span= `Free - £${max}`
-							else	
-								span= `£${min} - £${max}`
-				// free
-				if event.is_free
-					.event__free
-						p Free
+					dt(class="event__price offscreen") Price range:
+					dd!= h.icon('ticket')
+						if (min === '0.00')
+							span= `Free to £${max}`
+						else	
+							span= `£${min} to £${max}`
+			//- Free
+			if event.is_free
+				.event__free
+					p 
+						span.offscreen This event is available for
+						span free
+						span.offscreen , for eligibility please check the organiser's website.

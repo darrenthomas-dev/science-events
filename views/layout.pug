@@ -1,17 +1,20 @@
 doctype html
 html
   head
-    title= `${title} | ${h.siteName}`
+    //- title= `${location ? results : title + ' | ' + h.siteName}`
+    title= message ? message : `${h.siteName} - ${title}`
     link(rel='stylesheet', href='/dist/style.css')
     link(rel="shortcut icon" type="image/png" href="/images/icons/favicon.png")
     meta(name="viewport" content="width=device-width, initial-scale=1")
   body
+    div#skip
+      a(id="content" href="#maincontent") Skip to #{skip}
     nav.nav
       h2.offscreen Main navigation
       button.nav__button.nav__button--close Menu
       ul.nav__section
         li.nav__item
-          a.nav__link.nav__logo(href="/") Science Near Me
+          a.nav__link.nav__logo(href="/" tabIndex="-1") Science Near Me
         each item in h.menu
           li.nav__item
             a.nav__link(href=item.slug class=(currentPath.startsWith(item.slug) ? 'nav__link--active' : '')) #{item.title}
@@ -32,7 +35,7 @@ html
                 a.nav__link(href=item.slug class=(currentPath.startsWith(item.slug) ? 'nav__link--active' : '')) #{item.title}
           li.nav__item: a.nav__link(href="/logout") Logout
           li.nav__item: a.nav__link(href="/account")
-            img.avatar(src=user.gravatar + '&d=retro')
+            img.avatar(src=user.gravatar + '&d=retro' alt="Account details")
         else
           li.nav__item.nav__item--right: a.nav__link(href="/register") Register
           li.nav__item.nav__item--right: a.nav__link(href="/login") Sign in

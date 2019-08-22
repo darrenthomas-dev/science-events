@@ -5,15 +5,15 @@ include mixins/_locationSearch
 include mixins/_pagination
 
 block content
-	h2.offscreen= title
 	
-	+locationSearch(lat, lng, location, miles)
+	+locationSearch(lat, lng, location, distance)
 
-	.events__count
-		p= `Total events found: ${count}`
+	main#maincontent
+		.events__count
+			h1= `Events found: ${count}`
 
-	if (count)
-		.events
-			each event in events
-				+eventCard(event)
-		+pagination(page, pages, count, parentSlug)
+		if (count)
+			.events
+				each event in events
+					+eventCard(event)
+			+pagination(page, pages, count, parentSlug, lat, lng, location, distance)

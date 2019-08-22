@@ -609,9 +609,12 @@ exports.getEvents = async (req, res) => {
   const page = req.params.page || 1;
   const limit = 12;
   const skip = page * limit - limit;
-  const location = req.query.geolocate;
-  const miles = req.query.distance;
-  const coordinates = [req.query.lng, req.query.lat];
+  const location = req.query.geolocate || req.params.geolocate;
+  const miles = req.query.distance || req.params.distance;
+  const coordinates = [req.query.lng, req.query.lat] || [
+    req.params.lng,
+    req.params.lat
+  ];
   const start = new Date().toISOString().slice(0, 10);
 
   // Start constructing query
@@ -653,10 +656,14 @@ exports.getEvents = async (req, res) => {
   console.log(query);
 
   // 1. Query database for all events
-  const events = await Event.find(query)
+  const eventsPromise = await Event.find(query)
     .skip(skip)
+    .limit(limit)
+    .populate("author", "admin")
     .sort("start_datetime");
-  const count = events.length;
+
+  const countPromise = Event.find(query).count();
+  const [events, count] = await Promise.all([eventsPromise, countPromise]);
   const pages = Math.ceil(count / limit);
 
   if (!events.length && skip) {
@@ -668,17 +675,22 @@ exports.getEvents = async (req, res) => {
     return;
   }
 
+  const results = `${count} events found within a ${miles} mile radius of ${location}.`;
+  const message = req.message;
+
   res.render("events", {
+    message,
     title: "Events",
     parentSlug: "events",
+    skip: "events",
+    results,
     events,
-    count,
     page,
     pages,
     count,
     location,
-    miles,
-    lat: req.query.lat,
-    lng: req.query.lng
+    distance: miles,
+    lat: coordinates[1],
+    lng: coordinates[0]
   });
 };

@@ -1003,6 +1003,56 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _bling = __webpack_require__(1);
+
+function searchByLocation(locationAutocomplete) {
+  if (!locationAutocomplete) return;
+  var distance = (0, _bling.$)("#distance-select");
+  var input = (0, _bling.$)('[name="geolocate"]');
+  var lat = (0, _bling.$)("#lat");
+  var lng = (0, _bling.$)("#lng");
+  var autocomplete = new google.maps.places.Autocomplete(input);
+
+  // distance.on("change", function() {
+  //   if (!input.value && lat.value && lng.value) {
+  //     lat.value = "";
+  //     lng.value = "";
+  //     document.location.href = "/";
+  //   }
+
+  //   if (lat.value && lng.value && input.value) {
+  //     locationAutocomplete.submit();
+  //   }
+  // });
+
+  autocomplete.addListener("place_changed", function () {
+    var place = autocomplete.getPlace();
+
+    lat.value = place.geometry.location.lat();
+    lng.value = place.geometry.location.lng();
+
+    // locationAutocomplete.submit();
+  });
+
+  // If hit enter do not submit form.
+  input.on("keydown", function (e) {
+    if (e.keyCode === 13) e.preventDefault();
+  });
+}
+
+exports.default = searchByLocation;
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var _axios = __webpack_require__(2);
@@ -1182,7 +1232,7 @@ function renderMarkers(places) {
 exports.default = makeMap;
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1213,7 +1263,6 @@ function displayNavigation(btn) {
 exports.default = displayNavigation;
 
 /***/ }),
-/* 15 */,
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3148,11 +3197,11 @@ var _typeAhead = __webpack_require__(16);
 
 var _typeAhead2 = _interopRequireDefault(_typeAhead);
 
-var _map = __webpack_require__(13);
+var _map = __webpack_require__(14);
 
 var _map2 = _interopRequireDefault(_map);
 
-var _navigation = __webpack_require__(14);
+var _navigation = __webpack_require__(15);
 
 var _navigation2 = _interopRequireDefault(_navigation);
 
@@ -3160,7 +3209,7 @@ var _clearFilters = __webpack_require__(12);
 
 var _clearFilters2 = _interopRequireDefault(_clearFilters);
 
-var _locationSearch = __webpack_require__(39);
+var _locationSearch = __webpack_require__(13);
 
 var _locationSearch2 = _interopRequireDefault(_locationSearch);
 
@@ -3180,57 +3229,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 (0, _clearFilters2.default)((0, _bling.$)("#filterResetButton"));
 
 (0, _locationSearch2.default)((0, _bling.$)("#locationAutocomplete"));
-
-/***/ }),
-/* 38 */,
-/* 39 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _bling = __webpack_require__(1);
-
-function searchByLocation(locationAutocomplete) {
-  if (!locationAutocomplete) return;
-  var distance = (0, _bling.$)("#distance-select");
-  var input = (0, _bling.$)('[name="geolocate"]');
-  var lat = (0, _bling.$)("#lat");
-  var lng = (0, _bling.$)("#lng");
-  var autocomplete = new google.maps.places.Autocomplete(input);
-
-  distance.on("change", function () {
-    if (!input.value && lat.value && lng.value) {
-      lat.value = "";
-      lng.value = "";
-      document.location.href = "/";
-    }
-
-    if (lat.value && lng.value && input.value) {
-      locationAutocomplete.submit();
-    }
-  });
-
-  autocomplete.addListener("place_changed", function () {
-    var place = autocomplete.getPlace();
-
-    lat.value = place.geometry.location.lat();
-    lng.value = place.geometry.location.lng();
-
-    locationAutocomplete.submit();
-  });
-
-  // If hit enter do not submit form.
-  input.on("keydown", function (e) {
-    if (e.keyCode === 13) e.preventDefault();
-  });
-}
-
-exports.default = searchByLocation;
 
 /***/ })
 /******/ ]);

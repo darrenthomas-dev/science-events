@@ -20,11 +20,26 @@ body {
   // border-top: 4px solid #4572af;
 }
 h1 {
-  text-align: center;
+  // text-align: center;
 }
 .content {
   padding: 0 0.5rem;
 }
 
 .inner {
+}
+
+#skip a {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+#skip a:focus {
+  position: static;
+  width: auto;
+  height: auto;
 }

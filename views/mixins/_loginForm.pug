@@ -1,13 +1,13 @@
 mixin loginForm()
-	.inner
+	div(class="inner" id="maincontent")
 		h1 Sign in
 		form(class="form login" action="/login" method="POST")
 			div
 				.fc
-					label(for="email") Email
+					label(for="email") Enter your email:
 					input(type="email" name="email" id="email" autocomplete="username")
 				.fc
-					label(for="password") Password
+					label(for="password") Enter your password:
 					input(type="password" name="password" id="password" autocomplete="current-password")
 				.fc
 					input.button(type="submit" value="Log In")
@@ -15,7 +15,7 @@ mixin loginForm()
 					a(href="/register") Register for free.
 			div.unsplash__container
 				img(src="/images/photos/anatomical-model.jpg" alt="")
-				a.unsplash__link.unsplash__link--right(href="https://unsplash.com/@cadop?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Mathew Schwartz")
+				a(class="unsplash__link unsplash__link--right" href="https://unsplash.com/@cadop?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Mathew Schwartz" aria-hidden=true tabIndex=-1)
 					span
 						!=h.icon("unsplash")
 						span Mathew Schwartz
