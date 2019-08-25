@@ -1007,31 +1007,16 @@ var _bling = __webpack_require__(1);
 
 function searchByLocation(locationAutocomplete) {
   if (!locationAutocomplete) return;
-  var distance = (0, _bling.$)("#distance-select");
   var input = (0, _bling.$)('[name="geolocate"]');
   var lat = (0, _bling.$)("#lat");
   var lng = (0, _bling.$)("#lng");
   var autocomplete = new google.maps.places.Autocomplete(input);
-
-  // distance.on("change", function() {
-  //   if (!input.value && lat.value && lng.value) {
-  //     lat.value = "";
-  //     lng.value = "";
-  //     document.location.href = "/";
-  //   }
-
-  //   if (lat.value && lng.value && input.value) {
-  //     locationAutocomplete.submit();
-  //   }
-  // });
 
   autocomplete.addListener("place_changed", function () {
     var place = autocomplete.getPlace();
 
     lat.value = place.geometry.location.lat();
     lng.value = place.geometry.location.lng();
-
-    // locationAutocomplete.submit();
   });
 
   // If hit enter do not submit form.

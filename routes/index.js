@@ -52,7 +52,12 @@ router.post(
 // Login page
 router.get("/login", userController.loginForm);
 // Login request
-router.post("/login", authController.login);
+// router.post("/login", authController.login);
+router.post(
+  "/login",
+  authController.loginAttempt,
+  catchErrors(eventController.getEvents)
+);
 //  Reset password
 
 //  Admin pages
@@ -152,7 +157,5 @@ router.get(
   "/my-eb-events",
   catchErrors(userController.getUserEventbriteEvents)
 );
-
-router.get("/test", catchErrors(eventController.test));
 
 module.exports = router;

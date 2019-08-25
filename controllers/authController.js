@@ -17,6 +17,15 @@ exports.logout = (req, res) => {
   res.redirect("/");
 };
 
+exports.loginAttempt = () => {
+  passport.authenticate("local"),
+    function(req, res, next) {
+      req.user;
+      req.message = "You are now logged in.";
+      return next();
+    };
+};
+
 exports.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     next();

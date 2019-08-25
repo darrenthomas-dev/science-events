@@ -15,11 +15,6 @@ const userSchema = new Schema({
     validate: [validator.isEmail, "Invalid email address"],
     required: "Please supply an email address."
   },
-  // name: {
-  //   type: String,
-  //   required: "Please supply a name",
-  //   trim: true
-  // },
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   organisation: {

@@ -4,7 +4,14 @@ const multer = require("multer");
 const jimp = require("jimp");
 const uuid = require("uuid");
 const findLatLong = require("find-lat-lng");
-const { displayDate, stripInlineCss, createSlug } = require("../helpers");
+const {
+  displayDate,
+  stripInlineCss,
+  createSlug,
+  constructQuery,
+  convertEventbriteDataToEvent,
+  addEventbriteTicketPricesToEvent
+} = require("../helpers");
 const axios = require("axios");
 
 const multerOptions = {
@@ -514,84 +521,91 @@ exports.addSingleEventbriteEvent = async (req, res) => {
     res.redirect("back");
   }
 
-  const event = {
-    name: eventResponse.data.name.text,
-    summary: eventResponse.data.summary ? eventResponse.data.summary : "",
-    description: eventResponse.data.description.html
-      ? stripInlineCss(eventResponse.data.description.html)
-      : "",
-    organisation: eventResponse.data.organizer.name,
-    start_datetime: new Date(eventResponse.data.start.utc),
-    end_datetime: new Date(eventResponse.data.end.utc),
-    is_free: eventResponse.data.is_free,
-    location: {
-      type: "Point",
-      coordinates: [
-        eventResponse.data.venue.longitude
-          ? parseFloat(eventResponse.data.venue.longitude)
-          : "",
-        eventResponse.data.venue.latitude
-          ? parseFloat(eventResponse.data.venue.latitude)
-          : ""
-      ],
-      address:
-        eventResponse.data.venue.address &&
-        eventResponse.data.venue.address.localized_address_display
-          ? eventResponse.data.venue.address.localized_address_display
-          : ""
-    },
-    website: eventResponse.data.url ? eventResponse.data.url : null,
-    image:
-      eventResponse.data.logo && eventResponse.data.logo.url
-        ? eventResponse.data.logo.url
-        : null,
-    poster:
-      eventResponse.data.logo &&
-      eventResponse.data.logo.original &&
-      eventResponse.data.logo.original.url
-        ? eventResponse.data.logo.original.url
-        : null,
-    display_date: displayDate(
-      new Date(eventResponse.data.start.utc),
-      new Date(eventResponse.data.end.utc)
-    ),
-    eb_id: eventResponse.data.id,
-    eb_organiser_id: eventResponse.data.organizer_id,
-    eb_organisation_id: eventResponse.data.organization_id
-  };
+  const event = convertEventbriteDataToEvent(eventResponse.data);
 
-  const tickets = priceResponse.data.ticket_classes;
-  let prices = [];
-  let donation = false;
+  // const event = {
+  //   name: eventResponse.data.name.text,
+  //   summary: eventResponse.data.summary ? eventResponse.data.summary : "",
+  //   description: eventResponse.data.description.html
+  //     ? stripInlineCss(eventResponse.data.description.html)
+  //     : "",
+  //   organisation: eventResponse.data.organizer.name,
+  //   start_datetime: new Date(eventResponse.data.start.utc),
+  //   end_datetime: new Date(eventResponse.data.end.utc),
+  //   is_free: eventResponse.data.is_free,
+  //   location: {
+  //     type: "Point",
+  //     coordinates: [
+  //       eventResponse.data.venue.longitude
+  //         ? parseFloat(eventResponse.data.venue.longitude)
+  //         : "",
+  //       eventResponse.data.venue.latitude
+  //         ? parseFloat(eventResponse.data.venue.latitude)
+  //         : ""
+  //     ],
+  //     address:
+  //       eventResponse.data.venue.address &&
+  //       eventResponse.data.venue.address.localized_address_display
+  //         ? eventResponse.data.venue.address.localized_address_display
+  //         : ""
+  //   },
+  //   website: eventResponse.data.url ? eventResponse.data.url : null,
+  //   image:
+  //     eventResponse.data.logo && eventResponse.data.logo.url
+  //       ? eventResponse.data.logo.url
+  //       : null,
+  //   poster:
+  //     eventResponse.data.logo &&
+  //     eventResponse.data.logo.original &&
+  //     eventResponse.data.logo.original.url
+  //       ? eventResponse.data.logo.original.url
+  //       : null,
+  //   display_date: displayDate(
+  //     new Date(eventResponse.data.start.utc),
+  //     new Date(eventResponse.data.end.utc)
+  //   ),
+  //   eb_id: eventResponse.data.id,
+  //   eb_organiser_id: eventResponse.data.organizer_id,
+  //   eb_organisation_id: eventResponse.data.organization_id
+  // };
 
-  if (tickets.length > 0) {
-    for (let item of tickets) {
-      if (item.cost) {
-        prices.push(item.cost.major_value);
-      }
-      if (item.donation) {
-        donation = true;
-      }
-    }
+  // const tickets = priceResponse.data.ticket_classes;
+  // let prices = [];
+  // let donation = false;
 
-    prices = prices.map(Number); // convert to numbers
+  event = await addEventbriteTicketPricesToEvent(
+    priceResponse.data.ticket_classes,
+    event
+  );
 
-    event["price_range"] = {
-      min_price: Math.min(...prices),
-      max_price: Math.max(...prices)
-    };
-    event["donation"] = donation;
-  } else {
-    event["donation"] = donation;
-    console.log("no price details, adding donation details.");
-  }
+  // if (tickets.length > 0) {
+  //   for (let item of tickets) {
+  //     if (item.cost) {
+  //       prices.push(item.cost.major_value);
+  //     }
+  //     if (item.donation) {
+  //       donation = true;
+  //     }
+  //   }
 
-  // Add to database if not already
-  try {
-    await new Event(event).save();
-  } catch (err) {
-    console.log("unable to add event, probably already exsits");
-  }
+  //   prices = prices.map(Number); // convert to numbers
+
+  //   event["price_range"] = {
+  //     min_price: Math.min(...prices),
+  //     max_price: Math.max(...prices)
+  //   };
+  //   event["donation"] = donation;
+  // } else {
+  //   event["donation"] = donation;
+  //   console.log("no price details, adding donation details.");
+  // }
+
+  // // Add to database if not already
+  // try {
+  //   await new Event(event).save();
+  // } catch (err) {
+  //   console.log("unable to add event, probably already exsits");
+  // }
 
   // Search for event in database
   const currentEvent = await Event.findOne({ eb_id: event.eb_id });
@@ -615,43 +629,48 @@ exports.getEvents = async (req, res) => {
     req.params.lng,
     req.params.lat
   ];
-  const start = new Date().toISOString().slice(0, 10);
+  // const start = new Date().toISOString().slice(0, 10);
 
-  // Start constructing query
-  let query = {
-    display: true
-  };
+  const query = constructQuery(miles, coordinates);
 
-  query.end_datetime = { $gte: new Date(`${start}T00:00:00Z`) };
+  // let query = {
+  //   display: true
+  // };
 
-  if (miles) {
-    let distance = 0;
+  // // Event end date must not be in the past.
+  // query.end_datetime = { $gte: new Date(`${start}T00:00:00Z`) };
 
-    switch (miles) {
-      case "10":
-        distance = 16093;
-        break;
-      case "20":
-        distance = 32186;
-        break;
-      case "30":
-        distance = 48280;
-        break;
-      case "40":
-        distance = 64373;
-        break;
-    }
+  // // Add distance search to query
+  // query = addLocationToQuery(miles, coordinates, query);
 
-    query.location = {
-      $near: {
-        $geometry: {
-          type: "Point",
-          coordinates
-        },
-        $maxDistance: distance
-      }
-    };
-  }
+  // if (miles) {
+  //   let distance = 0;
+
+  //   switch (miles) {
+  //     case "10":
+  //       distance = 16093;
+  //       break;
+  //     case "20":
+  //       distance = 32186;
+  //       break;
+  //     case "30":
+  //       distance = 48280;
+  //       break;
+  //     case "40":
+  //       distance = 64373;
+  //       break;
+  //   }
+
+  //   query.location = {
+  //     $near: {
+  //       $geometry: {
+  //         type: "Point",
+  //         coordinates
+  //       },
+  //       $maxDistance: distance
+  //     }
+  //   };
+  // }
 
   console.log(query);
 
