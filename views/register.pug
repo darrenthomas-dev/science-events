@@ -3,28 +3,26 @@ extends layout
 block content
 	.inner
 		h1 Register for free!
-		form(class="form register" action="/register" method="POST")
-			div.unsplash__container
-				img(src="/images/photos/nasa-earth-from-space.jpg" alt="")
+		form(class="form flexbox" action="/register" method="POST")
+			.form__details.flexbox__item
+
+				label(class="form__label" for="email") Email Address:
+				input(class="form__input" type="email" name="email" id="email" autocomplete="username" required autofocus)
+
+				label(class="form__label" for="password") Set a password (10 characters minimum):
+				input(class="form__input" type="password" name="password" id="password" minlength="10" autocomplete="new-password" pattern="(?=.*[a-z])(?=.*[A-Z]).{10,}" required)
+
+				label(class="form__label" for="password-confirm") Confirm Password:
+				input(class="form__input" type="password" name="password-confirm" id="password-confirm" autocomplete="new-password" pattern="(?=.*[a-z])(?=.*[A-Z]).{10,}" required)
+
+				input(class="form__input button" type="submit" value="Sign up for free")
+
+			.flexbox__item.unsplash
+				img(class="form__img" src="/images/photos/nasa-earth-from-space.jpg" alt="")
 				a.unsplash__link(href="https://unsplash.com/@nasa?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from NASA")
 					span
 						!=h.icon("unsplash")
-						span NASA
-			.form__inner
-				.fc
-					label(for="email") Email Address:
-					input(type="email" name="email" id="email" autocomplete="username" required)
-				.fc
-					label(for="password") Set a password (10 characters minimum):
-					input(type="password" name="password" id="password" minlength="10" autocomplete="new-password" pattern="(?=.*[a-z])(?=.*[A-Z]).{10,}"
-					
-					required)
-				.fc
-					label(for="password-confirm") Confirm Password:
-					input(type="password" name="password-confirm" id="password-confirm" autocomplete="new-password" pattern="(?=.*[a-z])(?=.*[A-Z]).{10,}" required)
-				.fc
-					input.button(type="submit" value="Sign up for free")
-					input(class="button button__google--signup" type="submit" value="Sign up using Google")
-		.info
-			p Already have an account? 
-				a(href="/login") Sign in here.
+						span NASA					
+
+		p.info Already have an account? 
+			a(href="/login") Sign in here.

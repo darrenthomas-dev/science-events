@@ -3,6 +3,7 @@ extends layout
 include mixins/_eventCard
 include mixins/_locationSearch
 include mixins/_pagination
+include mixins/_footer
 
 block content
 	
@@ -17,3 +18,6 @@ block content
 				each event in events
 					+eventCard(event)
 			+pagination(page, pages, count, parentSlug, lat, lng, location, distance)
+
+block footer
+	+footer()

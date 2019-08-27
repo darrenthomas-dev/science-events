@@ -52,12 +52,12 @@ router.post(
 // Login page
 router.get("/login", userController.loginForm);
 // Login request
-// router.post("/login", authController.login);
-router.post(
-  "/login",
-  authController.loginAttempt,
-  catchErrors(eventController.getEvents)
-);
+router.post("/login", authController.login);
+// router.post(
+//   "/login",
+//   authController.loginAttempt,
+//   catchErrors(eventController.getEvents)
+// );
 //  Reset password
 
 //  Admin pages

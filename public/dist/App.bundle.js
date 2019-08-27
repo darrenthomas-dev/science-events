@@ -1183,10 +1183,10 @@ function renderMarkers(places) {
       var html = "<div class='popup'>";
 
       for (var i = 0; i < this.place.length; i++) {
-        html += "\n        <div class=\"popup__event" + (i > 0 ? " hide" : "") + "\">\n          <h3>" + this.place[i].name + "</h3>\n          <p><em>" + this.place[i].organisation + "</em></p>\n          <p>" + this.place[i].location.address + "</p>\n            </div>";
+        html += "\n        <div class=\"popup__event" + (i > 0 ? " hide" : "") + "\">\n          <img src=" + this.place[i].image + " alt=\"\">          \n          <h3>" + this.place[i].name + "</h3>\n          <p><em>" + this.place[i].organisation + "</em></p>\n          <p>" + this.place[i].location.address + "</p>\n            </div>";
       }
 
-      html += (this.place.length > 1 ? '<button class="button info__button">Next</button>' : "") + "</div>";
+      html += (this.place.length > 1 ? '<button class="button">Next</button>' : "") + "</div>";
 
       infoWindow.setContent(html);
       infoWindow.open(map, this);

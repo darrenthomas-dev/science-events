@@ -1,0 +1,6 @@
+.flexbox {
+  display: flex;
+  &__item {
+    flex-basis: 50%;
+  }
+}

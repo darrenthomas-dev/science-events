@@ -140,6 +140,7 @@ function renderMarkers(places) {
       for (let i = 0; i < this.place.length; i++) {
         html += `
         <div class="popup__event${i > 0 ? " hide" : ""}">
+          <img src=${this.place[i].image} alt="">          
           <h3>${this.place[i].name}</h3>
           <p><em>${this.place[i].organisation}</em></p>
           <p>${this.place[i].location.address}</p>
@@ -147,9 +148,7 @@ function renderMarkers(places) {
       }
 
       html += `${
-        this.place.length > 1
-          ? '<button class="button info__button">Next</button>'
-          : ""
+        this.place.length > 1 ? '<button class="button">Next</button>' : ""
       }</div>`;
 
       infoWindow.setContent(html);

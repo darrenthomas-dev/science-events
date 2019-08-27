@@ -4,9 +4,10 @@ mixin filters()
 		h3.offscreen Filters
 		.searchOrganisation
 			label(for="organisationSearch") Search by event name or organisation:
-			input.search__input(type="text" id="organisationSearch" name="search_organisation")
+			input(class="search__input" type="text" id="organisationSearch" name="search_organisation")
 			button.button
-				!= h.icon('tuning')
+				span.button--icon
+					!= h.icon('tuning')
 				| Filters
 		.advanced__filters
 			//- TODO filters should be and or.
