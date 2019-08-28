@@ -55,7 +55,8 @@ router.get("/login", userController.loginForm);
 router.post("/login", authController.login);
 // router.post(
 //   "/login",
-//   authController.loginAttempt,
+//   authController.login2,
+//   catchErrors(authController.loginUser)
 //   catchErrors(eventController.getEvents)
 // );
 //  Reset password
@@ -68,21 +69,26 @@ router.get("/logout", authController.logout);
 // Account page
 router.get("/account", authController.isLoggedIn, userController.account);
 
-// Password Reset page
-router.get("/password-reset", authController.passwordReset);
+/* ------------------------------------ */
+/* PASSWORD RESET FLOW
+/* ------------------------------------ */
 
-// Password reset DELETE THIS IF ALL IS WORKING FINE
-router.get("/account/reset/:token", catchErrors(authController.reset));
-
-// Password reset request
+// 1. Page to request a password reset
+router.get("/account/forgot", authController.getPasswordReset);
+// 2. Post request to send reset tokens
 router.post("/account/forgot", catchErrors(authController.forgot));
-
-// Password token
+// 3. Page to actually reset password (requires token)
+router.get("/account/reset/:token", catchErrors(authController.reset));
+// 4. Post request to update passwords
 router.post(
   "/account/reset/:token",
   authController.confirmedPasswords,
   catchErrors(authController.update)
 );
+
+/* ------------------------------------ */
+/* Account Page
+/* ------------------------------------ */
 
 // Update account details
 router.post(
@@ -95,7 +101,10 @@ router.post(
 // Delete account
 router.post("/delete", catchErrors(userController.deleteAccount));
 
-// Map page
+/* ------------------------------------ */
+/* MAP PAGE
+/* ------------------------------------ */
+
 router.get("/map", eventController.mapPage);
 
 // Admin page
@@ -120,6 +129,10 @@ router.post(
   adminController.deleteAllPendingEvents
 );
 
+/* ------------------------------------ */
+/* EVENTBRITE EVENTS
+/* ------------------------------------ */
+
 // Get Eventbrite events
 router.post(
   "/admin/get-eventbrite-events",
@@ -140,7 +153,10 @@ router.post(
   catchErrors(adminController.deleteExpiredEvents)
 );
 
-// API
+/* ------------------------------------ */
+/* API
+/* ------------------------------------ */
+
 router.get("/api/search", catchErrors(eventController.searchEvents));
 router.get(
   "/api/search/organisation",

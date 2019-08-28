@@ -7,7 +7,7 @@ mixin pagination(page, pages, count, parentSlug, lat, lng, location, distance)
 				else
 					a(href=`/${parentSlug}/page/${page - 1}`) Previous page
 		.pagination__text
-			p Page #{page} of #{pages}.
+			p Page #{page} of #{pages}
 		.pagination__next
 			if page < pages
 				if (distance)

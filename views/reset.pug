@@ -3,23 +3,23 @@ extends layout
 block content
 	.inner
 		h1 Reset Your Password
-		form(class="form flexbox" action="/account/forgot" method="POST")
+		form(class="form flexbox" method="POST")
 			.form__details.flexbox__item
 
-					label(class="form__label" for="email") Email
-					input(class="form__input" type="email" name="email" id="email" autocomplete="username")
+					label(class="form__label" for="email") Enter your email address:
+					input(class="form__input" type="email" name="email" id="email" autocomplete="username" required autofocus)
 
-					label(class="form__label" for="password") Password
-					input(class="form__input" type="password" name="password" id="password" autocomplete="new-password")
+					label(class="form__label" for="password") Enter a new password:
+					input(class="form__input" type="password" name="password" id="password" autocomplete="new-password" required)
 
-					label(class="form__label" for="password-confirm") Confirm Password
-					input(class="form__input" type="password" name="password-confirm" autocomplete="new-password")
+					label(class="form__label" for="password-confirm") Confirm your new password:
+					input(class="form__input" type="password" name="password-confirm" autocomplete="new-password" required)
 
 					input(class="form__input button" type="submit" value="Reset Password" class="button")
 					
 			.flexbox__item.unsplash
-				img(class="form__img" src="/images/photos/nasa-earth-from-space.jpg" alt="")
-				a.unsplash__link(href="https://unsplash.com/@nasa?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from NASA")
+				img(class="form__img" src="/images/photos/anatomical-model.jpg" alt="")
+				a(class="unsplash__link" href="https://unsplash.com/@cadop?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Mathew Schwartz" aria-hidden=true tabIndex=-1)
 					span
 						!=h.icon("unsplash")
-						span NASA
+						span Mathew Schwartz

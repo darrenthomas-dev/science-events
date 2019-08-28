@@ -12,7 +12,8 @@
   max-width: 400px;
   margin: 0 auto 2rem auto;
   background-color: #fff;
-  box-shadow: 2px 2px 6px 1px #d4d4d4;
+  box-shadow: 4px 1px 6px 1px #d4d4d4;
+  padding-bottom: 24px;
   &__edit {
     float: right;
     color: #ffffff;
@@ -35,10 +36,11 @@
   }
   &__item {
     margin-left: 0;
-    margin-bottom: 8px;
+    margin-bottom: 16px;
     padding: 0 1rem;
     display: flex;
     align-items: center;
+    line-height: 1.6;
   }
   &__icon {
     margin-right: 2px;

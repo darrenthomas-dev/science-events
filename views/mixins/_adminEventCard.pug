@@ -1,60 +1,51 @@
 mixin adminEventCard(event = {})
-	.event
-		.event__hero
-			.event__actions
-				if user 
-					if user.admin === true || (event.author && event.author.equals(user._id))
-						.event__action.event__action--edit
-							a(href=`/events/${event._id}/edit` target="_blank")
-								!= h.icon('pencil') 
-			// donation banner
-			if event.eb_id
-				img(src=`${event.image || '/uploads/store.png'}`)
+	.event.admin-event
+		if user 
+			if user.admin || (event.author && event.author.equals(user._id))
+				.event__edit
+					a(class="event__link" href=`/event/${event._id}/edit`)
+						span.event__icon
+							!= h.icon('pencil')
+						| Edit
+		if event.eb_id
+			img(class="event__img" src=`${event.image || '/uploads/store.png'}` alt="")
+		else
+			img(class="event__img" src=`/uploads/${event.image || 'store.png'}` alt="")
+		if user
+			if user.admin || (event.author && event.author.equals(user._id))
+				if event.end_datetime < new Date()
+					p.text--warning: em This event has expired and will soon be deleted.
+		h3.event__title
+			if (event.slug === "")
+				a(href=event.website) #{event.name}
 			else
-				img(src=`/uploads/${event.image || 'store.png'}`)
-		.event__details
-			.event__title
-				h3.title
-					a(href=`/event/${event.slug}`) #{event.name}
-			.event__organiser
-				p= event.organisation
-			.event__description
-				.event__location
-					p
-						!= h.icon('location')
-						span=	event.location.address
-				.event__date
-					p
-						!= h.icon('calendar')
-						span= event.display_date
-				// price
-				if event.price
-					.event__price
-						-const price = Number(event.price).toFixed(2)
-						p
-							!= h.icon('ticket')
-							span= `£${price}`
-				// price range
-				if event.price_range && event.price_range.max_price
-					-const min = Number(event.price_range.min_price).toFixed(2)
-					-const max = Number(event.price_range.max_price).toFixed(2)
-					.event__price
-						p
-							!= h.icon('ticket')
-							if (min === '0.00')
-								span= `Free - £${max}`
-							else	
-								span= `£${min} - £${max}`
-				// free
-				if event.is_free
-					.event__free
-						p Free
+				a(href=`/event/${event.slug}`) #{event.name}
+		dl.event__details.admin-event__details
+			dt.offscreen Organiser:
+			dd.event__item.event__item--organiser #{event.organisation}
+			dt.offscreen Address:
+			dd.event__item
+				span.event__icon
+					!= h.icon('location')
+				= event.location.address
+			dt.offscreen Event date:
+			dd.event__item
+				span.event__icon
+					!= h.icon('calendar')
+				= event.display_date
+			//- Free
+			if event.is_free
+				dt.offscreen Price:
+				dd(class="event__item event__item--free") Free
 
-			p= event.summary
-			p
-				a(href=`/event/${event.slug}` target="_blank") View more details
+			dt.offscreen Summary:
+			dd(class="event__item")= event.summary
+			dt.offscreen Link:
+			dd(class="event__item"): a(href=event.website target="_blank") View more details
 
-		label(for=`add_${event._id}`) Add event
-		input(type="checkbox", id=`add_${event._id}` name="display_true", value=event.eb_id)
-		label(for=`remove_${event._id}`) Remove event
-		input(type="checkbox", id=`remove_${event._id}` name="display_false", value=event._id)
+		.admin-event__add-remove
+			label(for=`add_${event._id}`) Add event
+			input(type="checkbox", id=`add_${event._id}` name="display_true", value=event.eb_id)
+			label(for=`remove_${event._id}`) Remove event
+			input(type="checkbox", id=`remove_${event._id}` name="display_false", value=event._id)
+			

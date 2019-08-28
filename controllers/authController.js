@@ -7,7 +7,6 @@ const mail = require("../handlers/mail");
 
 exports.login = passport.authenticate("local", {
   successRedirect: "/",
-  successFlash: "Welcome!",
   failureRedirect: "/login",
   failureFlash: "Incorrect username or password."
 });
@@ -17,13 +16,29 @@ exports.logout = (req, res) => {
   res.redirect("/");
 };
 
-exports.loginAttempt = () => {
-  passport.authenticate("local"),
-    function(req, res, next) {
-      req.user;
-      req.message = "You are now logged in.";
-      return next();
-    };
+exports.login2 = function(req, res, next) {
+  passport.authenticate("local", function(err, user, info) {
+    console.log(user);
+    if (!user) {
+      console.log("Failed!");
+    } else {
+      req.login(user, function(err) {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        next();
+        return;
+      });
+    }
+  })(req, res, next);
+};
+
+exports.loginUser = async (req, next) => {
+  await req.login(user);
+  req.title = "You are logged now in.";
+  next();
+  return;
 };
 
 exports.isLoggedIn = (req, res, next) => {
@@ -33,6 +48,10 @@ exports.isLoggedIn = (req, res, next) => {
   }
   req.flash("error", "Oops you must be logged in to do that!");
   res.redirect("/login");
+};
+
+exports.getPasswordReset = (req, res) => {
+  res.render("forgot");
 };
 
 exports.forgot = async (req, res) => {

@@ -10,6 +10,7 @@ block content
 				input(class="form__input" type="email" name="email" id="email" autocomplete="username" required autofocus)
 
 				label(class="form__label" for="password") Set a password (10 characters minimum):
+				p.tip Must have 10 characters or more, including at least 1 letter and number.
 				input(class="form__input" type="password" name="password" id="password" minlength="10" autocomplete="new-password" pattern="(?=.*[a-z])(?=.*[A-Z]).{10,}" required)
 
 				label(class="form__label" for="password-confirm") Confirm Password:

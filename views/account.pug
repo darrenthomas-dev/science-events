@@ -1,29 +1,26 @@
 extends layout
 
 block content
-	//- pre=h.dump(user)
 	.inner
 		h2 Edit Your Account
-		form(method="POST")
-
-			//- User Name
-			label(for="name") Name
-			input(type="text" name="name" id="name" value=user.name)
+		form(class="form" method="POST")
 
 			//- User email address
-			label(for="email") Email Address
-			input(type="email" name="email" value=user.email)
-			hr
+			label(class="form__label" for="email") Email Address
+			input(class="form__input" type="email" name="email" value=user.email)
 
-			h3 Optional Event information
+			p: a(href="") Change password.
+
+			h3.mb-0 Optional event information
+			p.tip Information entered here will appear on the create event form. 
 
 			//- Organistaion
-			label(for="name") Organisation
-			input(type="text" name="organisation" id="organisation" value=user.organisation)
+			label(class="form__label" for="name") Organisation
+			input(class="form__input" type="text" name="organisation" id="organisation" value=user.organisation)
 
 			//- Address
-			label(for="address") Event address
-			input(type="text" id="address" name="address" value=user.address)
+			label(class="form__label" for="address") Event address
+			input(class="form__input" type="text" id="address" name="address" value=user.address)
 
 			//- //- Image upload
 			//- label(for="image") Image
@@ -32,7 +29,7 @@ block content
 			//- 	img(src=`/uploads/${user.image}`, alt='' width=200)
 
 			//- Update
-			input.button(type="submit" formaction="/account" value="Update My Account")
+			input.button(class="form__input" type="submit" formaction="/account" value="Update My Account")
 
 			hr
 
@@ -46,4 +43,4 @@ block content
 			h3 Delete Account
 
 			//- Delete Account
-			input.button(type="submit" formaction="/delete" value="Delete My Account" class="button button__danger")
+			input(class="" type="submit" formaction="/delete" value="Delete My Account" disabled)

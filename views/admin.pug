@@ -4,29 +4,28 @@ include mixins/_adminEventCard
 include mixins/_pagination
 
 block content
-	h2 #{title}
+	.inner
+		h1.offscreen #{title}
 
-	if expiredCount
-		h2 Expired events #{expiredCount} 
-		form.form(action="/admin/expired-events" method="POST")
-			p Click here to delete all expired events.
-			input(class="button button__danger" type="submit" value="Delete expired events" disabled=(expiredCount ===  0 ? true : false))
+		if expiredCount
+			form(class="form" action="/admin/expired-events" method="POST")
+				h2 Expired events #{expiredCount} 
+				input(class="form_input button" type="submit" value="Delete all expired events" disabled=(expiredCount ===  0 ? true : false))
 
-	form(class="form card" method="POST")
-		.fc
+		form(class="form eb__form" method="POST")
+			h2 Eventbrite science events
 			p Events are pulled in starting from tomorrows date, please supply an end date.
-			label(for="endDate") End date:
-			input(type="date" id="endDate" name="end_date")
-			input(type="submit" class="button" formaction="/admin/get-eventbrite-events" value="Get EventBrite Events")
+			label(class="form__label" for="endDate") End date:
+			input(class="form__input" type="date" id="endDate" name="end_date")
+			input(class="form__input button" type="submit" class="button" formaction="/admin/get-eventbrite-events" value="Get EventBrite Events")
 
 	h2 Pending events #{pendingCount} 
 	if pendingCount
-		form(class="form" method="POST")
+		form(method="POST")
 			.events
 				each event in events
 					+adminEventCard(event)
-			input(type="submit", formaction=`/admin` value="Update", class="button")
-			input(type="submit", formaction="/admin/delete-all-pending" value="Delete all pending events", class="button")
+			.inner.flexbox
+				input(class="form__input button eb__update" type="submit", formaction=`/admin` value="Update")
+				input(class="form__input button button--danger eb__delete" type="submit", formaction="/admin/delete-all-pending" value="Delete all pending events")
 			+pagination(page, pages, count, parentSlug)
-	else
-		p Good job little buddy! You are all up to date.

@@ -4,10 +4,12 @@
   padding: 16px;
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
   &__details {
-    padding: 42px;
+    padding: 0 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 450px;
+    margin: 0 auto;
   }
   &__img {
     width: 450px;

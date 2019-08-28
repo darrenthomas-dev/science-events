@@ -1,2 +1,28 @@
-.event__free {
+.eb__form {
+  max-width: 333px;
+  margin: 42px;
+}
+.eb__update {
+  order: 2;
+}
+.eb__delete {
+  order: 1;
+}
+
+.admin-event {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0;
+  border-bottom: none;
+  &__details {
+    flex: 1;
+  }
+  &__add-remove {
+    width: 100%;
+    background: #bad2e6;
+    padding: 16px;
+    label {
+      color: #1c242b;
+    }
+  }
 }
