@@ -18,9 +18,7 @@ exports.dump = obj => JSON.stringify(obj, null, 2);
 
 // Making a static map is really long - this is a handy helper function to make one
 exports.staticMap = ([lng, lat]) =>
-  `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=14&size=800x150&key=${
-    process.env.MAP_KEY
-  }&markers=${lat},${lng}&scale=2`;
+  `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=14&size=800x150&key=${process.env.MAP_KEY}&markers=${lat},${lng}&scale=2`;
 
 // inserting an SVG
 exports.icon = name => fs.readFileSync(`./public/images/icons/${name}.svg`);
@@ -166,7 +164,7 @@ exports.convertEventbriteDataToEvent = data => {
     name: data.name.text,
     summary: data.summary ? data.summary : "",
     description: data.description.html
-      ? stripInlineCss(data.description.html)
+      ? this.stripInlineCss(data.description.html)
       : "",
     organisation: data.organizer.name,
     start_datetime: new Date(data.start.utc),
@@ -189,7 +187,10 @@ exports.convertEventbriteDataToEvent = data => {
       data.logo && data.logo.original && data.logo.original.url
         ? data.logo.original.url
         : null,
-    display_date: displayDate(new Date(data.start.utc), new Date(data.end.utc)),
+    display_date: this.displayDate(
+      new Date(data.start.utc),
+      new Date(data.end.utc)
+    ),
     eb_id: data.id,
     eb_organiser_id: data.organizer_id,
     eb_organisation_id: data.organization_id
@@ -198,7 +199,7 @@ exports.convertEventbriteDataToEvent = data => {
   return event;
 };
 
-exports.addEventbriteTicketPricesToEvent = async (tickets, event) => {
+exports.addEventbriteTicketPricesToEvent = (tickets, event) => {
   let prices = [];
   let donation = false;
 
@@ -224,12 +225,12 @@ exports.addEventbriteTicketPricesToEvent = async (tickets, event) => {
     console.log("no price details, adding donation details.");
   }
 
-  // Add to database if not already
-  try {
-    await new Event(event).save();
-  } catch (err) {
-    console.log("unable to add event, probably already exsits");
-  }
+  // // Add to database if not already
+  // try {
+  //   await new Event(event).save();
+  // } catch (err) {
+  //   console.log("unable to add event, probably already exsits");
+  // }
 
   return event;
 };

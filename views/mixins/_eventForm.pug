@@ -7,7 +7,7 @@ mixin eventForm(event = {})
 					a(href="https://www.eventbrite.co.uk/support/articles/en_US/How_To/how-to-find-the-event-id" target="_blank" rel="noopener noreferrer") here.
 				label(class="form__label" for="ebEventId") Eventbrite event id:
 				.flexbox
-					input(class="form__input form__input--sml" type="text" id="ebEventId" name="eb_event_id")
+					input(class="form__input form__input--sml" type="text" id="ebEventId" name="eb_event_id" value=`${event.eb_id || ""}` autofocus)
 					input(class="form__input form__input--sml button" type="submit" value="Get details")
 
 	form(action=`/add/${event._id || ''}` method="POST" class="form" enctype="multipart/form-data")
@@ -16,17 +16,11 @@ mixin eventForm(event = {})
 
 		//- Event Name
 		label(class="form__label" for="event") Event name*
-		input(class="form__input" type="text" id="event" name="name" value=event.name)
+		input(class="form__input" type="text" id="event" name="name" value=event.name autofocus)
 
 		//- Organisation Name
 		label(class="form__label" for="organisation") Organisation*
 		input(class="form__input" type="text" id="organisation" name="organisation" value=event.organisation || user.organisation)
-
-		//- Description (tinyMCE)
-		.text--editor
-			label(class="form__label" for="description") Description
-			span Add a description of your event.
-			textarea(name="description" id="description")= event.description
 
 		.flexbox
 			div
@@ -79,6 +73,12 @@ mixin eventForm(event = {})
 		p.tag.tag__choice
 			input(type="checkbox" id="free" name="is_free" value="true" checked=(event.is_free === "true"))
 			label(for="free") Free
+
+		//- Description (tinyMCE)
+		.text--editor
+			label(class="form__label" for="description") Description
+			p Important: Adding a description will create an event page on Science Near Me. If you would prefer for your event to link directly to an external site then leave the description blank.
+			textarea(name="description" id="description")= event.description
 			
 		//- Submit
 		input(class="form__input button" type="submit" value="Save" class="button")
@@ -86,4 +86,4 @@ mixin eventForm(event = {})
 	//- Delete event
 	if (event._id)
 		form(action=`/events/${event._id}/delete` method="POST" class="form")
-			input(class="form__input button" type="submit" value="Delete event" class="button button__danger")
+			input(class="" type="submit" value="Delete event")

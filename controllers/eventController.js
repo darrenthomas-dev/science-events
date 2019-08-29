@@ -73,9 +73,7 @@ exports.createEvent = async (req, res) => {
   const event = await new Event(req.body).save();
   req.flash(
     "success",
-    `Event <a href="/event/${event.slug}">${
-      event.name
-    }</a> has been successfully created.`
+    `Event <a href="/event/${event.slug}">${event.name}</a> has been successfully created.`
   );
   res.redirect("back");
 };
@@ -496,14 +494,10 @@ exports.addSingleEventbriteEvent = async (req, res) => {
   }
 
   // Single event details url
-  const eventUrl = `https://www.eventbriteapi.com/v3/events/${ebEventId}/?expand=organizer,venue&token=${
-    process.env.EVENTBRITE_KEY
-  }`;
+  const eventUrl = `https://www.eventbriteapi.com/v3/events/${ebEventId}/?expand=organizer,venue&token=${process.env.EVENTBRITE_KEY}`;
 
   // Price range url
-  const priceUrl = `https://www.eventbriteapi.com/v3/events/${ebEventId}/ticket_classes/?token=${
-    process.env.EVENTBRITE_KEY
-  }`;
+  const priceUrl = `https://www.eventbriteapi.com/v3/events/${ebEventId}/ticket_classes/?token=${process.env.EVENTBRITE_KEY}`;
 
   // Add GET requests to promise
   const eventPromise = axios.get(eventUrl);
@@ -521,98 +515,31 @@ exports.addSingleEventbriteEvent = async (req, res) => {
     res.redirect("back");
   }
 
-  const event = convertEventbriteDataToEvent(eventResponse.data);
-
-  // const event = {
-  //   name: eventResponse.data.name.text,
-  //   summary: eventResponse.data.summary ? eventResponse.data.summary : "",
-  //   description: eventResponse.data.description.html
-  //     ? stripInlineCss(eventResponse.data.description.html)
-  //     : "",
-  //   organisation: eventResponse.data.organizer.name,
-  //   start_datetime: new Date(eventResponse.data.start.utc),
-  //   end_datetime: new Date(eventResponse.data.end.utc),
-  //   is_free: eventResponse.data.is_free,
-  //   location: {
-  //     type: "Point",
-  //     coordinates: [
-  //       eventResponse.data.venue.longitude
-  //         ? parseFloat(eventResponse.data.venue.longitude)
-  //         : "",
-  //       eventResponse.data.venue.latitude
-  //         ? parseFloat(eventResponse.data.venue.latitude)
-  //         : ""
-  //     ],
-  //     address:
-  //       eventResponse.data.venue.address &&
-  //       eventResponse.data.venue.address.localized_address_display
-  //         ? eventResponse.data.venue.address.localized_address_display
-  //         : ""
-  //   },
-  //   website: eventResponse.data.url ? eventResponse.data.url : null,
-  //   image:
-  //     eventResponse.data.logo && eventResponse.data.logo.url
-  //       ? eventResponse.data.logo.url
-  //       : null,
-  //   poster:
-  //     eventResponse.data.logo &&
-  //     eventResponse.data.logo.original &&
-  //     eventResponse.data.logo.original.url
-  //       ? eventResponse.data.logo.original.url
-  //       : null,
-  //   display_date: displayDate(
-  //     new Date(eventResponse.data.start.utc),
-  //     new Date(eventResponse.data.end.utc)
-  //   ),
-  //   eb_id: eventResponse.data.id,
-  //   eb_organiser_id: eventResponse.data.organizer_id,
-  //   eb_organisation_id: eventResponse.data.organization_id
-  // };
-
-  // const tickets = priceResponse.data.ticket_classes;
-  // let prices = [];
-  // let donation = false;
-
-  event = await addEventbriteTicketPricesToEvent(
+  // Convert response into an object with required values
+  let event = convertEventbriteDataToEvent(eventResponse.data);
+  // Add ticket detail to event
+  event = addEventbriteTicketPricesToEvent(
     priceResponse.data.ticket_classes,
     event
   );
 
-  // if (tickets.length > 0) {
-  //   for (let item of tickets) {
-  //     if (item.cost) {
-  //       prices.push(item.cost.major_value);
-  //     }
-  //     if (item.donation) {
-  //       donation = true;
-  //     }
-  //   }
-
-  //   prices = prices.map(Number); // convert to numbers
-
-  //   event["price_range"] = {
-  //     min_price: Math.min(...prices),
-  //     max_price: Math.max(...prices)
-  //   };
-  //   event["donation"] = donation;
-  // } else {
-  //   event["donation"] = donation;
-  //   console.log("no price details, adding donation details.");
-  // }
-
-  // // Add to database if not already
-  // try {
-  //   await new Event(event).save();
-  // } catch (err) {
-  //   console.log("unable to add event, probably already exsits");
-  // }
+  // Add to database if not already
+  try {
+    await new Event(event).save();
+  } catch (err) {
+    console.log("unable to add event, probably already exsits");
+  }
 
   // Search for event in database
   const currentEvent = await Event.findOne({ eb_id: event.eb_id });
 
   // Return if event is already assigned to an organiser
+
+  // TODO
+  // If user is the author then check my events page
+
   if (req.user.admin && currentEvent["author"]) {
-    req.flash("error", `This event has been assigned to an author.`);
+    req.flash("error", `This event has already been assigned to an author.`);
     res.redirect("back");
   }
 

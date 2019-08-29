@@ -32,8 +32,7 @@ router.post(
   catchErrors(eventController.resize),
   catchErrors(eventController.updateEvent)
 );
-// router.post("/events/eb", catchErrors(eventController.getEventByEventbriteId));
-router.post("/eb/add", catchErrors(eventController.addSingleEventbriteEvent));
+
 // Delete an event
 router.post("/events/:id/delete", catchErrors(eventController.deleteEvent));
 // Single event page
@@ -139,6 +138,11 @@ router.post(
   authController.isLoggedIn,
   catchErrors(adminController.getEventbriteEvents)
 );
+
+// router.post("/events/eb", catchErrors(eventController.getEventByEventbriteId));
+
+// Post request to add details to submit form
+router.post("/eb/add", catchErrors(eventController.addSingleEventbriteEvent));
 
 // Paginated admin event pages
 router.get(
