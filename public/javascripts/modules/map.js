@@ -1,21 +1,12 @@
 import axios from "axios";
 import { $ } from "./bling";
-import {
-  renderEvents,
-  nextEvent,
-  clearOverlays,
-  filterPlaces
-} from "./helpers";
+import { nextEvent, clearOverlays } from "./helpers";
 
 if ($("#map")) {
   var places;
   var miles;
 
   var mapOptions = {
-    center: {
-      lat: 54.043667,
-      lng: -2.488511
-    },
     zoom: 5,
     maxZoom: 18
   };
@@ -54,20 +45,6 @@ function makeMap(mapDiv) {
     }
   );
 
-  // Event Listeners
-
-  // Search by keyword (event name and organisation)
-  $("#organisationSearch").addEventListener("input", function() {
-    renderEvents(filterPlaces(places));
-    renderMarkers(filterPlaces(places));
-  });
-
-  // Toggle free
-  $("#free").on("click", function() {
-    renderEvents(filterPlaces(places));
-    renderMarkers(filterPlaces(places));
-  });
-
   // Distance changed
   $("#distance-select").on("change", function() {
     miles = this.querySelector('input[name="distance"]:checked').value;
@@ -105,10 +82,6 @@ function loadPlaces(lat = 54.043667, lng = -2.488511, miles = false) {
         return;
       }
 
-      // Check for any filters that may be applied
-      places = filterPlaces(places);
-
-      renderEvents(places);
       renderMarkers(places);
     });
 }
@@ -162,14 +135,12 @@ function renderMarkers(places) {
       const lat = this.place[0].location.coordinates[1];
       const lng = this.place[0].location.coordinates[0];
 
-      console.log(places);
-      renderEvents(filterPlaces(places, lat, lng));
-
       let html = "<div class='popup'>";
 
       for (let i = 0; i < this.place.length; i++) {
         html += `
         <div class="popup__event${i > 0 ? " hide" : ""}">
+          <img src=${this.place[i].image} alt="">          
           <h3>${this.place[i].name}</h3>
           <p><em>${this.place[i].organisation}</em></p>
           <p>${this.place[i].location.address}</p>
@@ -177,9 +148,7 @@ function renderMarkers(places) {
       }
 
       html += `${
-        this.place.length > 1
-          ? '<button class="button info__button">Next</button>'
-          : ""
+        this.place.length > 1 ? '<button class="button">Next</button>' : ""
       }</div>`;
 
       infoWindow.setContent(html);
@@ -191,12 +160,6 @@ function renderMarkers(places) {
   //   const currentLatLng = new google.maps.LatLng(lat, lng);
   //   currentLocationMarker.setPosition(currentLatLng);
   // }
-
-  // Show all events (within specified distance) on marker close
-  google.maps.event.addListener(infoWindow, "closeclick", function() {
-    renderEvents(filterPlaces(places));
-    // renderMarkers(filterPlaces(places));
-  });
 
   const clusterOptions = {
     gridSize: 20,

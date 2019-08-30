@@ -26,13 +26,16 @@ exports.send = async options => {
   const html = generateHTML(options.filename, options);
   const text = htmlToText.fromString(html);
 
-  const mailOptions = {
-    from: "Science Near Me <sciencenearme@gmail.com>",
+  const sgMail = require("@sendgrid/mail");
+  sgMail.setApiKey(process.env.MAIL_PASS);
+
+  const msg = {
     to: options.user.email,
+    from: "Science Near Me <sciencenearme@gmail.com>",
     subject: options.subject,
     html,
     text
   };
   const sendMail = promisify(transport.sendMail, transport);
-  return sendMail(mailOptions);
+  return sendMail(msg);
 };

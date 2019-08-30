@@ -1003,6 +1003,41 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _bling = __webpack_require__(1);
+
+function searchByLocation(locationAutocomplete) {
+  if (!locationAutocomplete) return;
+  var input = (0, _bling.$)('[name="geolocate"]');
+  var lat = (0, _bling.$)("#lat");
+  var lng = (0, _bling.$)("#lng");
+  var autocomplete = new google.maps.places.Autocomplete(input);
+
+  autocomplete.addListener("place_changed", function () {
+    var place = autocomplete.getPlace();
+
+    lat.value = place.geometry.location.lat();
+    lng.value = place.geometry.location.lng();
+  });
+
+  // If hit enter do not submit form.
+  input.on("keydown", function (e) {
+    if (e.keyCode === 13) e.preventDefault();
+  });
+}
+
+exports.default = searchByLocation;
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var _axios = __webpack_require__(2);
@@ -1020,10 +1055,6 @@ if ((0, _bling.$)("#map")) {
   var miles;
 
   var mapOptions = {
-    center: {
-      lat: 54.043667,
-      lng: -2.488511
-    },
     zoom: 5,
     maxZoom: 18
   };
@@ -1059,20 +1090,6 @@ function makeMap(mapDiv) {
     loadPlaces();
   });
 
-  // Event Listeners
-
-  // Search by keyword (event name and organisation)
-  (0, _bling.$)("#organisationSearch").addEventListener("input", function () {
-    (0, _helpers.renderEvents)((0, _helpers.filterPlaces)(places));
-    renderMarkers((0, _helpers.filterPlaces)(places));
-  });
-
-  // Toggle free
-  (0, _bling.$)("#free").on("click", function () {
-    (0, _helpers.renderEvents)((0, _helpers.filterPlaces)(places));
-    renderMarkers((0, _helpers.filterPlaces)(places));
-  });
-
   // Distance changed
   (0, _bling.$)("#distance-select").on("change", function () {
     miles = this.querySelector('input[name="distance"]:checked').value;
@@ -1105,10 +1122,6 @@ function loadPlaces() {
       return;
     }
 
-    // Check for any filters that may be applied
-    places = (0, _helpers.filterPlaces)(places);
-
-    (0, _helpers.renderEvents)(places);
     renderMarkers(places);
   });
 }
@@ -1167,16 +1180,13 @@ function renderMarkers(places) {
       var lat = this.place[0].location.coordinates[1];
       var lng = this.place[0].location.coordinates[0];
 
-      console.log(places);
-      (0, _helpers.renderEvents)((0, _helpers.filterPlaces)(places, lat, lng));
-
       var html = "<div class='popup'>";
 
       for (var i = 0; i < this.place.length; i++) {
-        html += "\n        <div class=\"popup__event" + (i > 0 ? " hide" : "") + "\">\n          <h3>" + this.place[i].name + "</h3>\n          <p><em>" + this.place[i].organisation + "</em></p>\n          <p>" + this.place[i].location.address + "</p>\n            </div>";
+        html += "\n        <div class=\"popup__event" + (i > 0 ? " hide" : "") + "\">\n          <img src=" + this.place[i].image + " alt=\"\">          \n          <h3>" + this.place[i].name + "</h3>\n          <p><em>" + this.place[i].organisation + "</em></p>\n          <p>" + this.place[i].location.address + "</p>\n            </div>";
       }
 
-      html += (this.place.length > 1 ? '<button class="button info__button">Next</button>' : "") + "</div>";
+      html += (this.place.length > 1 ? '<button class="button">Next</button>' : "") + "</div>";
 
       infoWindow.setContent(html);
       infoWindow.open(map, this);
@@ -1187,12 +1197,6 @@ function renderMarkers(places) {
   //   const currentLatLng = new google.maps.LatLng(lat, lng);
   //   currentLocationMarker.setPosition(currentLatLng);
   // }
-
-  // Show all events (within specified distance) on marker close
-  google.maps.event.addListener(infoWindow, "closeclick", function () {
-    (0, _helpers.renderEvents)((0, _helpers.filterPlaces)(places));
-    // renderMarkers(filterPlaces(places));
-  });
 
   var clusterOptions = {
     gridSize: 20,
@@ -1213,7 +1217,7 @@ function renderMarkers(places) {
 exports.default = makeMap;
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1242,29 +1246,6 @@ function displayNavigation(btn) {
 }
 
 exports.default = displayNavigation;
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _bling = __webpack_require__(1);
-
-function displayMap(mapDiv) {
-  if (!mapDiv) return;
-  (0, _bling.$)(".map__button").on("click", function () {
-    this.innerText = this.textContent === "Hide map" ? "Show map" : "Hide map";
-    mapDiv.style.display = mapDiv.style.display === "none" ? "block" : "none";
-  });
-}
-
-exports.default = displayMap;
 
 /***/ }),
 /* 16 */
@@ -3182,38 +3163,6 @@ exports.filterPlaces = function (places) {
   return places;
 };
 
-// Render Events
-exports.renderEvents = function (places) {
-  // "name organisation image slug location display_date free"
-  var newHTML = "";
-  var count = places.length;
-
-  for (var i in places) {
-    var image = places[i].image ? places[i].image : "store.png";
-
-    if (!image.startsWith("http")) {
-      image = "/uploads/" + image;
-    }
-
-    // price range
-    var priceRange = places[i].price_range && places[i].price_range.max_price ? getPriceRange(places[i].price_range.min_price, places[i].price_range.max_price) : "";
-
-    // price
-    var price = priceRange ? "<div class=\"event__price\"><p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M20 12v5H0v-5a2 2 0 1 0 0-4V3h20v5a2 2 0 1 0 0 4zM3 5v10h14V5H3zm7 7.08l-2.92 2.04L8.1 10.7 5.27 8.56l3.56-.08L10 5.12l1.17 3.36 3.56.08-2.84 2.15 1.03 3.4L10 12.09z\"/></svg>" + priceRange + "</p></div>" : "";
-
-    // free
-    var free = places[i].is_free ? "<div class=\"event__free\"><p>Free</p></div>" : "";
-
-    var link = places[i].slug ? "<a href=/event/" + places[i].slug + "><h3 class=\"title\">" + places[i].name + "</h3></a>" : "<a href=" + places[i].website + " target=\"_blank\" rel=\"noopener noreferrer\"><h3 class=\"title\">" + places[i].name + "</h3></a>";
-
-    var event = "\n        <div class=\"event\">          \n          <div class=\"event__hero\">\n            <img src=" + image + " alt=\"\">\n          </div>          \n          <div class=\"event__details\">            \n            <div class=\"event__title\">" + link + "</div>\n            <div class=\"event__organiser\">\n              <p><em>" + places[i].organisation + "</em></p>\n            </div>            \n            <div class=\"event__description\">              \n              <div class=\"event__location\">\n                <p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M10 20S3 10.87 3 7a7 7 0 1 1 14 0c0 3.87-7 13-7 13zm0-11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z\"></path></svg><span>" + places[i].location.address + "</span></p>\n              </div>              \n              <div class=\"event__date\">\n                <p><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"><path d=\"M1 4c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4zm2 2v12h14V6H3zm2-6h2v2H5V0zm8 0h2v2h-2V0zM5 9h2v2H5V9zm0 4h2v2H5v-2zm4-4h2v2H9V9zm0 4h2v2H9v-2zm4-4h2v2h-2V9zm0 4h2v2h-2v-2z\"></path></svg><span>" + places[i].display_date + "</span></p>\n              </div>\n              " + price + "\n              " + free + "\n            </div>\n          </div>\n        </div>";
-    newHTML += event;
-  }
-
-  (0, _bling.$)(".events__count").innerHTML = "<p>" + count + " events found.</p>";
-  (0, _bling.$)(".events").innerHTML = newHTML;
-};
-
 /***/ }),
 /* 37 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -3233,11 +3182,11 @@ var _typeAhead = __webpack_require__(16);
 
 var _typeAhead2 = _interopRequireDefault(_typeAhead);
 
-var _map = __webpack_require__(13);
+var _map = __webpack_require__(14);
 
 var _map2 = _interopRequireDefault(_map);
 
-var _navigation = __webpack_require__(14);
+var _navigation = __webpack_require__(15);
 
 var _navigation2 = _interopRequireDefault(_navigation);
 
@@ -3245,13 +3194,11 @@ var _clearFilters = __webpack_require__(12);
 
 var _clearFilters2 = _interopRequireDefault(_clearFilters);
 
-var _showHideMap = __webpack_require__(15);
+var _locationSearch = __webpack_require__(13);
 
-var _showHideMap2 = _interopRequireDefault(_showHideMap);
+var _locationSearch2 = _interopRequireDefault(_locationSearch);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// import searchByLocation from "./modules/locationSearch";
 
 // import typeAheadOrganisation from "./modules/typeAheadOrganisation";
 (0, _autocomplete2.default)((0, _bling.$)("#address"));
@@ -3266,9 +3213,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 (0, _clearFilters2.default)((0, _bling.$)("#filterResetButton"));
 
-// searchByLocation($("#locationAutocomplete"));
-
-(0, _showHideMap2.default)((0, _bling.$)("#map"));
+(0, _locationSearch2.default)((0, _bling.$)("#locationAutocomplete"));
 
 /***/ })
 /******/ ]);

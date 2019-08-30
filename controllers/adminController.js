@@ -87,9 +87,7 @@ exports.getEventbriteEvents = async (req, res) => {
   // Set end date to correct format
   const endDate = new Date(req.body.end_date).toISOString().split(".")[0] + "Z";
   // Construct Eventbrite url
-  const url = `https://www.eventbriteapi.com/v3/events/search/?categories=102&expand=organizer,venue&location.viewport.northeast.latitude=59.950197&location.viewport.northeast.longitude=1.255643&location.viewport.southwest.latitude=49.232844&location.viewport.southwest.longitude=-10.600715&categories=102&start_date.range_start=${startDate}&start_date.range_end=${endDate}&token=${
-    process.env.EVENTBRITE_KEY
-  }`;
+  const url = `https://www.eventbriteapi.com/v3/events/search/?categories=102&expand=organizer,venue&location.viewport.northeast.latitude=59.950197&location.viewport.northeast.longitude=1.255643&location.viewport.southwest.latitude=49.232844&location.viewport.southwest.longitude=-10.600715&categories=102&start_date.range_start=${startDate}&start_date.range_end=${endDate}&token=${process.env.EVENTBRITE_KEY}`;
   // Declare page number for pagination
   let pageNo = 1;
 
@@ -163,17 +161,17 @@ exports.getEventbriteEvents = async (req, res) => {
   res.redirect("back");
 };
 
-exports.updateEventDisplay = async (req, res) => {
-  // TODO make api call to get price
+/* -------------------------------------------------------- */
+/* API call to Eventbrite to add ticket prices to event.
+/* -------------------------------------------------------- */
 
+exports.updateEventDisplay = async (req, res) => {
   if (req.body.display_true) {
     const x = req.body.display_true;
     const ids = Array.isArray(x) ? x : [x];
 
     for (const id of ids) {
-      let url = `https://www.eventbriteapi.com/v3/events/${id}/ticket_classes/?token=${
-        process.env.EVENTBRITE_KEY
-      }`;
+      let url = `https://www.eventbriteapi.com/v3/events/${id}/ticket_classes/?token=${process.env.EVENTBRITE_KEY}`;
 
       console.log(url);
 
@@ -197,10 +195,12 @@ exports.updateEventDisplay = async (req, res) => {
               }
             }
 
-            prices = prices.map(Number); // convert to numbers
+            if (prices) {
+              prices = prices.map(Number); // convert to numbers
 
-            minPrice = Math.min(...prices);
-            maxPrice = Math.max(...prices);
+              minPrice = Math.min(...prices);
+              maxPrice = Math.max(...prices);
+            }
 
             return {
               id,

@@ -1,20 +1,15 @@
-mixin locationSearch()
+mixin locationSearch(lat, lng, location, distance)
 
-	.autocomplete
-		form(id="locationAutocomplete" method="POST")
-			label.autocomplete__label Enter your location
-			input.autocomplete__input(type="text" name="geolocate" value=(location) placeholder="")
-			input(type="hidden" name="lat" id="lat" value=(lat))
-			input(type="hidden" name="lng" id="lng" value=(lng))
-			p and select a distance 
-			#distance-select
-				input(type="radio" value="" id="distanceAny" name='distance' checked) 
-				label(for="distanceAny") Any
-				input(type="radio" value="10" id="distance10" name='distance')
-				label(for="distance10") 10 miles
-				input(type="radio" value="20" id="distance20" name='distance')
-				label(for="distance20") 20 miles
-				input(type="radio" value="30" id="distance30" name='distance')
-				label(for="distance30") 30 miles
-				input(type="radio" value="40" id="distance40" name='distance')
-				label(for="distance40") 40 miles
+	form(id="locationAutocomplete" class="location-autocomplete" method="GET" action="/")
+		label(class="location-autocomplete__label" for="location") Enter your location
+		input(class="location-autocomplete__input" id="location" type="text" name="geolocate" value=location placeholder="")
+		input(type="hidden" name="lat" id="lat" value=lat)
+		input(type="hidden" name="lng" id="lng" value=lng)
+		label(for="distance") Select a distance:
+		select(id="distance" class="location-autocomplete__select" name='distance')
+			option(value="" selected=(distance === false)) Any
+			option(value="10" selected=(distance ==="10" )) 10 miles
+			option(value="20" selected=(distance ==="20" )) 20 miles
+			option(value="30" selected=(distance ==="30" )) 30 miles
+			option(value="40" selected=(distance ==="40" )) 40 miles
+		input(type="submit" class="location-autocomplete__button button button--primary" value="Find events")

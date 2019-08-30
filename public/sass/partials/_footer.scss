@@ -1,10 +1,20 @@
 .footer {
   text-align: center;
-  background: #39364f;
+  background: #2b3b48;
   margin: 0;
   padding: 40px;
-  color: #ebeaf1;
+  color: #dbdfe2;
   a {
-    color: #ebeaf1;
+    color: inherit;
+  }
+  &__list {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+  }
+  &__list-item {
+    margin-left: 4px;
+    margin-right: 4px;
   }
 }

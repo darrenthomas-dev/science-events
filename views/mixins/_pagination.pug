@@ -1,10 +1,16 @@
-mixin pagination(page, pages, count, parentSlug)
+mixin pagination(page, pages, count, parentSlug, lat, lng, location, distance)
 	.pagination
 		.pagination__prev
 			if page > 1
-				a(href=`/${parentSlug}/page/${page - 1}`) Prev
+				if (distance)
+					a(href=`/${parentSlug}/page/${page - 1}?geolocate=${location}&lat=${lat}&lng=${lng}&distance=${distance}`) Previous page
+				else
+					a(href=`/${parentSlug}/page/${page - 1}`) Previous page
 		.pagination__text
-			p Page #{page} of #{pages} - #{count} total results
+			p Page #{page} of #{pages}
 		.pagination__next
 			if page < pages
-				a(href=`/${parentSlug}/page/${parseFloat(page) + 1}`) Next
+				if (distance)
+					a(href=`/${parentSlug}/page/${parseFloat(page) + 1}?geolocate=${location}&lat=${lat}&lng=${lng}&distance=${distance}`) Next page
+				else
+					a(href=`/${parentSlug}/page/${parseFloat(page) + 1}`) Next page

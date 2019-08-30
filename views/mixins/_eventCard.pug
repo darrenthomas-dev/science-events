@@ -1,58 +1,59 @@
 mixin eventCard(event = {})
 
 	.event
-		.event__hero
-			.event__actions
-				if user 
-					if user.admin || (event.author && event.author.equals(user._id))
-						.event__action.event__action--edit
-							a(href=`/event/${event._id}/edit`)
-								!= h.icon('pencil')
-								| Edit
-			// donation banner
-			if event.eb_id
-				img(src=`${event.image || '/uploads/store.png'}` alt="")
+		if user 
+			if user.admin || (event.author && event.author.equals(user._id))
+				.event__edit
+					a(class="event__link" href=`/event/${event._id}/edit`)
+						span.event__icon
+							!= h.icon('pencil')
+						| Edit
+		if event.eb_id
+			img(class="event__img" src=`${event.image || '/uploads/store.png'}` alt="")
+		else
+			img(class="event__img" src=`/uploads/${event.image || 'store.png'}` alt="")
+		if user
+			if user.admin || (event.author && event.author.equals(user._id))
+				if event.end_datetime < new Date()
+					p.text--warning: em This event has expired and will soon be deleted.
+		h3.event__title
+			if (event.slug === "")
+				a(href=event.website) #{event.name}
 			else
-				img(src=`/uploads/${event.image || 'store.png'}` alt="")
-		.event__details
-			if event.end_datetime < new Date()
-				p.text--warning: em This event has expired and will soon be deleted.
-			.event__title
-				h3.title
-					if (event.slug === "")
-						a(href=event.website) #{event.name}
-					else
-						a(href=`/event/${event.slug}`) #{event.name}
-			.event__organiser
-				p= event.organisation
-			.event__description
-				.event__location
-					p
-						!= h.icon('location')
-						span=	event.location.address
-				.event__date
-					p
-						!= h.icon('calendar')
-						span= event.display_date
-				// price
-				if event.price
-					.event__price
-						-const price = Number(event.price).toFixed(2)
-						p
-							!= h.icon('ticket')
-							span= `£${price}`
-				// price range
-				if event.price_range && event.price_range.max_price
-					-const min = Number(event.price_range.min_price).toFixed(2)
-					-const max = Number(event.price_range.max_price).toFixed(2)
-					.event__price
-						p
-							!= h.icon('ticket')
-							if (min === '0.00')
-								span= `Free - £${max}`
-							else	
-								span= `£${min} - £${max}`
-				// free
+				a(href=`/event/${event.slug}`) #{event.name}
+		dl.event__details
+			dt.offscreen Organiser:
+			dd.event__item.event__item--organiser #{event.organisation}
+			dt.offscreen Address:
+			dd.event__item
+				span.event__icon
+					!= h.icon('location')
+				= event.location.address
+			dt.offscreen Event date:
+			dd.event__item
+				span.event__icon
+					!= h.icon('calendar')
+				= event.display_date
+			//- Price
+			dt.offscreen Price:
 				if event.is_free
-					.event__free
-						p Free
+					dd(class="event__item event__item--free" aria-hidden=true) Free
+					dd.offscreen This event is available for free, for eligibility please check the organiser's website.
+				else if event.price_range && !event.price_range.max_price && event.price_range.min_price
+					-const price = Number(event.price_range.min_price).toFixed(2)
+					dd.event__item
+						span.event__icon
+							!= h.icon('ticket')
+						= `£${price}`
+			//- Price range
+			if event.price_range && event.price_range.max_price && event.price_range.min_price
+				-const min = Number(event.price_range.min_price).toFixed(2)
+				-const max = Number(event.price_range.max_price).toFixed(2)
+				dt.offscreen Price range:
+				dd.event__item
+					span.event__icon
+						!= h.icon('ticket')
+					if (min === '0.00')
+						= `Free to £${max}`
+					else	
+						= `£${min} to £${max}`

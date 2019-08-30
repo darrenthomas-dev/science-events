@@ -1,0 +1,18 @@
+mixin footer()
+	- const currentYear = new Date().getFullYear()
+
+	footer.footer
+		h2.offscreen Social media info and copyright
+		p
+			strong Support
+			|  and share the science!
+		p.offscreen Follow us on:
+			ul.footer__list
+				li.footer__list-item: a(rel="noopener noreferrer" href="https://facebook.com/sciencenearme" target="_blank" title="Follow us on Facebook!") Facebook
+				li.footer__list-item: a(rel="noopener noreferrer" href="https://twitter.com/sciencenearme" target="_blank" title="Follow us on Twitter!") Twitter
+		p= `© ${currentYear} Science Near Me`
+		p
+			a(href="/cookie") Cookie
+			|  and 
+			a(href="/privacy") Privacy
+			|  policy.

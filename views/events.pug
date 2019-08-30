@@ -1,17 +1,23 @@
 extends layout
 
 include mixins/_eventCard
+include mixins/_locationSearch
 include mixins/_pagination
+include mixins/_footer
 
 block content
-	h2.offscreen= title
+	
+	+locationSearch(lat, lng, location, distance)
 
-	.events__count
-		p= `You have ${count} events. To create a new event click `
-			a(href="/add") here.
+	main#maincontent
+		.events__count
+			h1= `Events found: ${count}`
 
-	if (count)
-		.events
-			each event in events
-				+eventCard(event, start)
-		+pagination(page, pages, count, parentSlug)
+		if (count)
+			.events
+				each event in events
+					+eventCard(event)
+			+pagination(page, pages, count, parentSlug, lat, lng, location, distance)
+
+block footer
+	+footer()

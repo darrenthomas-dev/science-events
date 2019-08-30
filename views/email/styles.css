@@ -8,7 +8,7 @@ img {
 }
 
 body {
-  background-color: #303030;
+  background-color: #7c90a0;
   font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
   font-size: 14px;
@@ -63,7 +63,7 @@ table td {
 ------------------------------------- */
 .main {
   background: #fff;
-  border-top: 20px solid #fff200;
+  border-top: 20px solid #2b3b48;
   width: 100%;
 }
 
@@ -82,7 +82,7 @@ table td {
 .footer p,
 .footer span,
 .footer a {
-  color: #999999;
+  color: #2b3b48;
   font-size: 12px;
   text-align: center;
 }
@@ -94,7 +94,7 @@ h1,
 h2,
 h3,
 h4 {
-  color: #000000;
+  color: #2b3b48;
   font-family: sans-serif;
   font-weight: 400;
   line-height: 1.4;
@@ -126,7 +126,7 @@ ol li {
 }
 
 a {
-  color: #fff200;
+  color: #2b3b48;
   text-decoration: underline;
 }
 
@@ -149,11 +149,11 @@ a {
   text-align: center;
 }
 .btn a {
-  background-color: #ffffff;
-  border: solid 1px #fff200;
+  background-color: #2b3b48;
+  border: solid 2px #2b3b48;
   border-radius: 5px;
   box-sizing: border-box;
-  color: #fff200;
+  color: #fcfdff;
   cursor: pointer;
   display: inline-block;
   font-size: 14px;
@@ -165,13 +165,13 @@ a {
 }
 
 .btn-primary table td {
-  background-color: #fff200;
+  background-color: #2b3b48;
 }
 
 .btn-primary a {
-  background-color: #fff200;
-  border-color: #fff200;
-  color: #3a3a3a;
+  background-color: #2b3b48;
+  border-color: #2b3b48;
+  color: #fcfdff;
 }
 
 /* -------------------------------------
@@ -301,10 +301,11 @@ hr {
     text-decoration: none !important;
   }
   .btn-primary table td:hover {
-    background-color: #00ffde !important;
+    background-color: #2b3b48 !important;
   }
   .btn-primary a:hover {
-    background-color: #00ffde !important;
-    border-color: #00ffde !important;
+    background-color: #ffffff !important;
+    border-color: #2b3b48 !important;
+    color: #2b3b48 !important;
   }
 }

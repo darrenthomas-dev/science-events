@@ -1,40 +1,14 @@
 .map {
   background: white;
-  box-shadow: $shad;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
   margin-bottom: 35px;
   > div:first-child {
     display: flex;
     align-items: center;
   }
-  .autocomplete {
-    flex: 1;
-    padding: 8px;
-    // margin: 0 auto;
-    // max-width: 960px;
-    form {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    p {
-      margin-bottom: 0;
-    }
-  }
-  .autocomplete__label {
-    // margin-right: 8px;
-  }
-  .autocomplete__input {
-    margin: 0 16px 0 8px;
-    // max-width: 250px;
-    // float: left;
-    // margin-right: 16px;
-  }
-  [name="distance"] {
-    // margin-left: 8px;
-  }
 }
 #map {
-  height: 750px;
+  height: calc(100vh - 132px);
 }
 
 .popup {

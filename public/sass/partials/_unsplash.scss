@@ -1,10 +1,10 @@
-.unsplash__container {
+.unsplash {
   position: relative;
 }
 .unsplash__link {
   position: absolute;
+  right: -12px;
   bottom: -6px;
-  left: -12px;
   background-color: black;
   color: white;
   text-decoration: none;
@@ -26,9 +26,4 @@
       fill: white;
     }
   }
-}
-
-.unsplash__link--right {
-  left: auto;
-  right: -12px;
 }
