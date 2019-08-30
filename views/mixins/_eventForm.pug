@@ -1,89 +1,110 @@
 mixin eventForm(event = {})
 
+	p.form__section.txt--light Fields marked with an asterix (*) are required.
 
 	if user.eb_organiser_id || user.admin
-		form(action=`/eb/add` method="POST" class="form form__eb")
-				//- p To import event details from Eventbrite enter the event ID number. Note you can only import events where you are register as the organiser. More information on how to find the event id can be found 
-					a(href="https://www.eventbrite.co.uk/support/articles/en_US/How_To/how-to-find-the-event-id" target="_blank" rel="noopener noreferrer") here.
-				label(class="form__label" for="ebEventId") Eventbrite event id:
-				.flexbox
-					input(class="form__input form__input--sml" type="text" id="ebEventId" name="eb_event_id" value=`${event.eb_id || ""}` autofocus)
-					input(class="form__input form__input--sml button" type="submit" value="Get details")
+		form(action=`/eb/add` method="POST" class="form")
+			.fb.form__section
+				.fb-50.pr-60
+					h2 Eventbrite Import
+					p.txt--light To import event details from Eventbrite enter the event ID number. Note you can only import events where you are register as the organiser. More information on how to find the event id can be found 
+						a(href="https://www.eventbrite.co.uk/support/articles/en_US/How_To/how-to-find-the-event-id" target="_blank" rel="noopener noreferrer") here.
+				.fb-50.pt-16
+					label(class="label" for="ebEventId") Eventbrite event id:
+					.fb
+						input(class="input input--sml" type="text" id="ebEventId" name="eb_event_id" value=`${event.eb_id || ""}` autofocus)
+						input(class="input input--sml button" type="submit" value="Get details")
 
-	form(action=`/add/${event._id || ''}` method="POST" class="form" enctype="multipart/form-data")
+	form(class="form" method="POST" enctype="multipart/form-data")
+		.fb.form__section
+			.fb-50.pr-60
+				h2 Event Details
+				p.txt--light Events will be added to you 'My Events' page, from here they can be selected for editing.
 
-		p Fields marked with an asterix (*) are required.
+				p.txt--light Once an event has expired, it will be set for automatic deletion and removed from our database, usually within a few days.
 
-		//- Event Name
-		label(class="form__label" for="event") Event name*
-		input(class="form__input" type="text" id="event" name="name" value=event.name autofocus)
+			.fb-50.pt-16
 
-		//- Organisation Name
-		label(class="form__label" for="organisation") Organisation*
-		input(class="form__input" type="text" id="organisation" name="organisation" value=event.organisation || user.organisation)
+				//- Event Name
+				label(class="label" for="event") Event name: *
+				input(class="input" type="text" id="event" name="name" value=event.name autofocus)
 
-		.flexbox
-			div
-				//- Start Datetime
-				label(class="form__label" for="start") Start date*
-				input(class="form__input form__input--sml" type="date" name="start_datetime" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" value=`${event.start_datetime ? event.start_datetime.toISOString().slice(0,10) : '' }`)
-			div
-				//- End Datetime
-				label(class="form__label" for="end") End date
-				input(class="form__input form__input--sml" type="date" id="end" name="end_datetime" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" value=`${event.end_datetime ? event.end_datetime.toISOString().slice(0,10) : '' }`)
+				//- Organisation Name
+				label(class="label" for="organisation") Organisation: *
+				input(class="input" type="text" id="organisation" name="organisation" value=event.organisation || user.organisation)
 
-		//- Website
-		label(class="form__label" for="website") Event website
-		span.helper example: https://example.com
-		input(class="form__input" type="url" id="website" name="website" value=event.website)
+				.fb
+					.fb-50
+						//- Start Datetime
+						label(class="label" for="start") Start date: *
+						input(class="input input--sml" type="date" name="start_datetime" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" value=`${event.start_datetime ? event.start_datetime.toISOString().slice(0,10) : '' }`)
+					.fb-50
+						//- End Datetime
+						label(class="label" for="end") End date:
+						input(class="input input--sml" type="date" id="end" name="end_datetime" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" value=`${event.end_datetime ? event.end_datetime.toISOString().slice(0,10) : '' }`)
 
-		//- Price range
-		p If your event has different priced tickets then set the minimum and maximum price:
-		.flexbox
-			div
-				label(class="form__label" for="minPrice") Price / min (£)
-				input(class="form__input form__input--sml" type="number" min="0.00" max="1000.00" step="0.01" id="minPrice" name="price_range[min_price]" value=(event.price_range && event.price_range.min_price) placeholder="0.00")
-			div
-				label(class="form__label" for="maxRange") Max price (£)
-				input(class="form__input form__input--sml" type="number" min="0.01" max="1000.00" step="0.01" id="maxRange" name="price_range[max_price]" value=(event.price_range && event.price_range.max_price) placeholder="0.00")
+				//- Price range
+				p.txt--light If your event has different priced tickets then set the minimum and maximum price:
+				.fb
+					.fb-50
+						label(class="label" for="minPrice") Price / min (£):
+						input(class="input input--sml" type="number" min="0.00" max="1000.00" step="0.01" id="minPrice" name="price_range[min_price]" value=(event.price_range && event.price_range.min_price) placeholder="0.00")
+					.fb-50
+						label(class="label" for="maxRange") Max price (£):
+						input(class="input input--sml" type="number" min="0.01" max="1000.00" step="0.01" id="maxRange" name="price_range[max_price]" value=(event.price_range && event.price_range.max_price) placeholder="0.00")
+
+				//- Website
+				label(class="label" for="website") Event website:
+				input(class="input" type="url" id="website" name="website" value=event.website placeholder="https://example.com")
+
+				//- Extra tags
+				p Check all that apply.
+				- const choices = ['Family Friendly', 'Donation']
+				- const tags = event.tags || []
+				ul.tags
+					each choice in choices
+						.tag.tag__choice
+							input(type="checkbox" id=choice value=choice name="tags" checked=(tags.includes(choice)))
+							label(for=choice) #{choice}
+					input(type="checkbox" id="free" name="is_free" value="true" checked=(event.is_free === "true"))
+					label(for="free") Free
+
+
+		//- Address
+		.fb.form__section
+			.fb-50.pr-60
+				h2 Venue Address
+				p.txt--light Please enter the address of the event. In addition to displaying the address on our site, we use use it with Google Maps to find the geo coordinates and display a marker on our map.
+			.fb-50.pt-16
+				label(class="label" for="address") Event address: *
+				input(class="input" type="text" id="address" name="location[address]" value=((event.location && event.location.address) || user.address) )
+
+
 
 		//- Image upload
-		label(class="form__label" for="image") Image
-		p If no image is uploaded then a default image will be displayed.
-		input(class="form__input" type="file" name="image" id="image" accept="image/png, image/jpeg")
-		if event.image
-			if event.eb_id
-				img(src=`${event.image}`, alt='' width=200)
-			else
-				img(src=`/uploads/${event.image}`, alt='' width=200)
-		
-		//- Address
-		label(class="form__label" for="address") Event address*
-		input(class="form__input" type="text" id="address" name="location[address]" value=((event.location && event.location.address) || user.address) )
-
-		//- Extra tags
-		p Check all that apply.
-		- const choices = ['Family Friendly', 'Donation']
-		- const tags = event.tags || []
-		ul.tags
-			each choice in choices
-				.tag.tag__choice
-					input(type="checkbox" id=choice value=choice name="tags" checked=(tags.includes(choice)))
-					label(for=choice) #{choice}
-		p.tag.tag__choice
-			input(type="checkbox" id="free" name="is_free" value="true" checked=(event.is_free === "true"))
-			label(for="free") Free
+		.fb.form__section
+			.fb-50.pr-60
+				h2 Event Image
+				p.txt--light If no image is uploaded then a default image will be displayed. All images are compressed and resized to 800px width by 480px height (aspect ratio 5:3) on upload. Supported formats are jpg and png.
+			.fb-50.pt-16
+				label(class="label" for="image") Image:
+				input(class="input" type="file" name="image" id="image" accept="image/png, image/jpeg")
+				if event.image
+					if event.eb_id
+						img(src=`${event.image}`, alt='' width=400)
+					else
+						img(src=`/uploads/${event.image}`, alt='' width=400)
 
 		//- Description (tinyMCE)
-		.text--editor
-			label(class="form__label" for="description") Description
-			p Important: Adding a description will create an event page on Science Near Me. If you would prefer for your event to link directly to an external site then leave the description blank.
+		.form__section.text--editor
+			h2 Event Description
+			p <strong>Important:</strong> Adding a description will create an event page on Science Near Me. If you would prefer for your event to link directly to an external site then leave the description blank.
+			label(class="offscreen" for="description") Description:
 			textarea(name="description" id="description")= event.description
 			
 		//- Submit
-		input(class="form__input button" type="submit" value="Save" class="button")
+		input(class="button" type="submit" value="Save" formaction=`/add/${event._id || ''}`)
 		
-	//- Delete event
-	if (event._id)
-		form(action=`/events/${event._id}/delete` method="POST" class="form")
-			input(class="" type="submit" value="Delete event")
+		//- Delete event
+		if (event._id)
+			input(class="button" type="submit" value="Delete event" formaction=`/events/${event._id}/delete`)

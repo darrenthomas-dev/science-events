@@ -37,6 +37,41 @@ pre.error {
   line-height: 3;
   white-space: pre-line;
 }
+.helper-txt {
+  position: relative;
+  &--top {
+    font-size: 16px;
+    position: absolute;
+    top: -20px;
+    left: 0;
+    color: $light-txt;
+    font-weight: normal;
+  }
+}
+.txt {
+  &--light {
+    color: $light-txt;
+  }
+}
+
+/* ------------------------ */
+/* Spacing
+/* ------------------------ */
+
+// Margins
+.mb-0 {
+  margin-bottom: 0;
+}
+.mt-60 {
+  margin-top: 60px;
+}
+// Padding
+.pr-60 {
+  padding-right: 60px;
+}
+.pt-16 {
+  padding-top: 16px;
+}
 
 .text--warning {
   color: red;
@@ -50,7 +85,6 @@ pre.error {
 .tip {
   font-size: 0.9em;
 }
-
-.mb-0 {
-  margin-bottom: 0;
+.tags {
+  padding: 0;
 }

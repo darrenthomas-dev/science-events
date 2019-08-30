@@ -117,8 +117,9 @@ exports.constructQuery = (miles, coordinates) => {
     display: true,
     end_datetime: { $gte: new Date(`${start}T00:00:00Z`) } // Must not be in the past
   };
+
   // Add distance search to query
-  query = addLocationToQuery(miles, coordinates, query);
+  addLocationToQuery(miles, coordinates, query);
 
   return query;
 };
@@ -213,12 +214,15 @@ exports.addEventbriteTicketPricesToEvent = (tickets, event) => {
       }
     }
 
-    prices = prices.map(Number); // convert to numbers
+    if (prices) {
+      prices = prices.map(Number); // convert to numbers
 
-    event["price_range"] = {
-      min_price: Math.min(...prices),
-      max_price: Math.max(...prices)
-    };
+      event["price_range"] = {
+        min_price: Math.min(...prices),
+        max_price: Math.max(...prices)
+      };
+    }
+
     event["donation"] = donation;
   } else {
     event["donation"] = donation;

@@ -1,54 +1,48 @@
 .form {
-  margin: 70px 0 35px 0;
-  background: white;
-  padding: 16px;
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
-  &__details {
-    padding: 0 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 450px;
-    margin: 0 auto;
+  &__section {
+    padding-bottom: 30px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 60px;
   }
-  &__img {
-    width: 450px;
-    height: 483px;
-    object-fit: cover;
-    object-position: -190px;
-  }
-  &__label {
-    display: block;
-    margin-bottom: 4px;
-  }
-  &__input {
-    font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen,
-      Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Helvetica, Arial,
-      sans-serif;
-    display: block;
-    width: 100%;
-    max-width: 400px;
-    font-size: 0.9em;
-    margin-right: 24px;
-    margin-bottom: 24px;
-    border-radius: 8px;
-    border: 0.2rem solid #eeedf0;
-    background-color: #eeedf0;
-    height: 48px;
-    padding: 8px;
-  }
+}
+// .details {
+//     padding: 0 20px;
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     width: 450px;
+//     margin: 0 auto;
+//   }
+// .img {
+//     width: 450px;
+//     height: 483px;
+//     object-fit: cover;
+//     object-position: -190px;
+//   }
+.label {
+  display: block;
+  margin-bottom: 4px;
+  color: $dark-txt;
+}
+.input {
+  font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Helvetica, Arial,
+    sans-serif;
+  width: 100%;
+  max-width: 480px;
+  font-size: 0.9em;
+  margin-right: 24px;
+  margin-bottom: 24px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #ffffff;
+  height: 48px;
+  padding: 8px;
 }
 
 // Modifier
-.form {
-  &__input--sml {
-    width: 170px;
-  }
+.input--sml {
+  width: 170px;
 }
 
 // Eventbrite Form
-.form__eb {
-  input {
-    margin-bottom: 0;
-  }
-}

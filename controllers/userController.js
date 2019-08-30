@@ -120,9 +120,7 @@ exports.getUserEventbriteEvents = async (req, res) => {
   const startDate = getDatetime(1);
 
   // Add start date equal to tomorrow
-  const url = `https://www.eventbriteapi.com/v3/organizers/${ebOrganizerId}/events/?expand=organizer,venue&start_date.range_start=${startDate}&token=${
-    process.env.EVENTBRITE_KEY
-  }`;
+  const url = `https://www.eventbriteapi.com/v3/organizers/${ebOrganizerId}/events/?expand=organizer,venue&start_date.range_start=${startDate}&token=${process.env.EVENTBRITE_KEY}`;
 
   // Event GET request
   const response = await axios.get(url);

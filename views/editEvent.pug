@@ -3,6 +3,9 @@ extends layout
 include mixins/_eventForm
 
 block content
-	.inner
-		h1= title
+	.inner.mt-60
+		h1.helper-txt
+			if(event)
+				span.helper-txt--top Editing: 
+			= title
 		+eventForm(event)

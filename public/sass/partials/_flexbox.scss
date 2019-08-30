@@ -4,3 +4,10 @@
     flex-basis: 50%;
   }
 }
+
+.fb {
+  display: flex;
+  &-50 {
+    flex-basis: 50%;
+  }
+}
