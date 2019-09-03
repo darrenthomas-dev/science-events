@@ -11,11 +11,9 @@ router.get("/", catchErrors(eventController.getEvents));
 // Events pagination
 router.get("/events/page/:page", catchErrors(eventController.getEvents));
 
-// Map page
-
 // Event Pages
 // Add an event page
-router.get("/add", authController.isLoggedIn, eventController.addEvent);
+router.get("/add", eventController.addEvent);
 // Create an event
 router.post(
   "/add",
@@ -58,15 +56,6 @@ router.post("/login", authController.login);
 //   catchErrors(authController.loginUser)
 //   catchErrors(eventController.getEvents)
 // );
-//  Reset password
-
-//  Admin pages
-
-// Log out
-router.get("/logout", authController.logout);
-
-// Account page
-router.get("/account", authController.isLoggedIn, userController.account);
 
 /* ------------------------------------ */
 /* PASSWORD RESET FLOW
@@ -86,8 +75,14 @@ router.post(
 );
 
 /* ------------------------------------ */
-/* Account Page
+/* User Pages
 /* ------------------------------------ */
+
+// Log out
+router.get("/logout", authController.logout);
+
+// Account page
+router.get("/account", authController.isLoggedIn, userController.account);
 
 // Update account details
 router.post(
@@ -99,6 +94,16 @@ router.post(
 
 // Delete account
 router.post("/delete", catchErrors(userController.deleteAccount));
+
+// My Events
+router.get("/my-events", catchErrors(userController.getUserEvents));
+router.post("/my-events", catchErrors(eventController.addEventBriteEvents));
+
+// // My Eventbrite Events for log in users
+// router.get(
+//   "/my-eb-events",
+//   catchErrors(userController.getUserEventbriteEvents)
+// );
 
 /* ------------------------------------ */
 /* MAP PAGE
@@ -167,15 +172,5 @@ router.get(
   catchErrors(eventController.searchOrganistaions)
 );
 router.get("/api/events/near", catchErrors(eventController.mapEvents));
-
-// My Events for log in users
-router.get("/my-events", catchErrors(userController.getUserEvents));
-router.post("/my-events", catchErrors(eventController.addEventBriteEvents));
-
-// My Eventbrite Events for log in users
-router.get(
-  "/my-eb-events",
-  catchErrors(userController.getUserEventbriteEvents)
-);
 
 module.exports = router;

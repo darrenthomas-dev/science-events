@@ -1,12 +1,8 @@
-.flexbox {
-  display: flex;
-  &__item {
-    flex-basis: 50%;
-  }
-}
-
 .fb {
   display: flex;
+  &--c {
+    flex-direction: column;
+  }
   &-50 {
     flex-basis: 50%;
   }

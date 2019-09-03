@@ -57,15 +57,6 @@
     padding-bottom: 8px;
     border-bottom: 1px solid #eee;
   }
-  &__item--free {
-    position: absolute;
-    top: -6px;
-    left: -6px;
-    background: #9c29d2;
-    padding: 6px 12px;
-    color: #f7f7f7;
-    text-transform: uppercase;
-  }
   &__link {
     color: #2b3b48;
     text-decoration: none;
@@ -76,5 +67,20 @@
     padding: 1rem 1rem 0;
     color: #39364f;
     text-decoration: none;
+  }
+}
+
+.banner {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  padding: 6px 12px;
+  color: #f7f7f7;
+  text-transform: uppercase;
+  &--free {
+    background: #9c29d2;
+  }
+  &--donation {
+    background: #d22929;
   }
 }

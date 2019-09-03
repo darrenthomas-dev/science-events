@@ -108,7 +108,7 @@ exports.getEventbriteEvents = async (req, res) => {
   data = data.map(e => ({
     name: e.name.text,
     summary: e.summary ? e.summary : "",
-    // description: e.description.html ? stripInlineCss(e.description.html) : "",
+    description: e.description.html ? stripInlineCss(e.description.html) : "",
     organisation: e.organizer.name,
     start_datetime: new Date(e.start.utc),
     end_datetime: new Date(e.end.utc),
@@ -175,42 +175,40 @@ exports.updateEventDisplay = async (req, res) => {
 
       console.log(url);
 
-      const event = await axios
+      const event = {
+        id,
+        donation: false
+      };
+
+      await axios
         .get(url)
         .then(res => {
           const tickets = res.data.ticket_classes;
 
           if (tickets.length > 0) {
             let prices = [];
-            let minPrice;
-            let maxPrice;
-            let donation = false;
 
             for (let item of tickets) {
               if (item.cost) {
                 prices.push(item.cost.major_value);
               }
               if (item.donation) {
-                donation = true;
+                event.donation = true;
               }
             }
 
-            if (prices) {
+            console.log(prices);
+            console.log(prices.length);
+
+            if (prices.length > 0) {
               prices = prices.map(Number); // convert to numbers
 
-              minPrice = Math.min(...prices);
-              maxPrice = Math.max(...prices);
+              event["price_range"] = {
+                min_price: Math.min(...prices),
+                max_price: Math.max(...prices)
+              };
             }
-
-            return {
-              id,
-              minPrice,
-              maxPrice,
-              donation
-            };
           }
-          console.log("nothing to update");
-          return false;
         })
         .catch(err => {
           req.flash(
@@ -225,14 +223,15 @@ exports.updateEventDisplay = async (req, res) => {
           return;
         });
 
-      // find and update event
-      if (event.minPrice && event.maxPrice) {
+      // Find and update event with ticket details
+      console.log(event);
+      if (event.price_range) {
         await Event.updateOne(
           { eb_id: event.id },
           {
             price_range: {
-              min_price: event.minPrice,
-              max_price: event.maxPrice
+              min_price: event.price_range.min_price,
+              max_price: event.price_range.max_price
             },
             donation: event.donation
           }
@@ -247,12 +246,14 @@ exports.updateEventDisplay = async (req, res) => {
       }
     }
   }
-  // // find and update multiple events
+
+  // Find and update multiple events to display
   const displayTrue = Event.updateMany(
     { eb_id: req.body.display_true },
     { display: "true" }
   );
 
+  //  Find and update multiple events not to display
   const displayFalse = Event.updateMany(
     { _id: req.body.display_false },
     { display: "false" }

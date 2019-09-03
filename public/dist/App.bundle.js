@@ -1015,6 +1015,8 @@ function searchByLocation(locationAutocomplete) {
   autocomplete.addListener("place_changed", function () {
     var place = autocomplete.getPlace();
 
+    if (!place.geometry || !place.geometry.location) return false;
+
     lat.value = place.geometry.location.lat();
     lng.value = place.geometry.location.lng();
   });
@@ -1052,7 +1054,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 if ((0, _bling.$)("#map")) {
   var places;
-  var miles;
+  var distance;
 
   var mapOptions = {
     zoom: 5,
@@ -1084,41 +1086,54 @@ function makeMap(mapDiv) {
   //   title: "Current location"
   // });
 
-  navigator.geolocation.getCurrentPosition(function (data) {
-    loadPlaces(data.coords.latitude, data.coords.longitude);
-  }, function (err) {
-    loadPlaces();
-  });
+  // navigator.geolocation.getCurrentPosition(
+  //   data => {
+  //     loadPlaces(data.coords.latitude, data.coords.longitude);
+  //   },
+  //   err => {
+  //     loadPlaces();
+  //   }
+  // );
 
   // Distance changed
-  (0, _bling.$)("#distance-select").on("change", function () {
-    miles = this.querySelector('input[name="distance"]:checked').value;
+  (0, _bling.$)("#distance").on("change", function () {
+    distance = this.value;
     var gmPlace = autocomplete.getPlace();
-    if (!gmPlace) return false;
+    if (!gmPlace || !gmPlace.geometry || !gmPlace.geometry.location) {
+      return false;
+    }
 
-    loadPlaces(gmPlace.geometry.location.lat(), gmPlace.geometry.location.lng(), miles);
+    loadPlaces(gmPlace.geometry.location.lat(), gmPlace.geometry.location.lng(), distance);
   });
 
   // Load events on place change
   autocomplete.addListener("place_changed", function () {
     var gmPlace = autocomplete.getPlace();
-    loadPlaces(gmPlace.geometry.location.lat(), gmPlace.geometry.location.lng(), miles
-    // current
-    );
+
+    if (!gmPlace.geometry || !gmPlace.geometry.location) {
+      loadPlaces();
+    } else {
+      loadPlaces(gmPlace.geometry.location.lat(), gmPlace.geometry.location.lng(), distance
+      // current
+      );
+    }
   });
+
+  loadPlaces();
 }
 
 function loadPlaces() {
   var lat = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 54.043667;
   var lng = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -2.488511;
-  var miles = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  var distance = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-  console.log(lat, lng, miles);
-  _axios2.default.get("/api/events/near?lat=" + lat + "&lng=" + lng + "&miles=" + miles).then(function (res) {
+  var url = "/api/events/near?lat=" + lat + "&lng=" + lng + "&distance=" + distance;
+
+  _axios2.default.get(url).then(function (res) {
     places = res.data;
 
     if (!places.length) {
-      alert("no places found!");
+      alert("No places found!");
       return;
     }
 
@@ -1201,7 +1216,6 @@ function renderMarkers(places) {
   var clusterOptions = {
     gridSize: 20,
     maxZoom: 10,
-    // zoomOnClick: false,
     imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
   };
 

@@ -34,14 +34,16 @@ mixin adminEventCard(event = {})
 					!= h.icon('calendar')
 				= event.display_date
 			//- Free
+			dt.offscreen Price:
 			if event.is_free
-				dt.offscreen Price:
-				dd(class="event__item event__item--free") Free
+				dd(class="event__item banner banner--free") Free
+			if (event.donation && !event.is_free) 
+				dd(class="event__item banner banner--donation") Donation
 
 			dt.offscreen Summary:
 			dd(class="event__item")= event.summary
 			dt.offscreen Link:
-			dd(class="event__item"): a(href=event.website target="_blank") View more details
+			dd(class="event__item"): a(href=event.website target="_blank" rel="noopener noreferrer") View more details
 
 		.admin-event__add-remove
 			label(for=`add_${event._id}`) Add event

@@ -4,7 +4,7 @@ import { nextEvent, clearOverlays } from "./helpers";
 
 if ($("#map")) {
   var places;
-  var miles;
+  var distance;
 
   var mapOptions = {
     zoom: 5,
@@ -36,54 +36,62 @@ function makeMap(mapDiv) {
   //   title: "Current location"
   // });
 
-  navigator.geolocation.getCurrentPosition(
-    data => {
-      loadPlaces(data.coords.latitude, data.coords.longitude);
-    },
-    err => {
-      loadPlaces();
-    }
-  );
+  // navigator.geolocation.getCurrentPosition(
+  //   data => {
+  //     loadPlaces(data.coords.latitude, data.coords.longitude);
+  //   },
+  //   err => {
+  //     loadPlaces();
+  //   }
+  // );
 
   // Distance changed
-  $("#distance-select").on("change", function() {
-    miles = this.querySelector('input[name="distance"]:checked').value;
+  $("#distance").on("change", function() {
+    distance = this.value;
     const gmPlace = autocomplete.getPlace();
-    if (!gmPlace) return false;
+    if (!gmPlace || !gmPlace.geometry || !gmPlace.geometry.location) {
+      return false;
+    }
 
     loadPlaces(
       gmPlace.geometry.location.lat(),
       gmPlace.geometry.location.lng(),
-      miles
+      distance
     );
   });
 
   // Load events on place change
   autocomplete.addListener("place_changed", () => {
     const gmPlace = autocomplete.getPlace();
-    loadPlaces(
-      gmPlace.geometry.location.lat(),
-      gmPlace.geometry.location.lng(),
-      miles
-      // current
-    );
+
+    if (!gmPlace.geometry || !gmPlace.geometry.location) {
+      loadPlaces();
+    } else {
+      loadPlaces(
+        gmPlace.geometry.location.lat(),
+        gmPlace.geometry.location.lng(),
+        distance
+        // current
+      );
+    }
   });
+
+  loadPlaces();
 }
 
-function loadPlaces(lat = 54.043667, lng = -2.488511, miles = false) {
-  console.log(lat, lng, miles);
-  axios
-    .get(`/api/events/near?lat=${lat}&lng=${lng}&miles=${miles}`)
-    .then(res => {
-      places = res.data;
+function loadPlaces(lat = 54.043667, lng = -2.488511, distance = false) {
+  const url = `/api/events/near?lat=${lat}&lng=${lng}&distance=${distance}`;
 
-      if (!places.length) {
-        alert("no places found!");
-        return;
-      }
+  axios.get(url).then(res => {
+    places = res.data;
 
-      renderMarkers(places);
-    });
+    if (!places.length) {
+      alert("No places found!");
+      return;
+    }
+
+    renderMarkers(places);
+  });
 }
 
 function renderMarkers(places) {
@@ -164,7 +172,6 @@ function renderMarkers(places) {
   const clusterOptions = {
     gridSize: 20,
     maxZoom: 10,
-    // zoomOnClick: false,
     imagePath:
       "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
   };

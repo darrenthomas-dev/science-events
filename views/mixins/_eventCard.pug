@@ -17,8 +17,8 @@ mixin eventCard(event = {})
 				if event.end_datetime < new Date()
 					p.text--warning: em This event has expired and will soon be deleted.
 		h3.event__title
-			if (event.slug === "")
-				a(href=event.website) #{event.name}
+			if (!event.slug)
+				a(href=event.website target="_blank" rel="noopener noreferrer") #{event.name}
 			else
 				a(href=`/event/${event.slug}`) #{event.name}
 		dl.event__details
@@ -36,9 +36,14 @@ mixin eventCard(event = {})
 				= event.display_date
 			//- Price
 			dt.offscreen Price:
+				if (event.donation && !event.is_free)
+					dd(class="event__item banner banner--donation" aria-hidden=true) Donation
+					dd.offscreen This event is asking for a donation, please check the organiser's website for further details.
+
 				if event.is_free
-					dd(class="event__item event__item--free" aria-hidden=true) Free
+					dd(class="event__item banner banner--free" aria-hidden=true) Free
 					dd.offscreen This event is available for free, for eligibility please check the organiser's website.
+
 				else if event.price_range && !event.price_range.max_price && event.price_range.min_price
 					-const price = Number(event.price_range.min_price).toFixed(2)
 					dd.event__item

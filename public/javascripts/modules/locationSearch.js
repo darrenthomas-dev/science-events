@@ -10,6 +10,8 @@ function searchByLocation(locationAutocomplete) {
   autocomplete.addListener("place_changed", () => {
     const place = autocomplete.getPlace();
 
+    if (!place.geometry || !place.geometry.location) return false;
+
     lat.value = place.geometry.location.lat();
     lng.value = place.geometry.location.lng();
   });

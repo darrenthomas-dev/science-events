@@ -2,6 +2,9 @@
   background: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
   margin-bottom: 35px;
+  .location-autocomplete__button {
+    display: none;
+  }
   > div:first-child {
     display: flex;
     align-items: center;

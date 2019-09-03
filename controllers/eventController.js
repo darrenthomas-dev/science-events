@@ -252,8 +252,7 @@ exports.editEvent = async (req, res) => {
   // 2. Confirm they are the owner of the event
   confirmOwner(event, req.user);
   // 3. Render the edit form and allow user to update event
-  res.render("editEvent", { title: `Edit ${event.name}`, event });
-  // res.json(event);
+  res.render("editEvent", { title: event.name, event });
 };
 
 const getLatLng = async address => {
@@ -383,15 +382,7 @@ exports.searchOrganistaions = async (req, res) => {
 };
 
 exports.mapEvents = async (req, res) => {
-  // const page = req.params.page || 1;
-  // const limit = 12;
-  // const skip = page * limit - limit;
-  // const free = req.body.free;
-  // const familyFriendly = req.body.family_friendly;
-  // const start = req.body.start_datetime || undefined;
-  const end = req.body.end_datetime || undefined;
-  const defaultStartDate = new Date().toISOString().slice(0, 10);
-  // const organisation = req.body.search_organisation || undefined;
+  const startDate = new Date().toISOString().slice(0, 10);
   const coordinates = [req.query.lng, req.query.lat];
 
   console.log(coordinates);
@@ -400,23 +391,7 @@ exports.mapEvents = async (req, res) => {
     display: true
   };
 
-  // if (free) {
-  //   query.is_free = true;
-  // }
-  // if (start) {
-  //   query.start_datetime = {
-  //     $gte: new Date(`${start}T00:00:00Z`)
-  //   };
-  // }
-  if (end) {
-    query.end_datetime = { $lte: new Date(`${end}T23:59:59Z`) };
-  } else {
-    query.end_datetime = { $gte: new Date(`${defaultStartDate}T00:00:00Z`) };
-  }
-  // if (organisation) {
-  //   console.log(organisation);
-  //   query.organisation = organisation;
-  // }
+  query.end_datetime = { $gte: new Date(`${startDate}T00:00:00Z`) };
 
   const miles = req.query.distance;
 
@@ -466,8 +441,22 @@ exports.getEventBySlug = async (req, res, next) => {
   res.render("event", { event, title: event.name });
 };
 
-exports.mapPage = (req, res) => {
-  res.render("map", { title: "Map" });
+exports.mapPage = async (req, res) => {
+  const location = req.query.geolocate || req.params.geolocate;
+  const miles = req.query.distance || req.params.distance;
+  const coordinates = [req.query.lng, req.query.lat] || [
+    req.params.lng,
+    req.params.lat
+  ];
+
+  const query = constructQuery(miles, coordinates);
+
+  console.log(query);
+
+  // 1. Query database for all events
+  const events = await Event.find(query);
+
+  res.render("map", { title: "Map", events });
 };
 
 exports.addEventBriteEvents = async (req, res) => {
@@ -556,48 +545,8 @@ exports.getEvents = async (req, res) => {
     req.params.lng,
     req.params.lat
   ];
-  // const start = new Date().toISOString().slice(0, 10);
 
   const query = constructQuery(miles, coordinates);
-
-  // let query = {
-  //   display: true
-  // };
-
-  // // Event end date must not be in the past.
-  // query.end_datetime = { $gte: new Date(`${start}T00:00:00Z`) };
-
-  // // Add distance search to query
-  // query = addLocationToQuery(miles, coordinates, query);
-
-  // if (miles) {
-  //   let distance = 0;
-
-  //   switch (miles) {
-  //     case "10":
-  //       distance = 16093;
-  //       break;
-  //     case "20":
-  //       distance = 32186;
-  //       break;
-  //     case "30":
-  //       distance = 48280;
-  //       break;
-  //     case "40":
-  //       distance = 64373;
-  //       break;
-  //   }
-
-  //   query.location = {
-  //     $near: {
-  //       $geometry: {
-  //         type: "Point",
-  //         coordinates
-  //       },
-  //       $maxDistance: distance
-  //     }
-  //   };
-  // }
 
   console.log(query);
 

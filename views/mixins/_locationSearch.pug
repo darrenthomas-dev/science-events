@@ -1,6 +1,6 @@
 mixin locationSearch(lat, lng, location, distance)
 
-	form(id="locationAutocomplete" class="location-autocomplete" method="GET" action="/")
+	form(id="locationAutocomplete" class="location-autocomplete" method="GET" )
 		label(class="location-autocomplete__label" for="location") Enter your location
 		input(class="location-autocomplete__input" id="location" type="text" name="geolocate" value=location placeholder="")
 		input(type="hidden" name="lat" id="lat" value=lat)
@@ -8,8 +8,8 @@ mixin locationSearch(lat, lng, location, distance)
 		label(for="distance") Select a distance:
 		select(id="distance" class="location-autocomplete__select" name='distance')
 			option(value="" selected=(distance === false)) Any
-			option(value="10" selected=(distance ==="10" )) 10 miles
-			option(value="20" selected=(distance ==="20" )) 20 miles
-			option(value="30" selected=(distance ==="30" )) 30 miles
-			option(value="40" selected=(distance ==="40" )) 40 miles
+			option(value="10" selected=(distance ==="10")) 10 miles
+			option(value="20" selected=(distance ==="20")) 20 miles
+			option(value="30" selected=(distance ==="30")) 30 miles
+			option(value="40" selected=(distance ==="40")) 40 miles
 		input(type="submit" class="location-autocomplete__button button button--primary" value="Find events")
