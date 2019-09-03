@@ -177,7 +177,8 @@ exports.updateEventDisplay = async (req, res) => {
 
       const event = {
         id,
-        donation: false
+        donation: false,
+        free: false
       };
 
       await axios

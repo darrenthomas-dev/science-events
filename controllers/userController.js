@@ -102,15 +102,11 @@ exports.deleteAccount = async (req, res) => {
 };
 
 exports.getUserEvents = async (req, res) => {
-  console.log();
-
   const events = await Events.find({ author: req.user.id });
   const count = events.length;
 
   // confirmOwner(event, req.user);
-  console.log(req.user.id);
-
-  res.render("events", { title: "My Events", events, count });
+  res.render("my-events", { title: "My Events", events, count });
 };
 
 exports.getUserEventbriteEvents = async (req, res) => {

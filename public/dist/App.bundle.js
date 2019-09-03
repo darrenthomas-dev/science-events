@@ -1162,7 +1162,7 @@ function renderMarkers(places) {
 
   google.maps.event.addListener(infoWindow, "domready", function () {
     // Bind click event to button
-    var btn = document.querySelector(".info__button");
+    var btn = document.querySelector(".gm-next-btn");
     if (btn) {
       btn.addEventListener("click", function () {
         (0, _helpers.nextEvent)();
@@ -1201,7 +1201,7 @@ function renderMarkers(places) {
         html += "\n        <div class=\"popup__event" + (i > 0 ? " hide" : "") + "\">\n          <img src=" + this.place[i].image + " alt=\"\">          \n          <h3>" + this.place[i].name + "</h3>\n          <p><em>" + this.place[i].organisation + "</em></p>\n          <p>" + this.place[i].location.address + "</p>\n            </div>";
       }
 
-      html += (this.place.length > 1 ? '<button class="button">Next</button>' : "") + "</div>";
+      html += (this.place.length > 1 ? '<button class="gm-next-btn button">Next</button>' : "") + "</div>";
 
       infoWindow.setContent(html);
       infoWindow.open(map, this);

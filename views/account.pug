@@ -3,11 +3,11 @@ extends layout
 block content
 	.inner
 		h2 Edit Your Account
-		form(class="form" method="POST")
+		form(method="POST")
 
 			//- User email address
-			label(class="form__label" for="email") Email Address
-			input(class="form__input" type="email" name="email" value=user.email)
+			label(class="label" for="email") Email Address
+			input(class="input" type="email" name="email" value=user.email)
 
 			p: a(href="") Change password.
 
@@ -15,12 +15,12 @@ block content
 			p.tip Information entered here will appear on the create event form. 
 
 			//- Organistaion
-			label(class="form__label" for="name") Organisation
-			input(class="form__input" type="text" name="organisation" id="organisation" value=user.organisation)
+			label(class="label" for="name") Organisation
+			input(class="input" type="text" name="organisation" id="organisation" value=user.organisation)
 
 			//- Address
-			label(class="form__label" for="address") Event address
-			input(class="form__input" type="text" id="address" name="address" value=user.address)
+			label(class="label" for="address") Event address
+			input(class="input" type="text" id="address" name="address" value=user.address)
 
 			//- //- Image upload
 			//- label(for="image") Image
@@ -29,13 +29,13 @@ block content
 			//- 	img(src=`/uploads/${user.image}`, alt='' width=200)
 
 			//- Update
-			input.button(class="form__input" type="submit" formaction="/account" value="Update My Account")
+			input.button(class="input" type="submit" formaction="/account" value="Update My Account")
 
 			hr
 
 			if user.eb_organiser_id
 				h3.offscreen Eventbrite Account
-				p Eventbrite organsiser id: 
+				p Eventbrite organiser id: 
 					span #{user.eb_organiser_id} 
 					a(href="#") change id
 				hr

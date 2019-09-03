@@ -1,5 +1,8 @@
 mixin eventForm(event = {})
 
+	if !user
+		p.form-card You are not logged in. You can still submit events, however if you wish to have the ability to edit your event, add an image and description, then please log in <a href="/login">here</a> or register for free <a href="/register">here</a>. 
+
 	p.form__section.txt--light Fields marked with an asterix (*) are required.
 
 	if ((user && user.eb_organiser_id) || (user && user.admin))
@@ -82,25 +85,27 @@ mixin eventForm(event = {})
 
 
 		//- Image upload
-		.fb.form__section
-			.fb-50.pr-60
-				h2 Event Image
-				p.txt--light If no image is uploaded then a default image will be displayed. All images are compressed and resized to 800px width by 480px height (aspect ratio 5:3) on upload. Supported formats are jpg and png.
-			.fb-50.pt-16
-				label(class="label" for="image") Image:
-				input(class="input" type="file" name="image" id="image" accept="image/png, image/jpeg")
-				if event.image
-					if event.eb_id
-						img(src=`${event.image}`, alt='' width=400)
-					else
-						img(src=`/uploads/${event.image}`, alt='' width=400)
+		if user
 
-		//- Description (tinyMCE)
-		.form__section.text--editor
-			h2 Event Description
-			p <strong>Important:</strong> Adding a description will create an event page on Science Near Me. If you would prefer for your event to link directly to an external site then leave the description blank.
-			label(class="offscreen" for="description") Description:
-			textarea(name="description" id="description")= event.description
+			.fb.form__section
+				.fb-50.pr-60
+					h2 Event Image
+					p.txt--light If no image is uploaded then a default image will be displayed. All images are compressed and resized to 800px width by 480px height (aspect ratio 5:3) on upload. Supported formats are jpg and png.
+				.fb-50.pt-16
+					label(class="label" for="image") Image:
+					input(class="input" type="file" name="image" id="image" accept="image/png, image/jpeg")
+					if event.image
+						if event.eb_id
+							img(src=`${event.image}`, alt='' width=400)
+						else
+							img(src=`/uploads/${event.image}`, alt='' width=400)
+
+			//- Description (tinyMCE)
+			.form__section.text--editor
+				h2 Event Description
+				p <strong>Important:</strong> Adding a description will create an event page on Science Near Me. If you would prefer for your event to link directly to an external site then leave the description blank.
+				label(class="offscreen" for="description") Description:
+				textarea(name="description" id="description")= event.description
 			
 		//- Submit
 		input(class="button" type="submit" value="Save" formaction=`/add/${event._id || ''}`)

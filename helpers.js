@@ -226,15 +226,7 @@ exports.addEventbriteTicketPricesToEvent = (tickets, event) => {
     event["donation"] = donation;
   } else {
     event["donation"] = donation;
-    console.log("no price details, adding donation details.");
   }
-
-  // // Add to database if not already
-  // try {
-  //   await new Event(event).save();
-  // } catch (err) {
-  //   console.log("unable to add event, probably already exsits");
-  // }
 
   return event;
 };

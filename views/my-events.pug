@@ -5,11 +5,8 @@ include mixins/_locationSearch
 include mixins/_pagination
 
 block content
-	h2.offscreen= title
+	h1.offscreen= title
 	
-	div
-		+locationSearch()
-
 	.events__count
 		p= `You have ${count} events. To create a new event click `
 			a(href="/add") here.
@@ -18,4 +15,3 @@ block content
 		.events
 			each event in events
 				+eventCard(event, start)
-		+pagination(page, pages, count, parentSlug)

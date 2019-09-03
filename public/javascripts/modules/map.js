@@ -113,7 +113,7 @@ function renderMarkers(places) {
 
   google.maps.event.addListener(infoWindow, "domready", function() {
     // Bind click event to button
-    const btn = document.querySelector(".info__button");
+    const btn = document.querySelector(".gm-next-btn");
     if (btn) {
       btn.addEventListener("click", function() {
         nextEvent();
@@ -156,7 +156,9 @@ function renderMarkers(places) {
       }
 
       html += `${
-        this.place.length > 1 ? '<button class="button">Next</button>' : ""
+        this.place.length > 1
+          ? '<button class="gm-next-btn button">Next</button>'
+          : ""
       }</div>`;
 
       infoWindow.setContent(html);
