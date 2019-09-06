@@ -11,20 +11,19 @@ html
       a(id="content" href="#maincontent") Skip to #{skip}
     nav.nav
       h2.offscreen Main navigation
-      button.nav__button.nav__button--close Menu
+      a.nav__logo(href="/" tabIndex="-1") Science Near Me
+      button.nav__button Menu
       ul.nav__section
-        li.nav__item
-          a.nav__link.nav__logo(href="/" tabIndex="-1") Science Near Me
         each item in h.menu
           li.nav__item
             a.nav__link(href=item.slug class=(currentPath.startsWith(item.slug) ? 'nav__link--active' : '')) #{item.title}
 
-      //- .search
-      //-   label(for="search" class="offscreen") Search by event name:
-      //-   input.search__input(type="text" id="search" name="search" placeholder="Search by event name...")
-      //-   .search__results
+        //- .search
+        //-   label(for="search" class="offscreen") Search by event name:
+        //-   input.search__input(type="text" id="search" name="search" placeholder="Search by event name...")
+        //-   .search__results
 
-      ul.nav__section
+        //- ul.nav__section
         if user
           each item in h.userMenu
             li.nav__item

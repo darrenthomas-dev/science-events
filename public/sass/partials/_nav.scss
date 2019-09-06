@@ -8,14 +8,14 @@
 .nav__logo {
   font-family: "sunday";
   font-size: 28px;
+  padding: 8px;
+  display: inline-block;
+  text-decoration: none;
 }
-.nav__button--open {
+.nav__button {
   position: fixed;
   right: 0;
   z-index: 2;
-}
-.nav__button--close {
-  float: right;
 }
 
 .nav__button {
@@ -28,7 +28,7 @@
   position: fixed;
   z-index: 1;
   width: 100%;
-
+  flex: 1;
   margin: 0;
   height: 100vh;
   display: none;
@@ -36,16 +36,8 @@
   list-style: none;
   padding: 0;
 
-  .nav__item {
-    // width: 100%;
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
-  }
-
   .nav__link {
     display: flex;
-    // flex-direction: column;
     align-items: center;
     text-decoration: none;
     padding: 1rem;
@@ -54,52 +46,47 @@
 @media all and (min-width: 960px) {
   .nav__section {
     position: unset;
-    // z-index: unset;
   }
   .nav__button {
     display: none;
   }
   .nav {
     display: flex;
-    // align-items: center;
-    // justify-content: space-between;
+    align-items: center;
   }
-  // .nav .search {
-  //   flex: 2;
-  //   height: 100%;
-  // }
-  // .nav .search .search__input {
-  //   height: 100%;
-  //   width: 100%;
-  //   padding: 8px;
-  //   max-width: 900px;
-  //   border: 1px solid transparent;
-  //   border-left: 1px solid #eee;
-  //   font-size: 1.2rem;
-  //   letter-spacing: 0.4px;
-  // }
+
   .nav .nav__section:last-child {
     justify-content: flex-end;
   }
   .nav__section {
     display: flex;
-    // justify-content: space-around;
-    // flex: 1;
-    // align-items: center;
     height: 100%;
   }
   .nav__section .nav__item {
-    // height: 100%;
   }
   .nav__section .nav__link {
-    // display: flex;
-    // align-items: center;
-    // text-decoration: none;
-    // padding: 1rem;
     height: 100%;
   }
 }
 
 .nav .avatar {
   width: 28px;
+}
+
+.mobile-menu--show {
+  display: flex;
+  background: #2b3b48;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  > .nav__item {
+    width: 100%;
+    padding: 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 8px;
+  }
 }

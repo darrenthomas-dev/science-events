@@ -4,15 +4,17 @@ import { nextEvent, clearOverlays } from "./helpers";
 
 if ($("#map")) {
   var places;
-  var distance;
+  // var distance;
+  var latlng = new google.maps.LatLng(54.043667, -2.488511);
 
   var mapOptions = {
     zoom: 5,
-    maxZoom: 18
+    maxZoom: 18,
+    center: latlng
   };
   var markers = [];
-  var input = $('[name="geolocate"]');
-  var autocomplete = new google.maps.places.Autocomplete(input);
+  // var input = $('[name="geolocate"]');
+  // var autocomplete = new google.maps.places.Autocomplete(input);
   var map;
 }
 
@@ -24,9 +26,9 @@ function makeMap(mapDiv) {
   map = new google.maps.Map(mapDiv, mapOptions);
 
   // If hit enter do not submit form.
-  input.on("keydown", e => {
-    if (e.keyCode === 13) e.preventDefault();
-  });
+  // input.on("keydown", e => {
+  //   if (e.keyCode === 13) e.preventDefault();
+  // });
 
   // const image = "/images/icons/current_location.png";
   // let current = new google.maps.Marker({
@@ -46,35 +48,35 @@ function makeMap(mapDiv) {
   // );
 
   // Distance changed
-  $("#distance").on("change", function() {
-    distance = this.value;
-    const gmPlace = autocomplete.getPlace();
-    if (!gmPlace || !gmPlace.geometry || !gmPlace.geometry.location) {
-      return false;
-    }
+  // $("#distance").on("change", function() {
+  //   distance = this.value;
+  //   const gmPlace = autocomplete.getPlace();
+  //   if (!gmPlace || !gmPlace.geometry || !gmPlace.geometry.location) {
+  //     return false;
+  //   }
 
-    loadPlaces(
-      gmPlace.geometry.location.lat(),
-      gmPlace.geometry.location.lng(),
-      distance
-    );
-  });
+  //   loadPlaces(
+  //     gmPlace.geometry.location.lat(),
+  //     gmPlace.geometry.location.lng(),
+  //     distance
+  //   );
+  // });
 
   // Load events on place change
-  autocomplete.addListener("place_changed", () => {
-    const gmPlace = autocomplete.getPlace();
+  // autocomplete.addListener("place_changed", () => {
+  //   const gmPlace = autocomplete.getPlace();
 
-    if (!gmPlace.geometry || !gmPlace.geometry.location) {
-      loadPlaces();
-    } else {
-      loadPlaces(
-        gmPlace.geometry.location.lat(),
-        gmPlace.geometry.location.lng(),
-        distance
-        // current
-      );
-    }
-  });
+  //   if (!gmPlace.geometry || !gmPlace.geometry.location) {
+  //     loadPlaces();
+  //   } else {
+  //     loadPlaces(
+  //       gmPlace.geometry.location.lat(),
+  //       gmPlace.geometry.location.lng(),
+  //       distance
+  //       // current
+  //     );
+  //   }
+  // });
 
   loadPlaces();
 }
@@ -140,8 +142,8 @@ function renderMarkers(places) {
   // show infoWindow on click
   markers.forEach(marker =>
     marker.addListener("click", function() {
-      const lat = this.place[0].location.coordinates[1];
-      const lng = this.place[0].location.coordinates[0];
+      // const lat = this.place[0].location.coordinates[1];
+      // const lng = this.place[0].location.coordinates[0];
 
       let html = "<div class='popup'>";
 

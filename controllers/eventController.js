@@ -410,7 +410,7 @@ exports.getEvents = async (req, res) => {
   console.log(query);
 
   // 1. Query database for all events
-  const eventsPromise = await Event.find(query)
+  const eventsPromise = Event.find(query)
     .skip(skip)
     .limit(limit)
     .populate("author", "admin")
@@ -446,5 +446,21 @@ exports.getEvents = async (req, res) => {
     distance: miles,
     lat: coordinates[1],
     lng: coordinates[0]
+  });
+};
+
+// Return last 12 recently added events
+exports.recentlyAddedEvents = async (req, res) => {
+  const limit = 6;
+
+  const count = await Event.count();
+
+  const events = await Event.find().skip(count - limit);
+
+  // res.json(events);
+
+  res.render("recent", {
+    title: "Recently Added",
+    events
   });
 };

@@ -7,9 +7,11 @@ const adminController = require("../controllers/adminController");
 const { catchErrors } = require("../handlers/errorHandlers");
 
 // Homepage
-router.get("/", catchErrors(eventController.getEvents));
+// router.get("/", catchErrors(eventController.getEvents));
 // Events pagination
 router.get("/events/page/:page", catchErrors(eventController.getEvents));
+
+router.get("/", catchErrors(eventController.recentlyAddedEvents));
 
 // Event Pages
 // Add an event page

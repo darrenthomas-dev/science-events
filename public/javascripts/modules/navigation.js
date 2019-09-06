@@ -4,14 +4,17 @@ function displayNavigation(btn) {
   if (!btn) return;
 
   const nav = $(".nav__section");
+  const logo = $(".nav__logo");
 
   btn.addEventListener("click", function() {
-    if (nav.style.display === "grid") {
-      btn.className = "nav__button nav__button--close";
-      nav.style.display = "none";
+    if (!this.classList.contains("nav__button--open")) {
+      this.classList.add("nav__button--open");
+      nav.classList.add("mobile-menu--show");
+      logo.classList.add("hide");
     } else {
-      nav.style.display = "grid";
-      btn.className = "nav__button nav__button--open";
+      this.classList.remove("nav__button--open");
+      nav.classList.remove("mobile-menu--show");
+      logo.classList.remove("hide");
     }
   });
 }

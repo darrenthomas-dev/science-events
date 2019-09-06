@@ -1,0 +1,27 @@
+extends layout
+
+include mixins/_eventCard
+include mixins/_locationSearch
+include mixins/_pagination
+include mixins/_footer
+
+block content
+
+	.hero
+		img(class="hero-img" src="/images/photos/lab.jpg" alt="")
+		p Find an event near you!
+		.hero-info
+			p Science Near Me aims to link science organisers with science enthusiasts.
+	
+	+locationSearch(lat, lng, location, distance)
+
+	main#maincontent
+		.events__count
+			h1= title
+
+		.events
+			each event in events
+				+eventCard(event)
+
+block footer
+	+footer()

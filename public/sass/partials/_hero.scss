@@ -1,0 +1,33 @@
+.hero {
+  position: relative;
+  // margin-bottom: 16px;
+  > p {
+    margin: 0;
+    position: absolute;
+    top: calc(40vh - 108px);
+    left: 0;
+    font-size: 38px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
+    background: hsla(0, 0%, 100%, 0.35);
+  }
+}
+
+.hero-img {
+  height: 80vh;
+  width: 100%;
+  object-fit: cover;
+  object-position: bottom right;
+}
+
+.hero-info {
+  background: linear-gradient(to right, #ea065f, #9d2aae);
+  > p {
+    margin: 0;
+    padding: 16px;
+    text-align: center;
+    color: hsla(0, 0%, 100%, 0.8);
+    font-size: 18px;
+  }
+}

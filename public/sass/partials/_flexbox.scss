@@ -1,9 +1,11 @@
-.fb {
-  display: flex;
-  &--c {
-    flex-direction: column;
-  }
-  &-50 {
-    flex-basis: 50%;
+@media (min-width: 960px) {
+  .fb {
+    display: flex;
+    &--c {
+      flex-direction: column;
+    }
+    &-50 {
+      flex-basis: 50%;
+    }
   }
 }
