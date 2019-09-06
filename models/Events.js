@@ -99,12 +99,12 @@ eventSchema.index(
 );
 
 eventSchema.pre("save", async function(next) {
-  if (!this.slug) {
+  if (!this.isModified("name")) {
     next();
     return;
   }
 
-  if (!this.isModified("name")) {
+  if (!this.description) {
     next();
     return;
   }

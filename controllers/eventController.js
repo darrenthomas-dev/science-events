@@ -67,8 +67,6 @@ exports.createEvent = async (req, res) => {
   // Add author id to body
   req.body.author = req.user._id;
 
-  // res.json(req.body);
-
   // Add body data to database
   const event = await new Event(req.body).save();
   req.flash(
@@ -77,144 +75,6 @@ exports.createEvent = async (req, res) => {
   );
   res.redirect("back");
 };
-
-// exports.getEvents = async (req, res) => {
-//   const page = req.params.page || 1;
-//   const limit = 12;
-//   const skip = page * limit - limit;
-
-//   const free = req.body.free || undefined;
-//   const familyFriendly = req.body.family_friendly || undefined;
-//   const donation = req.body.donation || undefined;
-//   const start = req.body.start_datetime || undefined;
-//   const end = req.body.end_datetime || undefined;
-//   const minPrice = req.body.min_price || undefined;
-//   const maxPrice = req.body.max_price || undefined;
-//   const location = req.body.geolocate || undefined;
-//   const lat = req.body.lat || undefined;
-//   const lng = req.body.lng || undefined;
-//   const miles = req.body.distance || undefined;
-//   const organisation = req.body.search_organisation || undefined;
-//   console.log(organisation);
-
-//   const tags = [];
-
-//   let query = {
-//     display: true
-//   };
-
-//   if (familyFriendly) {
-//     tags.push("Family Friendly");
-//   }
-//   if (donation) {
-//     tags.push("Donation");
-//   }
-//   if (tags.length) {
-//     query.tags = { $all: tags };
-//   }
-//   if (free) {
-//     query.is_free = true;
-//   }
-//   if (start) {
-//     query.start_datetime = {
-//       $gte: new Date(`${start}T00:00:00Z`)
-//     };
-//   }
-//   if (end) {
-//     query.end_datetime = { $lte: new Date(`${end}T23:59:59Z`) };
-//   } else {
-//     const start = new Date().toISOString().slice(0, 10);
-//     query.end_datetime = { $gte: new Date(`${start}T00:00:00Z`) };
-//   }
-//   if (organisation) {
-//     console.log(organisation);
-//     query.organisation = organisation;
-//   }
-
-//   if (minPrice && minPrice > 0) {
-//     query["price_range.min_price"] = { $gte: minPrice };
-//   }
-
-//   if (maxPrice) {
-//     query["$or"] = [
-//       { "price_range.min_price": { $lte: maxPrice } },
-//       { is_free: true }
-//     ];
-//   }
-//   if (lat && lng) {
-//     const coordinates = [lng, lat];
-
-//     let distance = false;
-
-//     if (miles) {
-//       if (miles === "10") distance = 16093;
-//       if (miles === "20") distance = 32186;
-//       if (miles === "30") distance = 48280;
-//       if (miles === "40") distance = 64373;
-//     }
-
-//     distance
-//       ? (query["location"] = {
-//           $near: {
-//             $geometry: {
-//               type: "Point",
-//               coordinates
-//             },
-//             $maxDistance: distance
-//           }
-//         })
-//       : (query["location"] = {
-//           $near: {
-//             $geometry: {
-//               type: "Point",
-//               coordinates
-//             }
-//           }
-//         });
-//   }
-
-//   console.log(query);
-
-//   // 1. Query database for all events
-//   const eventsPromise = Event.find(query)
-//     .skip(skip)
-//     .limit(limit)
-//     .populate("author", "admin")
-//     .sort("start_datetime");
-
-//   const countPromise = Event.find(query).count();
-//   const [events, count] = await Promise.all([eventsPromise, countPromise]);
-//   const pages = Math.ceil(count / limit);
-
-//   if (!events.length && skip) {
-//     req.flash(
-//       "info",
-//       `Page ${page} does not exist. You have been redirected to page ${pages} which is the last page.`
-//     );
-//     res.redirect(`/events/page/${pages}`);
-//     return;
-//   }
-
-//   res.render("events", {
-//     title: "Events",
-//     parentSlug: "events",
-//     events,
-//     page,
-//     pages,
-//     count,
-//     free,
-//     familyFriendly,
-//     donation,
-//     start,
-//     end,
-//     minPrice,
-//     maxPrice,
-//     location,
-//     lat,
-//     lng,
-//     miles
-//   });
-// };
 
 const confirmOwner = (event, user) => {
   let test = false;
@@ -296,15 +156,15 @@ exports.updateEvent = async (req, res) => {
   req.body.location.type = "Point";
   req.body.location.coordinates = [latLng[1], latLng[0]];
 
-  // Set slug if required
-  if (req.body.description === "") {
-    console.log("no description");
-    req.body.slug = "";
-    console.log("setting slug to blank string");
-  } else {
-    const slug = await createSlug(req.body.name);
-    req.body.slug = slug;
-  }
+  // // Set slug if required
+  // if (req.body.description === "") {
+  //   console.log("no description");
+  //   req.body.slug = "";
+  //   console.log("setting slug to blank string");
+  // } else {
+  //   const slug = await createSlug(req.body.name);
+  //   req.body.slug = slug;
+  // }
 
   // find and update the event
   const event = await Event.findOneAndUpdate({ _id: req.params.id }, req.body, {
@@ -313,10 +173,9 @@ exports.updateEvent = async (req, res) => {
   }).exec();
 
   // redirect to event and tell them it worked
-  const link =
-    event.slug === ""
-      ? event.name
-      : `<a href=/event/${event.slug}>${event.name}</a>`;
+  const link = event.slug
+    ? `<a href=/event/${event.slug}>${event.name}</a>`
+    : event.name;
 
   req.flash("success", `Successfully updated <strong>${link}</strong>..`);
   res.redirect(`back`);

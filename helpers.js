@@ -95,6 +95,11 @@ exports.getDatetime = x => {
 };
 
 exports.createSlug = async name => {
+  //   if (!this.isModified("name") && this.slug) {
+  //     next();
+  //     return;
+  //   }
+
   let permalink = slug(name);
 
   // Check for events with same slug and set as numerical
