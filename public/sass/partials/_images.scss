@@ -1,0 +1,22 @@
+.form-bg-img {
+  display: none;
+}
+
+@media all and (min-width: 986px) {
+  .form-card {
+    width: 960px;
+  }
+  .form-bg-img {
+    display: block;
+    background-size: cover;
+    background-position: top right;
+    background-repeat: no-repeat;
+
+    &--register {
+      background-image: url("/images/photos/nasa-earth-from-space.jpg");
+    }
+    &--login {
+      background-image: url("/images/photos/anatomical-model.jpg");
+    }
+  }
+}

@@ -13,17 +13,23 @@
   text-decoration: none;
 }
 .nav__button {
+  padding: 10px 12px;
+  margin: 8px;
+  background-color: #9f29ac;
+  border: 1px solid #9f29ac;
+  border-radius: 50%;
+  cursor: pointer;
   position: fixed;
   right: 0;
   z-index: 2;
+  svg {
+    width: 24px;
+    fill: #fff;
+    position: relative;
+    top: 1px;
+  }
 }
 
-.nav__button {
-  padding: 8px 16px;
-  margin: 8px;
-  background-color: white;
-  border: 1px solid #ccc;
-}
 .nav__section {
   position: fixed;
   z-index: 1;

@@ -17,7 +17,7 @@ typeAhead($(".search"));
 
 makeMap($("#map"));
 
-displayNavigation($(".nav__button"));
+displayNavigation($("#menu"));
 
 clearFilters($("#filterResetButton"));
 

@@ -1257,16 +1257,24 @@ function displayNavigation(btn) {
 
   var nav = (0, _bling.$)(".nav__section");
   var logo = (0, _bling.$)(".nav__logo");
+  var iconOpen = (0, _bling.$)(".menu-icon-open");
+  var iconClose = (0, _bling.$)(".menu-icon-close");
 
   btn.addEventListener("click", function () {
     if (!this.classList.contains("nav__button--open")) {
       this.classList.add("nav__button--open");
       nav.classList.add("mobile-menu--show");
       logo.classList.add("hide");
+
+      iconOpen.style.display = "none";
+      iconClose.style.display = "block";
     } else {
       this.classList.remove("nav__button--open");
       nav.classList.remove("mobile-menu--show");
       logo.classList.remove("hide");
+
+      iconOpen.style.display = "block";
+      iconClose.style.display = "none";
     }
   });
 }
@@ -3235,7 +3243,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 (0, _map2.default)((0, _bling.$)("#map"));
 
-(0, _navigation2.default)((0, _bling.$)(".nav__button"));
+(0, _navigation2.default)((0, _bling.$)("#menu"));
 
 (0, _clearFilters2.default)((0, _bling.$)("#filterResetButton"));
 

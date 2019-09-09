@@ -12,7 +12,7 @@ const yesterday = moment()
 
 exports.confirmEvents = async (req, res) => {
   const page = req.params.page || 1;
-  const limit = 9;
+  const limit = 12;
   const skip = page * limit - limit;
 
   // 1. Query database for all events
