@@ -3,7 +3,7 @@ extends layout
 block content
 	.inner
 		h2 Edit Your Account
-		form(method="POST")
+		form(class="form" method="POST")
 
 			//- User email address
 			label(class="label" for="email") Email Address
@@ -34,13 +34,34 @@ block content
 			hr
 
 			if user.eb_organiser_id
-				h3.offscreen Eventbrite Account
+				h3 Eventbrite Account
+				p You can import event details from Eventbrite by entering the <strong>event ID number</strong> on the <a href="/add">create event form</a>. Note you can only import events that are categorised as Science and where you are registered as the organiser.
 				p Eventbrite organiser id: 
 					span #{user.eb_organiser_id} 
-					a(href="#") change id
+					input(type="submit" formaction="/delete-eventbrite-link" value="Delete Eventbrite ID" id="deleteEventbriteId" disabled)
+					input(type="checkbox" id="unlockDeleteEventbriteId")
+					label(for="unlockDeleteEventbriteId") Click here to enable the Delete Eventbrite ID button
+				hr
+			
+			if !user.eb_organiser_id
+				h3 Link an Eventbrite Account
+				p With a linked Eventbrite organsier account you will be able to import event details directly from Eventbrite. Note you can only import events that are categorised as 'Science' and where you are registered as the organiser. Your Eventbrite organiser ID can be found under you Eventbrite account settings: 
+
+				p
+					label(for="ebOrganiserId") Eventbrite Organiser ID:
+					input(type="text" id="ebOrganiserId" name="eb_organiser_id")
+					input(type="submit" formaction="/request-eventbrite" value="Request")
+
+				p <em>We can currently only authorise an account that has registered on Science Near Me with an email domain that clearly represents the organisation you work for.</em>
+
+
 				hr
 			
 			h3 Delete Account
 
 			//- Delete Account
-			input(class="" type="submit" formaction="/delete" value="Delete My Account" disabled)
+			input(type="submit" formaction="/delete" value="Delete My Account" id="deleteAccount" disabled)
+			input(type="checkbox" id="unlockDeleteAccount")
+
+
+	script(src="javascripts/account.js")

@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const promisify = require("es6-promisify");
 const mail = require("../handlers/mail");
+const sgMail = require("@sendgrid/mail");
 
 exports.login = passport.authenticate("local", {
   successRedirect: "/",
@@ -131,4 +132,25 @@ exports.update = async (req, res) => {
   await req.login(updateUser);
   req.flash("success", "Your password has been reset! You are now logged in.");
   res.redirect("/");
+};
+
+exports.requestEventbriteLink = async (req, res) => {
+  const message =
+    "Your request has been submitted! If successful your account should be linked within 48hrs.";
+
+  const text = `${req.user.email} (${req.user._id}) has requested their account to be linked to Eventbrite. eb_organiser_id: ${req.body.eb_organiser_id}.`;
+
+  sgMail.setApiKey(process.env.MAIL_PASS);
+
+  const msg = {
+    to: "bittledroid@gmail.com",
+    from: "test@example.com",
+    subject: "Request for Eventbrite account link",
+    text
+  };
+  await sgMail.send(msg);
+
+  req.flash("success", message);
+
+  res.redirect("back");
 };

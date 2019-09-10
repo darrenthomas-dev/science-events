@@ -1,6 +1,8 @@
 .nav {
   height: 70px;
   background: #2b3b48;
+  display: flex;
+  align-items: center;
   a {
     color: #dbdfe2;
   }
@@ -22,6 +24,7 @@
   position: fixed;
   right: 0;
   z-index: 2;
+  top: 2px;
   svg {
     width: 24px;
     fill: #fff;
@@ -41,6 +44,7 @@
   grid-template-columns: 1fr 1fr;
   list-style: none;
   padding: 0;
+  top: 0;
 
   .nav__link {
     display: flex;

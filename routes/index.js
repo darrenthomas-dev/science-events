@@ -108,6 +108,14 @@ router.post("/my-events", catchErrors(eventController.addEventBriteEvents));
 // );
 
 /* ------------------------------------ */
+/* ACCOUNT PAGES
+/* ------------------------------------ */
+router.post(
+  "/request-eventbrite",
+  catchErrors(authController.requestEventbriteLink)
+);
+
+/* ------------------------------------ */
 /* MAP PAGE
 /* ------------------------------------ */
 
