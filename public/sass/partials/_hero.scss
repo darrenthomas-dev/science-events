@@ -1,8 +1,12 @@
 .hero {
   position: relative;
-  // margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   > p {
     margin: 0;
+    width: 100%;
     position: absolute;
     top: calc(40vh - 108px);
     left: 0;
@@ -22,6 +26,7 @@
 }
 
 .hero-info {
+  width: 100%;
   background: linear-gradient(to right, #ea065f, #9d2aae);
   > p {
     margin: 0;
@@ -29,5 +34,24 @@
     text-align: center;
     color: hsla(0, 0%, 100%, 0.8);
     font-size: 18px;
+  }
+}
+
+@media (min-width: 960px) {
+  .hero-info {
+    > p {
+      padding: 35px 16px;
+      font-size: 24px;
+    }
+  }
+
+  .hero {
+    > p {
+      width: auto;
+      left: calc(50% - 421.915px);
+      font-size: 62px;
+      line-height: 1;
+      padding: 18px 32px;
+    }
   }
 }

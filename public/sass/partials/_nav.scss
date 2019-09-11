@@ -1,8 +1,24 @@
+.hamburger {
+  z-index: 2;
+}
+.hamburger-inner,
+.hamburger-inner:after,
+.hamburger-inner:before {
+  background-color: #dbdfe2;
+}
+
+.hamburger.is-active .hamburger-inner,
+.hamburger.is-active .hamburger-inner:after,
+.hamburger.is-active .hamburger-inner:before {
+  background-color: #dbdfe2;
+}
+
 .nav {
   height: 70px;
   background: #2b3b48;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   a {
     color: #dbdfe2;
   }
@@ -14,24 +30,24 @@
   display: inline-block;
   text-decoration: none;
 }
-.nav__button {
-  padding: 10px 12px;
-  margin: 8px;
-  background-color: #9f29ac;
-  border: 1px solid #9f29ac;
-  border-radius: 50%;
-  cursor: pointer;
-  position: fixed;
-  right: 0;
-  z-index: 2;
-  top: 2px;
-  svg {
-    width: 24px;
-    fill: #fff;
-    position: relative;
-    top: 1px;
-  }
-}
+// .nav__button {
+//   padding: 10px 12px;
+//   margin: 8px;
+//   background-color: #9f29ac;
+//   border: 1px solid #9f29ac;
+//   border-radius: 50%;
+//   cursor: pointer;
+//   position: fixed;
+//   right: 0;
+//   z-index: 2;
+//   top: 2px;
+//   svg {
+//     width: 24px;
+//     fill: #fff;
+//     position: relative;
+//     top: 1px;
+//   }
+// }
 
 .nav__section {
   position: fixed;
@@ -57,7 +73,7 @@
   .nav__section {
     position: unset;
   }
-  .nav__button {
+  .hamburger {
     display: none;
   }
   .nav {
@@ -83,7 +99,7 @@
   width: 28px;
 }
 
-.mobile-menu--show {
+.menu--is-active {
   display: flex;
   background: #2b3b48;
   flex-direction: column;
