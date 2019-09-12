@@ -27,13 +27,16 @@
 
 .hero-info {
   width: 100%;
-  background: linear-gradient(to right, #ea065f, #9d2aae);
+  background: linear-gradient(to right, #273a5d, #354e79);
+  background: linear-gradient(to right, #5377a7, #00c5ce);
+  padding: 8px 0;
   > p {
     margin: 0;
     padding: 16px;
     text-align: center;
-    color: hsla(0, 0%, 100%, 0.8);
+    color: rgb(237, 243, 255);
     font-size: 18px;
+    text-transform: capitalize;
   }
 }
 

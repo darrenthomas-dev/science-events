@@ -1,6 +1,7 @@
 extends layout
 
 include mixins/_adminEventCard
+include mixins/_eventCard
 include mixins/_pagination
 
 block content
@@ -12,6 +13,7 @@ block content
 				h2 Expired events #{expiredCount} 
 				input(class="input button" type="submit" value="Delete all expired events" disabled=(expiredCount ===  0 ? true : false))
 
+	.inner
 		form(class="form-card eb__form" method="POST")
 			h2 Eventbrite events
 			p Events are pulled in starting from tomorrows date, please supply an end date.
@@ -19,8 +21,15 @@ block content
 			input(class="input" type="date" id="endDate" name="end_date")
 			input(class="input button" type="submit" class="button" formaction="/admin/get-eventbrite-events" value="Get EventBrite Events")
 
-	h2 Pending events #{pendingCount} 
-	if pendingCount
+	if guestEventsPending
+		h2 Guest Events Pending #{guestEventsPending}
+		form(method="POST")
+			.events
+				each event in guestEvents
+					+eventCard(event)
+	
+	if ebEventsPending
+		h2 Eventbrite Events Pending #{ebEventsPending} 
 		form(method="POST")
 			.events
 				each event in events

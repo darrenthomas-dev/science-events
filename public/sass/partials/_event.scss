@@ -48,7 +48,7 @@
     top: 2px;
     left: -6px;
     svg {
-      fill: #2b3b48;
+      fill: #b4c1d8;
       width: 20px;
     }
   }
@@ -78,9 +78,10 @@
   color: #f7f7f7;
   text-transform: uppercase;
   &--free {
-    background: #9c29d2;
+    background: #2061d2;
+    border-radius: 4px;
   }
-  &--donation {
-    background: #d22929;
-  }
+  // &--donation {
+  //   background: #d22929;
+  // }
 }

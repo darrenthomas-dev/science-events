@@ -4,13 +4,13 @@
 .hamburger-inner,
 .hamburger-inner:after,
 .hamburger-inner:before {
-  background-color: #dbdfe2;
+  background-color: #f1f6ff;
 }
 
 .hamburger.is-active .hamburger-inner,
 .hamburger.is-active .hamburger-inner:after,
 .hamburger.is-active .hamburger-inner:before {
-  background-color: #dbdfe2;
+  background-color: #f1f6ff;
 }
 
 .nav {
@@ -19,8 +19,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: linear-gradient(to right, #1b2746, #5478a9);
+  border-bottom: 1px solid #325788;
   a {
-    color: #dbdfe2;
+    color: #f1f6ff;
   }
 }
 .nav__logo {
@@ -106,6 +108,7 @@
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
+  background: linear-gradient(to bottom, #2e3f69, #6180a9);
   > .nav__item {
     width: 100%;
     padding: 16px;

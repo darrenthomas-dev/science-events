@@ -1,9 +1,12 @@
 mixin eventForm(event = {})
 
 	if !user
-		p.form-card You are not logged in. You can still submit events, however if you wish to have the ability to edit your event, add an image and description, then please log in <a href="/login">here</a> or register for free <a href="/register">here</a>. 
-
-	p.form__section.txt--light Fields marked with an asterix (*) are required.
+		.form-card
+			p You are not logged in. You can still submit events, however as a register user you can add an image, description and edit your own events. 
+		
+			.btn-group
+				a(class="button" href="/login") Sign In
+				a(class="button" href="/register") Register for free!
 
 	if ((user && user.eb_organiser_id) || (user && user.admin))
 		form(action=`/eb/add` method="POST" class="form")
@@ -19,58 +22,62 @@ mixin eventForm(event = {})
 						input(class="input input--sml button" type="submit" value="Get details")
 
 	form(class="form" method="POST" enctype="multipart/form-data")
-		.fb.form__section
-			.fb-50.pr-60
-				h2 Event Details
-				p.txt--light Events will be added to you 'My Events' page, from here they can be selected for editing.
+		.form__section
+			p.txt--light <em>Fields marked with an asterix (*) are required.</em>
 
-				p.txt--light Once an event has expired, it will be set for automatic deletion and removed from our database, usually within a few days.
+			.fb
 
-			.fb-50.pt-16
+				.fb-50.pr-60
+					h2 Event Details
+					p.txt--light Events will be added to you 'My Events' page, from here they can be selected for editing.
 
-				//- Event Name
-				label(class="label" for="event") Event name: *
-				input(class="input" type="text" id="event" name="name" value=event.name autofocus)
+					p.txt--light Once an event has expired, it will be set for automatic deletion and removed from our database, usually within a few days.
 
-				//- Organisation Name
-				label(class="label" for="organisation") Organisation: *
-				input(class="input" type="text" id="organisation" name="organisation" value=event.organisation || (user && user.organisation))
+				.fb-50.pt-16
 
-				.fb
-					.fb-50
-						//- Start Datetime
-						label(class="label" for="start") Start date: *
-						input(class="input input--sml" type="date" name="start_datetime" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" value=`${event.start_datetime ? event.start_datetime.toISOString().slice(0,10) : '' }`)
-					.fb-50
-						//- End Datetime
-						label(class="label" for="end") End date:
-						input(class="input input--sml" type="date" id="end" name="end_datetime" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" value=`${event.end_datetime ? event.end_datetime.toISOString().slice(0,10) : '' }`)
+					//- Event Name
+					label(class="label" for="event") Event name: *
+					input(class="input" type="text" id="event" name="name" value=event.name autofocus)
 
-				//- Price range
-				p.txt--light If your event has different priced tickets then set the minimum and maximum price:
-				.fb
-					.fb-50
-						label(class="label" for="minPrice") Price / min (£):
-						input(class="input input--sml" type="number" min="0.00" max="1000.00" step="0.01" id="minPrice" name="price_range[min_price]" value=(event.price_range && event.price_range.min_price) placeholder="0.00")
-					.fb-50
-						label(class="label" for="maxRange") Max price (£):
-						input(class="input input--sml" type="number" min="0.01" max="1000.00" step="0.01" id="maxRange" name="price_range[max_price]" value=(event.price_range && event.price_range.max_price) placeholder="0.00")
+					//- Organisation Name
+					label(class="label" for="organisation") Organisation: *
+					input(class="input" type="text" id="organisation" name="organisation" value=event.organisation || (user && user.organisation))
 
-				//- Website
-				label(class="label" for="website") Event website:
-				input(class="input" type="url" id="website" name="website" value=event.website placeholder="https://example.com")
+					.fb
+						.fb-50
+							//- Start Datetime
+							label(class="label" for="start") Start date: *
+							input(class="input input--sml" type="date" name="start_datetime" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" value=`${event.start_datetime ? event.start_datetime.toISOString().slice(0,10) : '' }`)
+						.fb-50
+							//- End Datetime
+							label(class="label" for="end") End date:
+							input(class="input input--sml" type="date" id="end" name="end_datetime" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" value=`${event.end_datetime ? event.end_datetime.toISOString().slice(0,10) : '' }`)
 
-				//- Extra tags
-				p Check all that apply.
-				- const choices = ['Family Friendly', 'Donation']
-				- const tags = event.tags || []
-				ul.tags
-					input(type="checkbox" id="familyFriendly" name="family_friendly" value="true" checked=(event.family_friendly))
-					label(for="familyFriendly") Family Friendly
-					input(type="checkbox" id="donation" name="donation" value="true" checked=(event.donation))
-					label(for="donation") Donation
-					input(type="checkbox" id="free" name="is_free" value="true" checked=(event.is_free))
-					label(for="free") Free
+					//- Price range
+					p.txt--light If your event has different priced tickets then set the minimum and maximum price:
+					.fb
+						.fb-50
+							label(class="label" for="minPrice") Price / min (£):
+							input(class="input input--sml" type="number" min="0.00" max="1000.00" step="0.01" id="minPrice" name="price_range[min_price]" value=(event.price_range && event.price_range.min_price) placeholder="0.00")
+						.fb-50
+							label(class="label" for="maxRange") Max price (£):
+							input(class="input input--sml" type="number" min="0.01" max="1000.00" step="0.01" id="maxRange" name="price_range[max_price]" value=(event.price_range && event.price_range.max_price) placeholder="0.00")
+
+					//- Website
+					label(class="label" for="website") Event website:
+					input(class="input" type="url" id="website" name="website" value=event.website placeholder="https://example.com")
+
+					//- Extra tags
+					p Check all that apply.
+					- const choices = ['Family Friendly', 'Donation']
+					- const tags = event.tags || []
+					ul.tags
+						input(type="checkbox" id="familyFriendly" name="family_friendly" value="true" checked=(event.family_friendly))
+						label(for="familyFriendly") Family Friendly
+						input(type="checkbox" id="donation" name="donation" value="true" checked=(event.donation))
+						label(for="donation") Donation
+						input(type="checkbox" id="free" name="is_free" value="true" checked=(event.is_free))
+						label(for="free") Free
 
 
 		//- Address

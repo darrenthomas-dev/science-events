@@ -7,10 +7,10 @@ html {
   box-sizing: inherit; }
 
 body {
-  font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 1rem;
   margin: 0;
-  color: #2b3b48;
+  color: #1b2847;
   background-color: #eeedf0; }
 
 h3 > a {
@@ -862,12 +862,12 @@ ol {
 .hamburger-inner,
 .hamburger-inner:after,
 .hamburger-inner:before {
-  background-color: #dbdfe2; }
+  background-color: #f1f6ff; }
 
 .hamburger.is-active .hamburger-inner,
 .hamburger.is-active .hamburger-inner:after,
 .hamburger.is-active .hamburger-inner:before {
-  background-color: #dbdfe2; }
+  background-color: #f1f6ff; }
 
 .nav {
   height: 70px;
@@ -877,9 +877,11 @@ ol {
   -ms-flex-align: center;
       align-items: center;
   -ms-flex-pack: justify;
-      justify-content: space-between; }
+      justify-content: space-between;
+  background: linear-gradient(to right, #1b2746, #5478a9);
+  border-bottom: 1px solid #325788; }
   .nav a {
-    color: #dbdfe2; }
+    color: #f1f6ff; }
 
 .nav__logo {
   font-family: "sunday";
@@ -943,7 +945,8 @@ ol {
       align-items: center;
   -ms-flex-pack: center;
       justify-content: center;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  background: linear-gradient(to bottom, #2e3f69, #6180a9); }
   .menu--is-active > .nav__item {
     width: 100%;
     padding: 16px;
@@ -1049,11 +1052,25 @@ p.single__location {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05); }
   .pagination__next {
     padding: 1rem 3rem 1rem 1rem; }
+    .pagination__next svg {
+      fill: #011842;
+      position: relative;
+      top: 4px;
+      padding: 16px;
+      max-width: 68px; }
   .pagination__prev {
-    padding: 1rem 1rem 1rem 3rem; }
+    padding: 1rem 3rem 1rem 1rem; }
+    .pagination__prev svg {
+      fill: #011842;
+      position: relative;
+      top: 4px;
+      padding: 16px;
+      max-width: 68px; }
   .pagination__text {
     padding: 1rem;
     text-align: center; }
+    .pagination__text p {
+      margin-bottom: 0; }
 
 .map {
   background: white;
@@ -1073,10 +1090,11 @@ p.single__location {
 
 .footer {
   text-align: center;
-  background: #2b3b48;
+  background: #293c5f;
   margin: 0;
   padding: 40px;
-  color: #dbdfe2; }
+  color: #dbdfe2;
+  background: linear-gradient(to right, #273a5d, #354e79); }
   .footer a {
     color: inherit; }
   .footer__list {
@@ -1282,7 +1300,7 @@ pre.error {
     top: 2px;
     left: -6px; }
     .event__icon svg {
-      fill: #2b3b48;
+      fill: #b4c1d8;
       width: 20px; }
   .event__item--organiser {
     font-style: italic;
@@ -1306,9 +1324,8 @@ pre.error {
   color: #f7f7f7;
   text-transform: uppercase; }
   .banner--free {
-    background: #9c29d2; }
-  .banner--donation {
-    background: #d22929; }
+    background: #2061d2;
+    border-radius: 4px; }
 
 .eb__form {
   max-width: 333px;
@@ -1366,22 +1383,29 @@ pre.error {
     font-family: inherit;
     padding: 8px;
     border-radius: 4px;
-    background: #eeedf0; }
+    background: #eaf1ff;
+    border-color: #d9e6ff; }
 
 .button {
   cursor: pointer;
   font-size: 1rem;
   text-transform: uppercase;
-  background: #2b3b48;
+  background: #314871;
   border: 1px solid transparent;
   color: #fcfdff;
-  padding: 16px;
-  border-radius: 4px;
-  box-shadow: 2px 2px 3px 0px #c1c5c7; }
+  border-radius: 4px; }
   .button__icon {
     fill: #e0e2e4;
     margin-right: 6px;
     width: 16px; }
+
+.btn-group .button:not(:last-child) {
+  margin-right: 16px; }
+
+.btn-group .button {
+  display: inline-block;
+  padding: 12px;
+  text-decoration: none; }
 
 /* -------------------------- */
 /*  MODIFIERS
@@ -1444,13 +1468,16 @@ pre.error {
 
 .hero-info {
   width: 100%;
-  background: linear-gradient(to right, #ea065f, #9d2aae); }
+  background: linear-gradient(to right, #273a5d, #354e79);
+  background: linear-gradient(to right, #5377a7, #00c5ce);
+  padding: 8px 0; }
   .hero-info > p {
     margin: 0;
     padding: 16px;
     text-align: center;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 18px; }
+    color: #edf3ff;
+    font-size: 18px;
+    text-transform: capitalize; }
 
 @media (min-width: 960px) {
   .hero-info > p {
@@ -1478,5 +1505,20 @@ pre.error {
       background-image: url("/images/photos/nasa-earth-from-space.jpg"); }
     .form-bg-img--login {
       background-image: url("/images/photos/anatomical-model.jpg"); } }
+
+.create-events {
+  margin: 40px 0;
+  background-image: url(/images/photos/1.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; }
+  .create-events p {
+    padding: 42px 16px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 42px;
+    margin: 0 auto;
+    background: rgba(47, 80, 127, 0.68);
+    color: #e7f2ff; }
 
 /*# sourceMappingURL=style.css.map*/

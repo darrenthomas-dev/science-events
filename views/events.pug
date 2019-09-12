@@ -18,6 +18,10 @@ block content
 				each event in events
 					+eventCard(event)
 			+pagination(page, pages, count, parentSlug, lat, lng, location, distance)
+		else 
+			p Sorry there are no events listed in this area. Try increasing the distance or use our map.
+
+			p Know of an event in this area? Then why not add it yourself? Create an event.
 
 block footer
 	+footer()

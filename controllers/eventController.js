@@ -65,8 +65,13 @@ exports.createEvent = async (req, res) => {
   req.body.location.coordinates = [latLng[1], latLng[0]];
 
   // Add author id to body
-  req.body.author = req.user._id;
-
+  if (req.user) {
+    req.body.author = req.user._id;
+    req.body.display = "true";
+  } else {
+    req.body.author = "5d2df8c0eba6370d852dedaf"; // convert to async request for guest account
+    req.body.display = "false";
+  }
   // Add body data to database
   const event = await new Event(req.body).save();
   req.flash(
@@ -451,13 +456,13 @@ exports.getEvents = async (req, res) => {
 
 // Return last 12 recently added events
 exports.recentlyAddedEvents = async (req, res) => {
-  const limit = 6;
-
-  const count = await Event.count();
-
-  const events = await Event.find().skip(count - limit);
-
-  // res.json(events);
+  const limit = 16;
+  const query = {
+    display: "true"
+  };
+  // const count = await Event.count();
+  const events = await Event.find(query).limit(limit);
+  // .skip(count - limit);
 
   res.render("recent", {
     title: "Recently Added",

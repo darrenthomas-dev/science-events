@@ -16,28 +16,49 @@ exports.confirmEvents = async (req, res) => {
   const skip = page * limit - limit;
 
   // 1. Query database for all events
-  const eventsPromise = Event.find({ display: null })
+  const eventsPromise = Event.find({ display: null, eb_id: { $exists: true } })
     .skip(skip)
     .limit(limit);
 
-  // Count events with display null
-  const countPromise = Event.find({ display: null }).count();
+  const guestEventsPromise = Event.find({
+    display: null,
+    eb_id: { $exists: false }
+  });
+
+  // Count pending Eventbrite events
+  const ebCountPromise = Event.find({
+    display: null,
+    eb_id: { $exists: true }
+  }).count();
+
+  // Count pending guest events
+  // const countPromise = Event.find({
+  //   display: null,
+  //   eb_id: { $exists: false }
+  // }).count();
 
   // Count events with expired end_datetime
   const expiredPromise = Event.find({
     end_datetime: { $lte: yesterday }
   }).count();
 
-  const [events, pendingCount, expiredCount] = await Promise.all([
+  const [
+    events,
+    guestEvents,
+    ebEventsPending,
+    // guestEventsPending,
+    expiredCount
+  ] = await Promise.all([
     eventsPromise,
-    countPromise,
+    guestEventsPromise,
+    ebCountPromise,
+    // countPromise,
     expiredPromise
   ]);
 
-  console.log(expiredCount);
-  console.log(yesterday);
+  const guestEventsPending = guestEvents.length;
 
-  const pages = Math.ceil(pendingCount / limit);
+  const pages = Math.ceil(ebEventsPending / limit);
 
   if (!events.length && skip) {
     req.flash(
@@ -52,9 +73,11 @@ exports.confirmEvents = async (req, res) => {
     title: "Admin",
     parentSlug: "admin",
     events,
+    guestEvents,
     page,
     pages,
-    pendingCount,
+    ebEventsPending,
+    guestEventsPending,
     expiredCount
   });
 };

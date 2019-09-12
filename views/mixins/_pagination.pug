@@ -3,14 +3,22 @@ mixin pagination(page, pages, count, parentSlug, lat, lng, location, distance)
 		.pagination__prev
 			if page > 1
 				if (distance)
-					a(href=`/${parentSlug}/page/${page - 1}?geolocate=${location}&lat=${lat}&lng=${lng}&distance=${distance}`) Previous page
+					a(href=`/${parentSlug}/page/${page - 1}?geolocate=${location}&lat=${lat}&lng=${lng}&distance=${distance}`)
+						span.offscreen Previous page
+						!= h.icon('cheveron-left')
 				else
-					a(href=`/${parentSlug}/page/${page - 1}`) Previous page
+					a(href=`/${parentSlug}/page/${page - 1}`)
+						span.offscreen Previous page
+						!= h.icon('cheveron-left')					
 		.pagination__text
 			p Page #{page} of #{pages}
 		.pagination__next
 			if page < pages
 				if (distance)
-					a(href=`/${parentSlug}/page/${parseFloat(page) + 1}?geolocate=${location}&lat=${lat}&lng=${lng}&distance=${distance}`) Next page
+					a(href=`/${parentSlug}/page/${parseFloat(page) + 1}?geolocate=${location}&lat=${lat}&lng=${lng}&distance=${distance}`)
+						span.offscreen Next page
+						!= h.icon('cheveron-right')
 				else
-					a(href=`/${parentSlug}/page/${parseFloat(page) + 1}`) Next page
+					a(href=`/${parentSlug}/page/${parseFloat(page) + 1}`)
+						span.offscreen Next page
+						!= h.icon('cheveron-right')
