@@ -154,3 +154,11 @@ exports.requestEventbriteLink = async (req, res) => {
 
   res.redirect("back");
 };
+
+exports.isAdmin = (req, res, next) => {
+  if (req.user && req.user.admin) {
+    next();
+  } else {
+    res.redirect("/");
+  }
+};

@@ -54,6 +54,11 @@ exports.resize = async (req, res, next) => {
 };
 
 exports.createEvent = async (req, res) => {
+  // Add end date if not set
+  if (!req.body.end_datetime) {
+    req.body.end_datetime = req.body.start_datetime;
+  }
+
   // Add human readable display date to body
   req.body.display_date = displayDate(
     req.body.start_datetime,
@@ -70,7 +75,7 @@ exports.createEvent = async (req, res) => {
     req.body.display = "true";
   } else {
     req.body.author = "5d2df8c0eba6370d852dedaf"; // convert to async request for guest account
-    req.body.display = "false";
+    req.body.display = null;
   }
   // Add body data to database
   const event = await new Event(req.body).save();
@@ -78,6 +83,7 @@ exports.createEvent = async (req, res) => {
     "success",
     `Event <a href="/event/${event.slug}">${event.name}</a> has been successfully created.`
   );
+
   res.redirect("back");
 };
 

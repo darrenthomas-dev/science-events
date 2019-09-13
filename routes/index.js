@@ -4,6 +4,7 @@ const eventController = require("../controllers/eventController");
 const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
 const adminController = require("../controllers/adminController");
+const emailController = require("../controllers/emailController");
 const { catchErrors } = require("../handlers/errorHandlers");
 
 // Homepage
@@ -16,15 +17,18 @@ router.get("/", catchErrors(eventController.recentlyAddedEvents));
 // Event Pages
 // Add an event page
 router.get("/add", eventController.addEvent);
+
 // Create an event
 router.post(
   "/add",
   eventController.upload,
   catchErrors(eventController.resize),
+  emailController.newEvent,
   catchErrors(eventController.createEvent)
 );
 // Edit an existing event
 router.get("/event/:id/edit", catchErrors(eventController.editEvent));
+
 // Update an existing event
 router.post(
   "/add/:id",
@@ -35,11 +39,13 @@ router.post(
 
 // Delete an event
 router.post("/events/:id/delete", catchErrors(eventController.deleteEvent));
+
 // Single event page
 router.get("/event/:slug", catchErrors(eventController.getEventBySlug));
 
 // Register
 router.get("/register", userController.registerForm);
+
 // Register request
 router.post(
   "/register",
@@ -121,6 +127,10 @@ router.post(
 
 router.get("/map", eventController.mapPage);
 
+/* ------------------------------------ */
+/* ADMIN PAGES
+/* ------------------------------------ */
+
 // Admin page
 router.get(
   "/admin",
@@ -141,6 +151,13 @@ router.post(
   "/admin/delete-all-pending",
   authController.isLoggedIn,
   adminController.deleteAllPendingEvents
+);
+
+// Approve guest event
+router.post(
+  "/admin/approve-guest-events",
+  authController.isAdmin,
+  catchErrors(adminController.approveGuestEvents)
 );
 
 /* ------------------------------------ */

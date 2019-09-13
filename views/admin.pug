@@ -1,7 +1,7 @@
 extends layout
 
+include mixins/_adminEbEventCard
 include mixins/_adminEventCard
-include mixins/_eventCard
 include mixins/_pagination
 
 block content
@@ -25,16 +25,22 @@ block content
 		h2 Guest Events Pending #{guestEventsPending}
 		form(method="POST")
 			.events
-				each event in guestEvents
-					+eventCard(event)
-	
+				each event in guestEvents	
+					+adminEventCard(event)
+			.inner.flexbox
+				input(class="input button" type="submit", formaction=`/admin/approve-guest-events` value="Update Guest Events")
+
+
 	if ebEventsPending
 		h2 Eventbrite Events Pending #{ebEventsPending} 
 		form(method="POST")
 			.events
 				each event in events
-					+adminEventCard(event)
+					+adminEbEventCard(event)
 			.inner.flexbox
 				input(class="input button eb__update" type="submit", formaction=`/admin` value="Update")
-				input(class="input button button--danger eb__delete" type="submit", formaction="/admin/delete-all-pending" value="Delete all pending events")
+				input(class="input button button--danger eb__delete" type="submit", formaction="/admin/delete-all-pending" value="Delete all EventBrite pending events")
 			+pagination(page, pages, count, parentSlug)
+
+	script(src="javascripts/admin.js")
+

@@ -290,3 +290,24 @@ exports.updateEventDisplay = async (req, res) => {
 
   res.redirect(`back`);
 };
+
+exports.approveGuestEvents = async (req, res) => {
+  // Find and update multiple events to display
+  const displayTrue = Event.updateMany(
+    { _id: req.body.display_true },
+    { display: "true" }
+  );
+
+  //  Find and update multiple events not to display
+  const displayFalse = Event.updateMany(
+    { _id: req.body.display_false },
+    { display: "false" }
+  );
+
+  await Promise.all([displayTrue, displayFalse]);
+
+  // // 2. Redirect to event and tell them it worked
+  req.flash("success", "Events successfully updated!");
+
+  res.redirect(`back`);
+};

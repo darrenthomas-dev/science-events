@@ -1,5 +1,6 @@
 mixin adminEventCard(event = {})
-	.event.admin-event
+
+	.event
 		if user 
 			if user.admin || (event.author && event.author.equals(user._id))
 				.event__edit
@@ -16,11 +17,11 @@ mixin adminEventCard(event = {})
 				if event.end_datetime < new Date()
 					p.text--warning: em This event has expired and will soon be deleted.
 		h3.event__title
-			if (event.slug === "")
-				a(href=event.website) #{event.name}
+			if (!event.slug)
+				a(href=event.website target="_blank" rel="noopener noreferrer") #{event.name}
 			else
 				a(href=`/event/${event.slug}`) #{event.name}
-		dl.event__details.admin-event__details
+		dl.event__details
 			dt.offscreen Organiser:
 			dd.event__item.event__item--organiser #{event.organisation}
 			dt.offscreen Address:
@@ -33,21 +34,33 @@ mixin adminEventCard(event = {})
 				span.event__icon
 					!= h.icon('calendar')
 				= event.display_date
-			//- Free
+			//- Price
 			dt.offscreen Price:
-			if event.is_free
-				dd(class="event__item banner banner--free") Free
-			if (event.donation && !event.is_free) 
-				dd(class="event__item banner banner--donation") Donation
+				if event.is_free
+					dd(class="event__item banner banner--free" aria-hidden=true) Free
+					dd.offscreen This event is available for free, for eligibility please check the organiser's website.
 
-			dt.offscreen Summary:
-			dd(class="event__item")= event.summary
-			dt.offscreen Link:
-			dd(class="event__item"): a(href=event.website target="_blank" rel="noopener noreferrer") View more details
+				else if event.price_range && !event.price_range.max_price && event.price_range.min_price
+					-const price = Number(event.price_range.min_price).toFixed(2)
+					dd.event__item
+						span.event__icon
+							!= h.icon('ticket')
+						= `£${price}`
+			//- Price range
+			if event.price_range && event.price_range.max_price && event.price_range.min_price
+				-const min = Number(event.price_range.min_price).toFixed(2)
+				-const max = Number(event.price_range.max_price).toFixed(2)
+				dt.offscreen Price range:
+				dd.event__item
+					span.event__icon
+						!= h.icon('ticket')
+					if (min === '0.00')
+						= `Free to £${max}`
+					else	
+						= `£${min} to £${max}`
 
 		.admin-event__add-remove
 			label(for=`add_${event._id}`) Add event
-			input(type="checkbox", id=`add_${event._id}` name="display_true", value=event.eb_id)
+			input(type="checkbox" id=`add_${event._id}` name="display_true" value=event._id)
 			label(for=`remove_${event._id}`) Remove event
-			input(type="checkbox", id=`remove_${event._id}` name="display_false", value=event._id)
-			
+			input(type="checkbox" id=`remove_${event._id}` name="display_false" value=event._id)

@@ -1,0 +1,53 @@
+mixin adminEbEventCard(event = {})
+	.event.admin-event
+		if user 
+			if user.admin || (event.author && event.author.equals(user._id))
+				.event__edit
+					a(class="event__link" href=`/event/${event._id}/edit`)
+						span.event__icon
+							!= h.icon('pencil')
+						| Edit
+		if event.eb_id
+			img(class="event__img" src=`${event.image || '/uploads/store.png'}` alt="")
+		else
+			img(class="event__img" src=`/uploads/${event.image || 'store.png'}` alt="")
+		if user
+			if user.admin || (event.author && event.author.equals(user._id))
+				if event.end_datetime < new Date()
+					p.text--warning: em This event has expired and will soon be deleted.
+		h3.event__title
+			if (event.slug === "")
+				a(href=event.website) #{event.name}
+			else
+				a(href=`/event/${event.slug}`) #{event.name}
+		dl.event__details.admin-event__details
+			dt.offscreen Organiser:
+			dd.event__item.event__item--organiser #{event.organisation}
+			dt.offscreen Address:
+			dd.event__item
+				span.event__icon
+					!= h.icon('location')
+				= event.location.address
+			dt.offscreen Event date:
+			dd.event__item
+				span.event__icon
+					!= h.icon('calendar')
+				= event.display_date
+			//- Free
+			dt.offscreen Price:
+			if event.is_free
+				dd(class="event__item banner banner--free") Free
+			if (event.donation && !event.is_free) 
+				dd(class="event__item banner banner--donation") Donation
+
+			dt.offscreen Summary:
+			dd(class="event__item")= event.summary
+			dt.offscreen Link:
+			dd(class="event__item"): a(href=event.website target="_blank" rel="noopener noreferrer") View more details
+
+		.admin-event__add-remove
+			label(for=`add_${event._id}`) Add event
+			input(type="checkbox", id=`add_${event._id}` name="display_true", value=event.eb_id)
+			label(for=`remove_${event._id}`) Remove event
+			input(type="checkbox", id=`remove_${event._id}` name="display_false", value=event._id)
+			
