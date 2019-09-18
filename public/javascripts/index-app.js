@@ -9,6 +9,7 @@ import displayNavigation from "./modules/navigation";
 import clearFilters from "./modules/clearFilters";
 import searchByLocation from "./modules/locationSearch";
 import showPassword from "./modules/showPassword";
+import togglePadlock from "./modules/togglePadlock";
 
 showPassword($("#password"));
 
@@ -25,3 +26,5 @@ displayNavigation($("#menu"));
 clearFilters($("#filterResetButton"));
 
 searchByLocation($("#locationAutocomplete"));
+
+togglePadlock($$(".padlock"));

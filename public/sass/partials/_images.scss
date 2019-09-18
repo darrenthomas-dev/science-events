@@ -20,3 +20,15 @@
     }
   }
 }
+
+.padlock {
+  display: inline;
+  &-img {
+    width: 22px;
+    height: auto;
+    cursor: pointer;
+    position: relative;
+    top: 9px;
+    left: 8px;
+  }
+}

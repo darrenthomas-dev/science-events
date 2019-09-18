@@ -2,7 +2,7 @@
   padding: 16px;
   &__section {
     border-bottom: 1px solid #ccc;
-    margin-bottom: 60px;
+    padding: 60px 0;
   }
 }
 
@@ -54,3 +54,22 @@
 }
 
 // Eventbrite Form
+
+.button.submit-event-button {
+  margin: 40px 0;
+  box-shadow: none;
+}
+
+.button.delete-event-button {
+  background: #ffffff;
+  border: 1px solid #bf2222;
+  color: #bf2222;
+  order: -1;
+  margin: 40px 0;
+  box-shadow: none;
+}
+
+.button.delete-event-button:hover {
+  background: #bf2222;
+  color: #fff;
+}

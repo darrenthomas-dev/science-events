@@ -113,6 +113,12 @@ router.post("/my-events", catchErrors(eventController.addEventBriteEvents));
 //   catchErrors(userController.getUserEventbriteEvents)
 // );
 
+// Eventbrite delete link
+router.post(
+  "/delete-eventbrite-link",
+  catchErrors(userController.deleteEventbriteLink)
+);
+
 /* ------------------------------------ */
 /* ACCOUNT PAGES
 /* ------------------------------------ */

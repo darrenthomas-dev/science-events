@@ -167,15 +167,15 @@ exports.updateEvent = async (req, res) => {
   req.body.location.type = "Point";
   req.body.location.coordinates = [latLng[1], latLng[0]];
 
-  // // Set slug if required
-  // if (req.body.description === "") {
-  //   console.log("no description");
-  //   req.body.slug = "";
-  //   console.log("setting slug to blank string");
-  // } else {
-  //   const slug = await createSlug(req.body.name);
-  //   req.body.slug = slug;
-  // }
+  // Set slug if required
+  if (req.body.description === "") {
+    console.log("no description");
+    req.body.slug = "";
+    console.log("setting slug to blank string");
+  } else {
+    const slug = await createSlug(req.body.name);
+    req.body.slug = slug;
+  }
 
   // find and update the event
   const event = await Event.findOneAndUpdate({ _id: req.params.id }, req.body, {

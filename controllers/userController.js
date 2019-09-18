@@ -66,7 +66,6 @@ exports.account = (req, res) => {
 
 exports.updateAccount = async (req, res) => {
   const updates = {
-    // name: req.body.name,
     email: req.body.email,
     organisation: req.body.organisation,
     address: req.body.address
@@ -78,8 +77,6 @@ exports.updateAccount = async (req, res) => {
     { $set: updates },
     { new: true, runValidators: true, context: "query" }
   );
-
-  // res.json(user);
 
   req.flash("success", "Your profile has been updated!");
   res.redirect("back");
@@ -151,4 +148,14 @@ exports.getUserEventbriteEvents = async (req, res) => {
   const count = events.length;
 
   res.render("events", { title: "Eventbrite Events", events, count });
+};
+
+exports.deleteEventbriteLink = async (req, res) => {
+  await User.findOneAndUpdate(
+    { _id: req.user._id },
+    { $unset: { eb_organiser_id: 1 } }
+  );
+
+  req.flash("success", "Your Eventbrite account has been removed.");
+  res.redirect("back");
 };

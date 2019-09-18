@@ -18,8 +18,10 @@ mixin eventForm(event = {})
 				.fb-50.pt-16
 					label(class="label" for="ebEventId") Eventbrite event id:
 					.fb
-						input(class="input input--sml" type="text" id="ebEventId" name="eb_event_id" value=`${event.eb_id || ""}` autofocus)
-						input(class="input input--sml button" type="submit" value="Get details")
+						.fb-50
+							input(class="input input--sml" type="text" id="ebEventId" name="eb_event_id" value=`${event.eb_id || ""}` autofocus)
+						.fb-50
+							input(class="input input--sml button" type="submit" value="Get details")
 
 	form(class="form" method="POST" enctype="multipart/form-data")
 		.form__section
@@ -69,15 +71,13 @@ mixin eventForm(event = {})
 
 					//- Extra tags
 					p Check all that apply.
-					- const choices = ['Family Friendly', 'Donation']
-					- const tags = event.tags || []
-					ul.tags
-						input(type="checkbox" id="familyFriendly" name="family_friendly" value="true" checked=(event.family_friendly))
-						label(for="familyFriendly") Family Friendly
-						input(type="checkbox" id="donation" name="donation" value="true" checked=(event.donation))
-						label(for="donation") Donation
-						input(type="checkbox" id="free" name="is_free" value="true" checked=(event.is_free))
-						label(for="free") Free
+					
+					input(class="checkbox" type="checkbox" id="familyFriendly" name="family_friendly" value="true" checked=(event.family_friendly))
+					label(class="label--checkbox" for="familyFriendly") Family Friendly
+					input(class="checkbox" type="checkbox" id="donation" name="donation" value="true" checked=(event.donation))
+					label(class="label--checkbox" for="donation") Donation
+					input(class="checkbox" type="checkbox" id="free" name="is_free" value="true" checked=(event.is_free))
+					label(class="label--checkbox" for="free") Free
 
 
 		//- Address
@@ -114,12 +114,13 @@ mixin eventForm(event = {})
 				label(class="offscreen" for="description") Description:
 				textarea(name="description" id="description")= event.description
 			
-		//- Submit
-		input(class="button" type="submit" value="Save" formaction=`/add/${event._id || ''}`)
+		.buttons-group
+			//- Submit
+			input(class="button submit-event-button" type="submit" value="Submit Event" formaction=`/add/${event._id || ''}`)
 		
-		//- Delete event
-		if (event._id)
-			input(class="button" type="submit" value="Delete event" formaction=`/events/${event._id}/delete`)
+			//- Delete event
+			if (event._id)
+				input(class="button delete-event-button" type="submit" value="Delete event" formaction=`/events/${event._id}/delete`)
 
 	block scripts
 			script(src="https://cdn.tiny.cloud/1/2j0e390z4afzde1vmezs5gp43iqh04df9x0xygj082r4ujgy/tinymce/5/tinymce.min.js" referrerpolicy="origin")

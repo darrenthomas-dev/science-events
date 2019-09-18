@@ -38,9 +38,12 @@ block content
 				p You can import event details from Eventbrite by entering the <strong>event ID number</strong> on the <a href="/add">create event form</a>. Note you can only import events that are categorised as Science and where you are registered as the organiser.
 				p Eventbrite organiser id: 
 					span #{user.eb_organiser_id} 
-					input(class="button--delete" type="submit" formaction="/delete-eventbrite-link" value="Delete Eventbrite ID" id="deleteEventbriteId" disabled)
-					input(class="offscreen" type="checkbox" id="unlockDeleteEventbriteId")
-					label(for="unlockDeleteEventbriteId") Check to enable the Delete button
+				input(class="button--delete" type="submit" formaction="/delete-eventbrite-link" value="Delete Eventbrite ID" id="deleteEventbriteId" disabled)
+				input(class="offscreen" type="checkbox" id="unlockDeleteEventbriteId")
+				.padlock
+					label(class="padlock-label" for="unlockDeleteEventbriteId" title="Click to enable the button")
+						!= h.icon('padlock')
+						span.offscreen Check to enable the Delete button
 				hr
 			
 			if !user.eb_organiser_id
@@ -48,7 +51,7 @@ block content
 				p With a linked Eventbrite organsier account you will be able to import event details directly from Eventbrite. Note you can only import events that are categorised as 'Science' and where you are registered as the organiser. Your Eventbrite organiser ID can be found under you Eventbrite account settings: 
 
 				p
-					label(for="ebOrganiserId") Eventbrite Organiser ID:
+					label(for="ebOrganiserId") Enter your Eventbrite Organiser ID:
 					input(type="text" id="ebOrganiserId" name="eb_organiser_id")
 					input(type="submit" formaction="/request-eventbrite" value="Request")
 
@@ -62,9 +65,10 @@ block content
 			//- Delete Account
 			input(class="button--delete" type="submit" formaction="/delete" value="Delete My Account" id="deleteAccount" disabled)
 			input(class="offscreen" type="checkbox" id="unlockDeleteAccount")
-			label(for="unlockDeleteAccount")
-				!= h.icon('lock-open')
-				span.offscreen Check to enable the Delete button
+			.padlock
+				label(class="padlock-label" for="unlockDeleteAccount" title="Click to enable the button")
+					!= h.icon('padlock')
+					span.offscreen Check to enable the Delete button
 
 
 

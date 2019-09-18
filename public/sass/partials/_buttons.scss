@@ -6,7 +6,7 @@
   border: 1px solid transparent;
   color: #fcfdff;
   border-radius: 4px;
-  height: 52px;
+  // height: 52px;
   &__icon {
     fill: #e0e2e4;
     margin-right: 6px;
@@ -65,6 +65,11 @@
   cursor: pointer;
   color: white;
   background-color: #2196f3;
-  box-shadow: 0 0 4px #999;
+  // box-shadow: 0 0 4px #999;
   outline: none;
+}
+
+.buttons-group {
+  display: flex;
+  justify-content: space-between;
 }
