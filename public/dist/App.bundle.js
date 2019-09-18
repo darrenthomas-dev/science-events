@@ -3215,9 +3215,16 @@ var _locationSearch = __webpack_require__(13);
 
 var _locationSearch2 = _interopRequireDefault(_locationSearch);
 
+var _showPassword = __webpack_require__(41);
+
+var _showPassword2 = _interopRequireDefault(_showPassword);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(0, _showPassword2.default)((0, _bling.$)("#password"));
 // import typeAheadOrganisation from "./modules/typeAheadOrganisation";
+
+
 (0, _autocomplete2.default)((0, _bling.$)("#address"));
 
 (0, _typeAhead2.default)((0, _bling.$)(".search"));
@@ -3231,6 +3238,39 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 (0, _clearFilters2.default)((0, _bling.$)("#filterResetButton"));
 
 (0, _locationSearch2.default)((0, _bling.$)("#locationAutocomplete"));
+
+/***/ }),
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+function showPassword(input) {
+  if (!input) return;
+
+  var show = document.querySelector("#showPassword");
+
+  show.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    if (input.type === "password") {
+      input.type = "text";
+      show.innerText = "Hide Password";
+    } else {
+      input.type = "password";
+      show.innerText = "Show Password";
+    }
+  });
+}
+
+exports.default = showPassword;
 
 /***/ })
 /******/ ]);

@@ -12,7 +12,7 @@ block content
 			p: a(href="") Change password.
 
 			h3.mb-0 Optional event information
-			p.tip Information entered here will appear on the create event form. 
+			p.tip Information entered here will automatically appear on the create event form. 
 
 			//- Organistaion
 			label(class="label" for="name") Organisation
@@ -38,9 +38,9 @@ block content
 				p You can import event details from Eventbrite by entering the <strong>event ID number</strong> on the <a href="/add">create event form</a>. Note you can only import events that are categorised as Science and where you are registered as the organiser.
 				p Eventbrite organiser id: 
 					span #{user.eb_organiser_id} 
-					input(type="submit" formaction="/delete-eventbrite-link" value="Delete Eventbrite ID" id="deleteEventbriteId" disabled)
-					input(type="checkbox" id="unlockDeleteEventbriteId")
-					label(for="unlockDeleteEventbriteId") Click here to enable the Delete Eventbrite ID button
+					input(class="button--delete" type="submit" formaction="/delete-eventbrite-link" value="Delete Eventbrite ID" id="deleteEventbriteId" disabled)
+					input(class="offscreen" type="checkbox" id="unlockDeleteEventbriteId")
+					label(for="unlockDeleteEventbriteId") Check to enable the Delete button
 				hr
 			
 			if !user.eb_organiser_id
@@ -60,8 +60,12 @@ block content
 			h3 Delete Account
 
 			//- Delete Account
-			input(type="submit" formaction="/delete" value="Delete My Account" id="deleteAccount" disabled)
-			input(type="checkbox" id="unlockDeleteAccount")
+			input(class="button--delete" type="submit" formaction="/delete" value="Delete My Account" id="deleteAccount" disabled)
+			input(class="offscreen" type="checkbox" id="unlockDeleteAccount")
+			label(for="unlockDeleteAccount")
+				!= h.icon('lock-open')
+				span.offscreen Check to enable the Delete button
+
 
 
 	script(src="javascripts/account.js")

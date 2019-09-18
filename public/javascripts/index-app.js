@@ -8,6 +8,9 @@ import makeMap from "./modules/map";
 import displayNavigation from "./modules/navigation";
 import clearFilters from "./modules/clearFilters";
 import searchByLocation from "./modules/locationSearch";
+import showPassword from "./modules/showPassword";
+
+showPassword($("#password"));
 
 autocomplete($("#address"));
 

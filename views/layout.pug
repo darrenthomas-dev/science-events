@@ -10,6 +10,7 @@ html
   body
     div#skip
       a(id="content" href="#maincontent") Skip to #{skip}
+      a(name="top")
     nav.nav
       h2.offscreen Main navigation
       a.nav__logo(href="/" tabIndex="-1") Science Near Me
@@ -66,6 +67,5 @@ html
 
     block footer
 
-   
     script(src=`https://maps.googleapis.com/maps/api/js?key=${process.env.MAP_KEY}&libraries=places`)
     script(src="/dist/App.bundle.js")
