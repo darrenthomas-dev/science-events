@@ -17,12 +17,6 @@ html
       button.hamburger.hamburger--collapse#menu
         span.hamburger-box
           span.hamburger-inner
-      //- button#menu.nav__button.menu
-      //-   span.menu-icon-open
-      //-     != h.icon('menu')
-      //-   span.menu-icon-close(style='display: none')
-      //-     != h.icon('close')
-      //-   span.offscreen Menu
       ul.nav__section
         each item in h.menu
           li.nav__item
@@ -60,8 +54,7 @@ html
                 .flash(class=`flash--${category}`)
                   p.flash__text!= message
                   button.flash__remove(onClick="this.parentElement.remove()") &times;
-    
-    //- include about
+
 
     block content
 

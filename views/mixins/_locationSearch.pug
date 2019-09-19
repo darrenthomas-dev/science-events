@@ -1,6 +1,7 @@
 mixin locationSearch(lat, lng, location, distance)
 
 	form(action="/events/page/1" id="locationAutocomplete" class="location-autocomplete" method="GET" )
+		h2 Find an event near you!
 		label(class="location-autocomplete__label" for="location") Enter your location:
 		input(class="location-autocomplete__input" id="location" type="text" name="geolocate" value=location placeholder="")
 		input(type="hidden" name="lat" id="lat" value=lat)
@@ -12,4 +13,14 @@ mixin locationSearch(lat, lng, location, distance)
 			option(value="20" selected=(distance ==="20")) 20 miles
 			option(value="30" selected=(distance ==="30")) 30 miles
 			option(value="40" selected=(distance ==="40")) 40 miles
+		
+		fieldset
+			legend Filters
+			p
+				input(class="checkbox" type="checkbox" id="familyFriendly" name="family_friendly")
+				label(class="label--checkbox" for="familyFriendly") Family Friendly
+			p
+				input(class="checkbox" type="checkbox" id="free" name="is_free")
+				label(class="label--checkbox" for="free") Free
+		p
 		input(type="submit" class="location-autocomplete__button button button--primary" value="Find events")
