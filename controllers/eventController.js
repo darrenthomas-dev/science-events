@@ -77,6 +77,7 @@ exports.createEvent = async (req, res) => {
     req.body.author = "5d2df8c0eba6370d852dedaf"; // convert to async request for guest account
     req.body.display = null;
   }
+
   // Add body data to database
   const event = await new Event(req.body).save();
   req.flash(
@@ -416,9 +417,13 @@ exports.getEvents = async (req, res) => {
     req.params.lat
   ];
 
+  const free = req.query.is_free || req.params.is_free;
+  const childFriendly = req.query.child_friendly || req.params.child_friendly;
+
   const query = constructQuery(miles, coordinates);
 
-  console.log(query);
+  if (free) query.is_free = true;
+  if (childFriendly) query.child_friendly = true;
 
   // 1. Query database for all events
   const eventsPromise = Event.find(query)
@@ -443,6 +448,44 @@ exports.getEvents = async (req, res) => {
   const results = `${count} events found within a ${miles} mile radius of ${location}.`;
   const message = req.message;
 
+  // Pagination
+  const { URL, URLSearchParams } = require("url");
+  const fullUrl = req.protocol + "://" + req.get("host");
+
+  let pp = `${fullUrl}/events/page/${parseFloat(page) - 1}`;
+  let np = `${fullUrl}/events/page/${parseFloat(page) + 1}`;
+
+  let urlPrevious = new URL(pp);
+  let urlNext = new URL(np);
+
+  let previousParams = urlPrevious.searchParams;
+  let nextParams = urlNext.searchParams;
+
+  // previousParams = new URLSearchParams(`page/${parseFloat(page) - 1}`);
+  // nextParams = new URLSearchParams(`page/${parseFloat(page) + 1}`);
+
+  if (miles) {
+    previousParams.append("geolocate", location);
+    previousParams.append("lat", coordinates[1]);
+    previousParams.append("lng", coordinates[0]);
+    previousParams.append("distance", miles);
+
+    nextParams.append("geolocate", location);
+    nextParams.append("lat", coordinates[1]);
+    nextParams.append("lng", coordinates[0]);
+    nextParams.append("distance", miles);
+  }
+
+  if (childFriendly) {
+    previousParams.append("child_friendly", true);
+    nextParams.append("child_friendly", true);
+  }
+
+  if (free) {
+    previousParams.append("is_free", true);
+    nextParams.append("is_free", true);
+  }
+
   res.render("events", {
     message,
     title: "Events",
@@ -454,9 +497,13 @@ exports.getEvents = async (req, res) => {
     pages,
     count,
     location,
+    free,
+    childFriendly,
     distance: miles,
     lat: coordinates[1],
-    lng: coordinates[0]
+    lng: coordinates[0],
+    urlPrevious,
+    urlNext
   });
 };
 

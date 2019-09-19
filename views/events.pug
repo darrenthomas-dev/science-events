@@ -7,7 +7,7 @@ include mixins/_footer
 
 block content
 	
-	//- +locationSearch(lat, lng, location, distance)
+	+locationSearch(lat, lng, location, distance, childFriendly, free)
 
 	main#maincontent
 		.events__count
@@ -17,7 +17,7 @@ block content
 			.events
 				each event in events
 					+eventCard(event)
-			+pagination(page, pages, count, parentSlug, lat, lng, location, distance)
+			+pagination(page, pages, urlPrevious, urlNext)
 		else 
 			p Sorry there are no events listed in this area. Try increasing the distance or use our map.
 

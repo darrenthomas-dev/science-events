@@ -55,6 +55,9 @@ const eventSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  child_friendly: {
+    type: Boolean
+  },
   donation: {
     type: Boolean,
     default: false

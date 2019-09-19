@@ -1361,6 +1361,11 @@ pre.error {
   top: -16px;
   right: -16px; }
 
+.details {
+  margin-bottom: 16px; }
+  .details :nth-child(2) {
+    margin-top: 16px; }
+
 @media all and (min-width: 416px) {
   .events {
     display: -ms-grid;
