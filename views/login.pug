@@ -13,8 +13,14 @@ block content
 
 				//- Password
 				label(class="label" for="password") Enter your password:
-				input(class="input" type="password" name="password" id="password" autocomplete="current-password")
-				button#showPassword Show Password
+				.input-icon
+					input(class="input" type="password" name="password" id="password" autocomplete="current-password")
+					
+					button(class="toggle-password" id="showPassword")
+						span.offscreen Click to show password.
+						!=h.icon("view")
+
+
 
 				//- Log in
 				input(class="input button" type="submit" value="Log In")

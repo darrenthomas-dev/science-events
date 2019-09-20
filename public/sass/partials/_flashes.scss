@@ -51,11 +51,13 @@
     border-radius: 3px;
   }
   &--success {
-    background: linear-gradient(
-      135deg,
-      rgba(210, 255, 82, 1) 0%,
-      rgba(145, 232, 66, 1) 100%
-    );
+    background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+    .flash__text {
+      color: #052907;
+    }
+    .flash__remove {
+      color: #dff7e1;
+    }
   }
   &--error {
     background: linear-gradient(

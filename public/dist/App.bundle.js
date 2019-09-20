@@ -1278,16 +1278,17 @@ function showPassword(input) {
   if (!input) return;
 
   var show = document.querySelector("#showPassword");
+  var text = show.querySelector("span");
 
   show.addEventListener("click", function (e) {
     e.preventDefault();
 
     if (input.type === "password") {
       input.type = "text";
-      show.innerText = "Hide Password";
+      text.innerText = "Click to hide password.";
     } else {
       input.type = "password";
-      show.innerText = "Show Password";
+      text.innerText = "Click to show password.";
     }
   });
 }
@@ -3277,10 +3278,15 @@ var _togglePadlock = __webpack_require__(17);
 
 var _togglePadlock2 = _interopRequireDefault(_togglePadlock);
 
+var _toggleState = __webpack_require__(41);
+
+var _toggleState2 = _interopRequireDefault(_toggleState);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import typeAheadOrganisation from "./modules/typeAheadOrganisation";
 (0, _showPassword2.default)((0, _bling.$)("#password"));
+// import typeAheadOrganisation from "./modules/typeAheadOrganisation";
+
 
 (0, _autocomplete2.default)((0, _bling.$)("#address"));
 
@@ -3297,6 +3303,30 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 (0, _locationSearch2.default)((0, _bling.$)("#locationAutocomplete"));
 
 (0, _togglePadlock2.default)((0, _bling.$$)(".padlock"));
+
+(0, _toggleState2.default)((0, _bling.$$)(".toggle-password"));
+
+/***/ }),
+/* 40 */,
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+function toggleState(container) {
+  if (!container) return;
+
+  container.addEventListener("click", function (e) {
+    var icon = this.querySelector("path");
+    icon.style.display = icon.style.display === "none" ? "block" : "none";
+  });
+}
+
+exports.default = toggleState;
 
 /***/ })
 /******/ ]);

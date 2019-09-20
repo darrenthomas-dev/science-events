@@ -8,13 +8,15 @@ const emailController = require("../controllers/emailController");
 const { catchErrors } = require("../handlers/errorHandlers");
 
 // Homepage
-// router.get("/", catchErrors(eventController.getEvents));
-// Events pagination
-router.get("/events/page/:page", catchErrors(eventController.getEvents));
-
 router.get("/", catchErrors(eventController.recentlyAddedEvents));
 
-// Event Pages
+/* ------------------------------------ */
+/* Events
+/* ------------------------------------ */
+
+// Browse events
+router.get("/events/page/:page", catchErrors(eventController.getEvents));
+
 // Add an event page
 router.get("/add", eventController.addEvent);
 
@@ -26,6 +28,7 @@ router.post(
   emailController.newEvent,
   catchErrors(eventController.createEvent)
 );
+
 // Edit an existing event
 router.get("/event/:id/edit", catchErrors(eventController.editEvent));
 
@@ -43,7 +46,11 @@ router.post("/events/:id/delete", catchErrors(eventController.deleteEvent));
 // Single event page
 router.get("/event/:slug", catchErrors(eventController.getEventBySlug));
 
-// Register
+/* ------------------------------------ */
+/* Register
+/* ------------------------------------ */
+
+// Register Page
 router.get("/register", userController.registerForm);
 
 // Register request
@@ -53,11 +60,17 @@ router.post(
   catchErrors(userController.register),
   authController.login
 );
-//  Sign in
+
+/* ------------------------------------ */
+/* Sign in
+/* ------------------------------------ */
+
 // Login page
 router.get("/login", userController.loginForm);
+
 // Login request
 router.post("/login", authController.login);
+
 // router.post(
 //   "/login",
 //   authController.login2,

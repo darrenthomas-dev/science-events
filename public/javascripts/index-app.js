@@ -10,6 +10,7 @@ import clearFilters from "./modules/clearFilters";
 import searchByLocation from "./modules/locationSearch";
 import showPassword from "./modules/showPassword";
 import togglePadlock from "./modules/togglePadlock";
+import toggleState from "./modules/toggleState";
 
 showPassword($("#password"));
 
@@ -28,3 +29,5 @@ clearFilters($("#filterResetButton"));
 searchByLocation($("#locationAutocomplete"));
 
 togglePadlock($$(".padlock"));
+
+toggleState($$(".toggle-password"));

@@ -1339,7 +1339,11 @@ pre.error {
     box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
     border-radius: 3px; }
   .flash--success {
-    background: linear-gradient(135deg, #d2ff52 0%, #91e842 100%); }
+    background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%); }
+    .flash--success .flash__text {
+      color: #052907; }
+    .flash--success .flash__remove {
+      color: #dff7e1; }
   .flash--error {
     background: linear-gradient(20deg, red 0%, #c80000 100%); }
   .flash--info {
@@ -1554,14 +1558,30 @@ pre.error {
   text-transform: uppercase;
   cursor: pointer;
   color: white;
-  background-color: #2196f3;
-  outline: none; }
+  background-color: #2196f3; }
 
 .buttons-group {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-pack: justify;
       justify-content: space-between; }
+
+.input-icon {
+  display: -ms-flexbox;
+  display: flex; }
+  .input-icon .input {
+    border-right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0; }
+  .input-icon button {
+    border-top-right-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #ffffff;
+    height: 48px;
+    border-bottom-right-radius: 4px;
+    border-left: 0; }
+    .input-icon button svg {
+      width: 32px; }
 
 .filters {
   padding: 0 16px;

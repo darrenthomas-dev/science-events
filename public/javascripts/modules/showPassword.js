@@ -2,16 +2,17 @@ function showPassword(input) {
   if (!input) return;
 
   const show = document.querySelector("#showPassword");
+  const text = show.querySelector("span");
 
   show.addEventListener("click", e => {
     e.preventDefault();
 
     if (input.type === "password") {
       input.type = "text";
-      show.innerText = "Hide Password";
+      text.innerText = "Click to hide password.";
     } else {
       input.type = "password";
-      show.innerText = "Show Password";
+      text.innerText = "Click to show password.";
     }
   });
 }
