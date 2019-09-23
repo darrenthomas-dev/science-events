@@ -13,6 +13,9 @@ body {
   color: #023865;
   background-color: #ecf4fb; }
 
+.header {
+  position: relative; }
+
 h3 > a {
   color: inherit;
   text-decoration: none; }
@@ -1477,34 +1480,52 @@ pre.error {
       color: #1c242b; }
 
 .location-autocomplete {
+  text-align: center;
+  background: rgba(198, 215, 236, 0.7);
+  width: 100%;
+  margin: 0 auto;
+  position: absolute;
+  top: 25%;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
       flex-direction: column;
-  margin-bottom: 16px;
-  padding: 28px 16px;
-  background: #fff; }
+  padding: 28px 16px; }
+  @media (min-width: 620px) {
+    .location-autocomplete {
+      border-radius: 8px;
+      max-width: 620px;
+      left: calc(50% - 310px); } }
+  .location-autocomplete h2 {
+    text-align: center;
+    font-size: 42px;
+    line-height: 1;
+    font-weight: normal; }
   .location-autocomplete__label {
     font-size: 18px;
     padding-bottom: 8px;
     padding-right: 0; }
   .location-autocomplete__input {
+    height: 48px;
+    border-radius: 24px;
     border: none;
-    border-bottom: 1px solid #333;
+    font-family: "Open Sans";
+    font-size: 16px;
+    text-align: center;
     margin-bottom: 16px;
     padding-bottom: 4px;
     font-family: inherit; }
   .location-autocomplete__select {
-    margin-bottom: 16px;
+    width: 180px;
+    background: #fff;
+    border: none;
+    margin: 0 auto 16px auto;
     height: 42px;
-    width: 100px;
     font-size: 16px;
     cursor: pointer;
     font-family: inherit;
     padding: 8px;
-    border-radius: 4px;
-    background: #eaf1ff;
-    border-color: #d9e6ff; }
+    border-radius: 4px; }
 
 .button {
   cursor: pointer;
@@ -1558,7 +1579,8 @@ pre.error {
   text-transform: uppercase;
   cursor: pointer;
   color: white;
-  background-color: #2196f3; }
+  background-color: #2196f3;
+  border-radius: 24px; }
 
 .buttons-group {
   display: -ms-flexbox;

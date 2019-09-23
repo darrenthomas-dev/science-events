@@ -507,15 +507,20 @@ exports.getEvents = async (req, res) => {
   });
 };
 
-// Return last 12 recently added events
+// Return recently added events
 exports.recentlyAddedEvents = async (req, res) => {
+  const date = new Date().toISOString().slice(0, 10);
+  const endDatetime = new Date(`${date}T00:00:00Z`);
+
   const limit = 16;
   const query = {
-    display: "true"
+    display: "true",
+    end_datetime: { $gte: endDatetime }
   };
   // const count = await Event.count();
-  const events = await Event.find(query).limit(limit);
-  // .skip(count - limit);
+  const events = await Event.find(query)
+    .sort({ created: -1 })
+    .limit(limit);
 
   res.render("recent", {
     title: "Recently Added",
