@@ -1480,52 +1480,84 @@ pre.error {
       color: #1c242b; }
 
 .location-autocomplete {
-  text-align: center;
-  background: rgba(198, 215, 236, 0.7);
-  width: 100%;
-  margin: 0 auto;
-  position: absolute;
-  top: 25%;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-      flex-direction: column;
-  padding: 28px 16px; }
+  z-index: 99999;
+  background: white;
+  margin: -60px auto 0 auto;
+  padding: 16px;
+  width: 94%;
+  margin-bottom: 16px;
+  border-radius: 4px; }
   @media (min-width: 620px) {
     .location-autocomplete {
+      position: absolute;
+      top: 25%;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-direction: column;
+          flex-direction: column;
+      background: rgba(198, 215, 236, 0.7);
+      padding: 28px 16px;
+      width: 100%;
+      text-align: center;
       border-radius: 8px;
       max-width: 620px;
       left: calc(50% - 310px); } }
   .location-autocomplete h2 {
     text-align: center;
-    font-size: 42px;
     line-height: 1;
     font-weight: normal; }
+    @media (max-width: 620px) {
+      .location-autocomplete h2 {
+        display: none;
+        text-align: left;
+        font-size: 28px; } }
   .location-autocomplete__label {
     font-size: 18px;
     padding-bottom: 8px;
     padding-right: 0; }
   .location-autocomplete__input {
-    height: 48px;
-    border-radius: 24px;
     border: none;
-    font-family: "Open Sans";
-    font-size: 16px;
-    text-align: center;
-    margin-bottom: 16px;
-    padding-bottom: 4px;
-    font-family: inherit; }
+    font-family: inherit;
+    margin-bottom: 16px; }
+    @media (max-width: 619px) {
+      .location-autocomplete__input {
+        border-bottom: 1px solid #5980a7;
+        font-size: 14px;
+        padding: 8px 4px;
+        margin-top: 4px;
+        background: #9dceff5e;
+        width: 100%; } }
+    @media (min-width: 620px) {
+      .location-autocomplete__input {
+        padding-bottom: 4px;
+        height: 48px;
+        border-radius: 24px;
+        font-size: 16px;
+        text-align: center; } }
   .location-autocomplete__select {
     width: 180px;
-    background: #fff;
     border: none;
-    margin: 0 auto 16px auto;
     height: 42px;
-    font-size: 16px;
     cursor: pointer;
     font-family: inherit;
-    padding: 8px;
     border-radius: 4px; }
+    @media (max-width: 619px) {
+      .location-autocomplete__select {
+        margin-bottom: 16px;
+        font-size: 14px;
+        padding: 0 0 0 4px;
+        background: #9dceff6e; } }
+    @media (min-width: 620px) {
+      .location-autocomplete__select {
+        background: #fff;
+        font-size: 16px;
+        padding: 8px;
+        margin: 0 auto 16px auto; } }
+  @media (max-width: 619px) {
+    .location-autocomplete__button {
+      width: 100%; } }
+  .location-autocomplete details {
+    font-size: 13px; }
 
 .button {
   cursor: pointer;
@@ -1628,15 +1660,8 @@ pre.error {
   display: none; }
 
 .hero {
-  position: relative;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-      flex-direction: column;
-  -ms-flex-pack: center;
-      justify-content: center;
-  -ms-flex-align: center;
-      align-items: center; }
+  z-index: -1;
+  position: relative; }
   .hero > p {
     margin: 0;
     width: 100%;
@@ -1650,22 +1675,40 @@ pre.error {
     background: rgba(255, 255, 255, 0.35); }
 
 .hero-img {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   height: 80vh;
   width: 100%;
   object-fit: cover;
-  object-position: bottom right; }
+  object-position: bottom right;
+  z-index: -1; }
 
 .hero-info {
-  width: 100%;
-  background: linear-gradient(to right, #2684d0, #48a8f6);
-  padding: 8px 0; }
-  .hero-info > p {
-    margin: 0;
-    padding: 16px;
-    text-align: center;
-    color: #edf3ff;
-    font-size: 18px;
-    text-transform: capitalize; }
+  position: absolute;
+  text-align: center;
+  padding: 18px;
+  background: linear-gradient(to right, #e9f8fdab, #253c6657);
+  margin-bottom: 0;
+  top: 115px;
+  color: rgba(3, 22, 72, 0.9); }
+  .hero-info p {
+    margin-bottom: 0;
+    font-size: 24px; }
+
+@media (min-width: 640px) {
+  .hero-info {
+    width: 100%;
+    background: linear-gradient(to right, #2684d0, #48a8f6);
+    padding: 8px 0; }
+    .hero-info > p {
+      margin: 0;
+      padding: 16px;
+      text-align: center;
+      color: #edf3ff;
+      font-size: 18px;
+      text-transform: capitalize; } }
 
 @media (min-width: 960px) {
   .hero-info > p {
