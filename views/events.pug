@@ -6,8 +6,8 @@ include mixins/_pagination
 include mixins/_footer
 
 block content
-	
-	+locationSearch(lat, lng, location, distance, childFriendly, free)
+	.top-search
+		+locationSearch(lat, lng, location, distance, childFriendly, free)
 
 	main#maincontent
 		.events__count

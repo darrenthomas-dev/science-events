@@ -5,15 +5,16 @@ html
     title= message ? message : `${h.siteName} - ${title}`
     link(rel='stylesheet', href='/dist/style.css')
     link(rel="shortcut icon" type="image/png" href="/images/icons/favicon.png")
-    link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap")
+    //- link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap")
+    link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&display=block")
     meta(name="viewport" content="width=device-width, initial-scale=1")
   body
-    div#skip
+    .skip#skip
       a(id="content" href="#maincontent") Skip to #{skip}
       a(name="top")
     nav.nav
       h2.offscreen Main navigation
-      a.nav__logo(href="/" tabIndex="-1") Science Near Me
+      a.nav__logo(href="/") Science Near Me
       button.hamburger.hamburger--collapse#menu
         span.hamburger-box
           span.hamburger-inner

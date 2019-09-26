@@ -1,85 +1,49 @@
 .hero {
   z-index: -1;
   position: relative;
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: center;
-  // align-items: center;
-  > p {
-    margin: 0;
-    width: 100%;
-    position: absolute;
-    top: calc(40vh - 108px);
-    left: 0;
-    font-size: 38px;
-    text-transform: uppercase;
-    text-align: center;
-    font-weight: bold;
-    background: hsla(0, 0%, 100%, 0.35);
-  }
+  width: 100%;
+  height: 50vh;
+  background: #c3c3c3;
 }
 
 .hero-img {
-  // -webkit-touch-callout: none;
-  // -webkit-user-select: none;
-  // -khtml-user-select: none;
-  // -moz-user-select: none;
-  // -ms-user-select: none;
-  // -o-user-select: none;
   user-select: none;
-
-  height: 80vh;
+  // height: 40vh;
   width: 100%;
   object-fit: cover;
   object-position: bottom right;
-  z-index: -1;
 }
 .hero-info {
-  // display: none;
   position: absolute;
+  width: 100%;
   text-align: center;
   padding: 18px;
-  background: linear-gradient(to right, #e9f8fdab, #253c6657);
   margin-bottom: 0;
-  top: 115px;
-  color: rgba(3, 22, 72, 0.9);
+  top: 112px;
   p {
+    font-weight: bold;
     margin-bottom: 0;
-    font-size: 24px;
-  }
-}
-
-@media (min-width: 640px) {
-  .hero-info {
-    width: 100%;
-    background: linear-gradient(to right, #2684d0, #48a8f6);
-    padding: 8px 0;
-    > p {
-      margin: 0;
-      padding: 16px;
-      text-align: center;
-      color: rgb(237, 243, 255);
-      font-size: 18px;
-      text-transform: capitalize;
-    }
+    font-size: 26px;
+    color: $primary-600;
+    text-shadow: 0 0 20px #fff;
+    text-transform: capitalize;
   }
 }
 
 @media (min-width: 960px) {
   .hero-info {
+    top: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     > p {
-      padding: 35px 16px;
-      font-size: 24px;
-    }
-  }
-
-  .hero {
-    > p {
-      width: auto;
-      left: calc(50% - 421.915px);
+      padding: 16px;
+      text-align: center;
       font-size: 62px;
-      line-height: 1;
-      padding: 18px 32px;
+      // position: relative;
+      // top: -62px;
+      max-width: 1040px;
     }
   }
 }

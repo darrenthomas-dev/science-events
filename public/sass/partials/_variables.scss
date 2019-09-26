@@ -1,29 +1,19 @@
-$black: #303030;
-$width: 800px;
-$purple: #262161;
-$yellow: #ffc40e;
-$pink: #ee7297;
-$green: #93ff00;
-$red: #e50714;
-$grey: lighten(grey, 40%);
-$shad: 0 0 10px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
-$grad: linear-gradient(
-  90deg,
-  #48ded4 0%,
-  #a026bf 20%,
-  #e82c75 60%,
-  $yellow 85%,
-  #48ded4 95%
-);
-$verticalGrad: linear-gradient(
-  0,
-  #48ded4 0%,
-  #a026bf 20%,
-  #e82c75 60%,
-  $yellow 85%,
-  #48ded4 95%
-);
+$black: #333;
 
-// New
+$danger: #e50714;
+$warning: #ffc40e;
+$success: #93ff00;
+$info: #80b2f5;
+
 $light-txt: #545d65;
-$dark-txt: #131c23;
+
+$primary-900: #0d053d;
+$primary-700: #261f54;
+$primary-600: #373256;
+$primary-500: #474075;
+$primary-300: #b9b3d6;
+$primary-100: #f5f3ff;
+
+$secondary-500: #f96d00;
+$secondary-300: #f3a467;
+$secondary-200: #ffd7b8;

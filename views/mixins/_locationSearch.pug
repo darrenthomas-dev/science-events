@@ -1,9 +1,9 @@
 mixin locationSearch(lat, lng, location, distance, childFriendly, free)
 
 	form(action="/events/page/1" id="locationAutocomplete" class="location-autocomplete" method="GET" )
-		h2 Find an event near you!
-		label(class="" for="location") Enter your location:
-		input(class="location-autocomplete__input" id="location" type="text" name="geolocate" value=location)
+		h2.offscreen Find an event near you!
+		label(class="offscreen" for="location") Enter your location:
+		input(class="location-autocomplete__input" placeholder="Enter your location" id="location" type="text" name="geolocate" value=location)
 		input(type="hidden" name="lat" id="lat" value=lat)
 		input(type="hidden" name="lng" id="lng" value=lng)
 		label(class="offscreen" for="distance") Select a distance:

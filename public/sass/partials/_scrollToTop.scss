@@ -3,9 +3,10 @@
   bottom: 32px;
   right: 12px;
   a {
+    border-radius: 50%;
     width: 50px;
     height: 50px;
-    background: hsla(0, 0%, 20%, 0.8);
+    background: rgba($primary-600, 0.8);
     display: block;
     cursor: pointer;
   }

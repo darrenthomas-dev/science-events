@@ -1,6 +1,6 @@
 html {
   box-sizing: border-box;
-  // scroll-behavior: smooth;
+  overflow-y: scroll;
 }
 
 *,
@@ -10,18 +10,11 @@ html {
 }
 
 body {
-  // font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen,
-  //   Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Helvetica, Arial,
-  //   sans-serif;
-
   font-family: "Open Sans", sans-serif;
-
   font-size: 1rem;
   margin: 0;
-  color: #023865;
-  background-color: #ecf4fb;
-  // border-top: 2px solid #9c29d2;
-  // border-top: 4px solid #4572af;
+  color: $primary-900;
+  background-color: $primary-100;
 }
 
 .header {
@@ -37,17 +30,6 @@ h3 > a {
   padding: 0 0.5rem;
 }
 
-#skip a {
-  position: absolute;
-  left: -10000px;
-  top: auto;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
-#skip a:focus {
-  position: static;
-  width: auto;
-  height: auto;
+main {
+  padding: 0 8px;
 }

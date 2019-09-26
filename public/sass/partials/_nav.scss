@@ -14,13 +14,14 @@
 }
 
 .nav {
+  padding: 0 16px;
   height: 70px;
-  background: #47a7f5;
+  background: $primary-600;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(to right, #2684d0, #48a8f6);
-  border-bottom: 1px solid #2f84cf;
+  // background: linear-gradient(to right, #1964a0, #2f84cf);
+  border-bottom: 1px solid $primary-700;
   a {
     color: #f1f6ff;
   }
