@@ -50,17 +50,22 @@
   }
   details {
     font-size: 13px;
+    cursor: pointer;
   }
 }
 
 @media (min-width: 1050px) {
   .location-autocomplete {
-    padding: 28px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    // padding: 28px;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+
+    padding: 53px 28px 24px 28px;
     max-width: 1000px;
     margin: -55px auto 20px auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 
     &__input {
       margin: 0;
@@ -70,7 +75,7 @@
       height: 42px;
       padding-left: 12px;
       border-radius: 4px;
-      width: 280px;
+      // width: 280px;
 
       &::placeholder {
         color: $primary-900;
@@ -78,35 +83,39 @@
       }
     }
     &__select {
-      width: 180px;
+      // width: 180px;
       border: none;
-      height: 42px;
+      // height: 42px;
       cursor: pointer;
       font-family: inherit;
       border-radius: 4px;
       font-size: 16px;
       padding-left: 8px;
-      margin-left: 36px;
+      // margin-left: 36px;
+      justify-self: center;
     }
     &__button {
-      margin-left: 36px;
-      width: 240px;
+      // margin-left: 36px;
+      // width: 240px;
+
+      grid-column: 3;
+      grid-row: 1;
     }
     details {
+      grid-column: 1;
       font-size: 14px;
       margin: 0;
-      margin-left: 36px;
+      // margin-left: 36px;
+      margin: 8px 0 0 2px;
     }
   }
 }
 
 .top-search {
   .location-autocomplete {
-    margin: 0 0 16px 0;
-    width: 100%;
-    max-width: 100%;
+    margin: 28px auto 16px auto;
     border-radius: 0;
-    padding: 16px;
     box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.15);
+    padding-top: 42px;
   }
 }

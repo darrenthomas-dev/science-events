@@ -1,15 +1,16 @@
 mixin pagination(page, pages, free, previousParams, nextParams)
 
 	.pagination
+		h2.offscreen Pagination
 		.pagination__prev
 			if page > 1
-				a(href=urlPrevious)
+				a(href=urlPrevious title="Previous page")
 					span.offscreen Previous page
 					!= h.icon('cheveron-left')
 		.pagination__text
 			p Page #{page} of #{pages}
 		.pagination__next
 			if page < pages
-				a(href=urlNext)
+				a(href=urlNext title="Next page")
 					span.offscreen Next page
 					!= h.icon('cheveron-right')

@@ -12,6 +12,7 @@ mixin eventCard(event = {})
 			img(class="event__img" src=`${event.image || '/uploads/store.png'}` alt="")
 		else
 			img(class="event__img" src=`/uploads/${event.image || 'store.png'}` alt="")
+		
 		if user
 			if user.admin || (event.author && event.author.equals(user._id))
 				if event.end_datetime < new Date()
@@ -58,3 +59,22 @@ mixin eventCard(event = {})
 						= `Free to £${max}`
 					else	
 						= `£${min} to £${max}`
+
+		script(type="application/ld+json").
+			"@context": "https://schema.org",
+			"@type": "EducationEvent",
+			"name": "#{event.name}",
+			"location":
+				"address:"
+					"@type": "PostalAddress",
+					"streetAddress": "#{event.location.address}",
+					"geo":
+						"@type": "GeoCoordinates",
+						"latitude": "#{event.location.coordinates[0]}",
+						"longitude": "#{event.location.coordinates[1]}"
+			"image": `#{event.image || 'https://localhost:5555/uploads/store.png'}`
+			"startDate": "#{event.start_datetime}"
+			"endDate": "#{event.end_datetime}"
+			"organizer":
+				"@type": "Organization",
+				"name": "#{event.organisation}"

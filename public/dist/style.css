@@ -54,6 +54,10 @@ ol {
   margin-top: 0;
   line-height: 1.5; }
 
+.title {
+  text-transform: capitalize;
+  font-size: 2em; }
+
 @media (min-width: 986px) {
   .fb {
     display: -ms-flexbox;
@@ -1517,19 +1521,18 @@ pre.error {
   .location-autocomplete__button {
     width: 100%; }
   .location-autocomplete details {
-    font-size: 13px; }
+    font-size: 13px;
+    cursor: pointer; }
 
 @media (min-width: 1050px) {
   .location-autocomplete {
-    padding: 28px;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-pack: center;
-        justify-content: center;
-    -ms-flex-align: center;
-        align-items: center;
+    padding: 53px 28px 24px 28px;
     max-width: 1000px;
-    margin: -55px auto 20px auto; }
+    margin: -55px auto 20px auto;
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: (1fr)[3];
+        grid-template-columns: repeat(3, 1fr); }
     .location-autocomplete__input {
       margin: 0;
       border: none;
@@ -1537,8 +1540,7 @@ pre.error {
       background: #f5f3ff;
       height: 42px;
       padding-left: 12px;
-      border-radius: 4px;
-      width: 280px; }
+      border-radius: 4px; }
       .location-autocomplete__input:-ms-input-placeholder {
         color: #0d053d;
         font-size: 16px; }
@@ -1546,30 +1548,30 @@ pre.error {
         color: #0d053d;
         font-size: 16px; }
     .location-autocomplete__select {
-      width: 180px;
       border: none;
-      height: 42px;
       cursor: pointer;
       font-family: inherit;
       border-radius: 4px;
       font-size: 16px;
       padding-left: 8px;
-      margin-left: 36px; }
+      justify-self: center; }
     .location-autocomplete__button {
-      margin-left: 36px;
-      width: 240px; }
+      -ms-grid-column: 3;
+          grid-column: 3;
+      -ms-grid-row: 1;
+          grid-row: 1; }
     .location-autocomplete details {
+      -ms-grid-column: 1;
+          grid-column: 1;
       font-size: 14px;
       margin: 0;
-      margin-left: 36px; } }
+      margin: 8px 0 0 2px; } }
 
 .top-search .location-autocomplete {
-  margin: 0 0 16px 0;
-  width: 100%;
-  max-width: 100%;
+  margin: 28px auto 16px auto;
   border-radius: 0;
-  padding: 16px;
-  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.15); }
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.15);
+  padding-top: 42px; }
 
 .button {
   cursor: pointer;
@@ -1691,8 +1693,7 @@ pre.error {
   width: 100%;
   text-align: center;
   padding: 18px;
-  margin-bottom: 0;
-  top: 112px; }
+  margin-bottom: 0; }
   .hero-info p {
     font-weight: bold;
     margin-bottom: 0;

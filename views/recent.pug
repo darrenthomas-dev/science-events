@@ -14,18 +14,19 @@ block content
 				//- p Science Near Me aims to link science organisers with science enthusiasts.
 				p Linking science organisers with science enthusiasts <span class="offscreen">.</span>
 		
-		+locationSearch(lat, lng, location, distance)
+	+locationSearch(lat, lng, location, distance)
 
 	main#maincontent
 		.events__count
-			h1= title
+			h2.title= title
 
 		.events
 			each event in events
 				+eventCard(event)
 
-	.create-events
-		p Create An Event for Free!
+	section.create-events
+		h2.offscreen Create an event
+		p <a href="">Create An Event for Free!</a>
 
 block footer
 	+footer()
