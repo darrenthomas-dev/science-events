@@ -1,4 +1,4 @@
-mixin pagination(page, pages, free, previousParams, nextParams)
+mixin pagination(page, pages, free, previousParams, nextParams, urlPrevious, urlNext)
 
 	.pagination
 		h2.offscreen Pagination
@@ -11,6 +11,6 @@ mixin pagination(page, pages, free, previousParams, nextParams)
 			p Page #{page} of #{pages}
 		.pagination__next
 			if page < pages
-				a(href=urlNext title="Next page")
+				a(href=urlNext title="Next page") 
 					span.offscreen Next page
 					!= h.icon('cheveron-right')
