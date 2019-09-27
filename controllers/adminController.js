@@ -69,6 +69,12 @@ exports.confirmEvents = async (req, res) => {
     return;
   }
 
+  // Pagination
+  const fullUrl = req.protocol + "://" + req.get("host");
+
+  let urlPrevious = `${fullUrl}/admin/page/${parseFloat(page) - 1}`;
+  let urlNext = `${fullUrl}/admin/page/${parseFloat(page) + 1}`;
+
   res.render("admin", {
     title: "Admin",
     parentSlug: "admin",
@@ -76,6 +82,8 @@ exports.confirmEvents = async (req, res) => {
     guestEvents,
     page,
     pages,
+    urlPrevious,
+    urlNext,
     ebEventsPending,
     guestEventsPending,
     expiredCount
