@@ -18,7 +18,7 @@ exports.nextEvent = () => {
   for (let i = 0; i < events.length; i++) {
     events[i].classList.add("hide");
   }
-
+  
   current =
     events.length - 1 === current ? (current = 0) : (current = current + 1);
   events[current].classList.remove("hide");
