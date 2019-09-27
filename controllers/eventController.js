@@ -461,9 +461,6 @@ exports.getEvents = async (req, res) => {
   let previousParams = urlPrevious.searchParams;
   let nextParams = urlNext.searchParams;
 
-  // previousParams = new URLSearchParams(`page/${parseFloat(page) - 1}`);
-  // nextParams = new URLSearchParams(`page/${parseFloat(page) + 1}`);
-
   if (miles) {
     previousParams.append("geolocate", location);
     previousParams.append("lat", coordinates[1]);
