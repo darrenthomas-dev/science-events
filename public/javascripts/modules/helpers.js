@@ -10,11 +10,15 @@ exports.clearOverlays = markers => {
   return markers;
 };
 
-// Show / hide events info window button
+// Show & hide events info window button
 let current = 0;
 exports.nextEvent = () => {
   let events = document.querySelectorAll(".popup__event");
-  events[current].classList.add("hide");
+
+  for (let i = 0; i < events.length; i++) {
+    events[i].classList.add("hide");
+  }
+
   current =
     events.length - 1 === current ? (current = 0) : (current = current + 1);
   events[current].classList.remove("hide");
