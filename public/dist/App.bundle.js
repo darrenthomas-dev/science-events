@@ -3198,11 +3198,15 @@ exports.clearOverlays = function (markers) {
   return markers;
 };
 
-// Show / hide events info window button
+// Show & hide events info window button
 var current = 0;
 exports.nextEvent = function () {
   var events = document.querySelectorAll(".popup__event");
-  events[current].classList.add("hide");
+
+  for (var i = 0; i < events.length; i++) {
+    events[i].classList.add("hide");
+  }
+
   current = events.length - 1 === current ? current = 0 : current = current + 1;
   events[current].classList.remove("hide");
 };
