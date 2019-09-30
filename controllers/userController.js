@@ -21,15 +21,9 @@ exports.validateRegister = (req, res, next) => {
     gmail_remove_subaddress: false
   });
   req
-    .checkBody("password", "Password must be at least 10 characters long!")
-    .isLength({ min: 10 });
+    .checkBody("password", "Password must be at least 12 characters long!")
+    .isLength({ min: 12 });
   req.checkBody("password", "Password cannot be blank!").notEmpty();
-  req
-    .checkBody(
-      "password",
-      "Invalid password. Password must be at least 10 characters long and contain an uppercase and lowercase character."
-    )
-    .matches(/^(?=.*[a-z])(?=.*[A-Z]).{10,}$/, "i");
   req
     .checkBody("password-confirm", "Confirmed password cannot be blank!")
     .notEmpty();

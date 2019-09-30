@@ -3,7 +3,7 @@ const crypto = require("crypto");
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const promisify = require("es6-promisify");
-const mail = require("../handlers/mail");
+// const mail = require("../handlers/mail");
 const sgMail = require("@sendgrid/mail");
 
 exports.login = passport.authenticate("local", {
@@ -58,8 +58,10 @@ exports.getPasswordReset = (req, res) => {
 exports.forgot = async (req, res) => {
   const message =
     "If a matching account was found then a password reset has been emailed to you.";
+
   // 1. See if user exists
   const user = await User.findOne({ email: req.body.email });
+
   if (!user) {
     req.flash("success", message);
     return res.redirect("/login");
@@ -71,13 +73,39 @@ exports.forgot = async (req, res) => {
   await user.save();
 
   // 3. Send token to email
-  const resetURL = `http://${req.headers.host}/account/reset/${user.resetPasswordToken}`;
-  await mail.send({
-    user,
+  const resetUrl = `http://${req.headers.host}/account/reset/${user.resetPasswordToken}`;
+
+  sgMail.setApiKey(process.env.MAIL_PASS);
+
+  const html = `
+<p>You recently requested to reset your password for sciencenearme.com. Click the button below to reset it.</p>
+<p><a style="background-color: #373256;border: 1px solid #333333;border-color: #373256;border-radius: 6px;border-width: 1px;color: #f3f1ff;display: inline-block;font-family: arial,helvetica,sans-serif;font-size: 16px;font-weight: normal;letter-spacing: 0px;line-height: 16px;padding: 12px 18px 12px 18px;text-align: center;text-decoration: none;" href="${resetUrl}">Reset your password</a></p>
+<p>If you did not request a password reset, please ignore the email or reply to let us know. This password reset is only valid for 1 hour.</p>
+<p>Thanks,</p>
+<p>Science Near Me</p>
+<p>If you are having trouble clicking the password reset button, copy and paste the URL below into your web browser.</p>
+<p><a href="${resetUrl}">${resetUrl}</a></p>`;
+
+  const text = `
+You recently requested to reset your password for sciencenearme.com.
+
+Click or copy and paste the URL below into your web browser ${resetUrl}. This password reset is only valid for 1 hour.
+
+If you did not request a password reset, please ignore the email or reply to let us know.
+
+Thanks,
+
+Science Near Me`;
+
+  const msg = {
+    to: user,
+    from: "support@sciencenearme.com",
     subject: "Password Reset",
-    resetURL,
-    filename: "password-reset"
-  });
+    html,
+    text
+  };
+
+  await sgMail.send(msg);
 
   req.flash("success", message);
 
@@ -94,6 +122,7 @@ exports.reset = async (req, res) => {
     resetPasswordToken: req.params.token,
     resetPasswordExpires: { $gt: Date.now() }
   });
+
   if (!user) {
     req.flash("error", "Password reset is invalid or has expired.");
     return res.redirect("/login");
