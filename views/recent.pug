@@ -9,7 +9,7 @@ block content
 
 	header.header
 		.hero
-			img(class="hero-img" src="" alt="")
+			img(class="hero-img" src="/images/photos/unsplash/12.resized.jpg" alt="")
 			.hero-info
 				//- p Science Near Me aims to link science organisers with science enthusiasts.
 				p Linking science organisers with science enthusiasts <span class="offscreen">.</span>
@@ -20,13 +20,22 @@ block content
 		.events__count
 			h2.title= title
 
+		-let n = 0
 		.events
-			each event in events
-				+eventCard(event)
+			-while(n < 8)
+				+eventCard(events[n])
+				-n++
 
-	section.create-events
-		h2.offscreen Create an event
-		p <a href="">Create An Event for Free!</a>
+		.create-event
+			h2.offscreen Create an event
+			p <a href="">Create An Event for Free!</a>
+
+		if ( n === 8 && events.length > 8 ) 
+
+			.events
+				-while(n < events.length)
+					+eventCard(events[n])
+					-n++
 
 block footer
 	+footer()

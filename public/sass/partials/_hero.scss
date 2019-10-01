@@ -4,6 +4,7 @@
   width: 100%;
   height: 80vh;
   background: #c3c3c3;
+  max-height: 793px;
 }
 
 .hero-img {
@@ -39,11 +40,12 @@
     justify-content: center;
     align-items: center;
     > p {
+      color: #48398c;
       padding: 16px;
       text-align: center;
       font-size: 62px;
-      // position: relative;
-      // top: -62px;
+      position: relative;
+      top: -18px;
       max-width: 1040px;
     }
   }

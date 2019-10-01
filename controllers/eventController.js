@@ -509,7 +509,7 @@ exports.recentlyAddedEvents = async (req, res) => {
   const date = new Date().toISOString().slice(0, 10);
   const endDatetime = new Date(`${date}T00:00:00Z`);
 
-  const limit = 12;
+  const limit = 16;
   const query = {
     display: "true",
     end_datetime: { $gte: endDatetime }

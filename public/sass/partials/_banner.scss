@@ -1,22 +1,32 @@
-.create-events {
-  margin: 20px 0;
+.create-event {
+  margin: 80px 0;
   width: 100%;
-  // background-image: url(/images/photos/1.jpg);
+  background-image: url("/images/photos/unsplash/4.resized.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  // background-attachment: fixed;
 
   p {
-    padding: 100px 16px;
+    padding: 200px 16px;
     text-align: center;
     text-transform: capitalize;
-    font-size: 42px;
+    font-size: 58px;
     margin: 0 auto;
-    background: #c3c3c3;
+    // background: #c3c3c3;
     color: $primary-600;
     font-weight: bold;
+    a {
+      text-shadow: 0 0 20px #fff;
+      text-transform: capitalize;
+      text-decoration: none;
+      background: hsla(0, 0%, 100%, 0.6);
+      padding: 16px;
+      border-radius: 4px;
+      color: #48398c;
+    }
   }
   @media (min-width: 690px) {
-    padding: 100px 0;
+    // padding: 100px 0;
   }
 }

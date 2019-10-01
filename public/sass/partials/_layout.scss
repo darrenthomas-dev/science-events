@@ -1,6 +1,8 @@
 html {
   box-sizing: border-box;
   overflow-y: scroll;
+  max-width: 1920px;
+  margin: 0 auto;
 }
 
 *,
@@ -31,5 +33,6 @@ h3 > a {
 }
 
 main {
-  padding: 0 8px;
+  margin-bottom: 80px;
+  // padding: 0 8px;
 }
