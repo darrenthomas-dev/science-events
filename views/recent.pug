@@ -9,7 +9,13 @@ block content
 
 	header.header
 		.hero
-			img(class="hero-img" src="/images/photos/unsplash/12.resized.jpg" alt="")
+			picture
+				source(srcset="/images/photos/12.resized.jpg" media="(min-width: 1240px)")
+				source(srcset="/images/photos/11-1240w.jpg" media="(min-width: 640px)")
+				img(class="hero-img" 
+					srcset="/images/photos/11-1240w.jpg" 
+					alt="")
+
 			.hero-info
 				//- p Science Near Me aims to link science organisers with science enthusiasts.
 				p Linking science organisers with science enthusiasts <span class="offscreen">.</span>

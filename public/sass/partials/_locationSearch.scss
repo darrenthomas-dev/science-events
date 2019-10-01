@@ -1,14 +1,19 @@
 .location-autocomplete {
   background: white;
-  margin: -60px auto 16px auto;
+  // margin: -60px auto 16px auto;
   padding: 16px;
-  width: 94%;
+  // width: 94%;
+  // margin: 0 8px;
   border-radius: 4px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 2px rgba(0, 0, 0, 0.15),
     0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.15);
 
   @media (max-width: 1049px) {
     max-width: 550px;
+  }
+
+  @media (min-width: 585px) {
+    margin: 8px auto;
   }
 
   &__label {

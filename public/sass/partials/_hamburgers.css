@@ -795,3 +795,6 @@
   top: 6px;
   right: 8px;
 }
+.hamburger.is-active {
+  position: fixed;
+}

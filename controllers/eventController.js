@@ -520,7 +520,7 @@ exports.recentlyAddedEvents = async (req, res) => {
     .limit(limit);
 
   res.render("recent", {
-    title: "Recently added events",
+    title: "Recently added",
     events
   });
 };

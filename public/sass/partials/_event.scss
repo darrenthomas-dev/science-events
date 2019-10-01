@@ -1,5 +1,8 @@
 .events__count {
-  margin: 40px 16px;
+  // margin: 40px 16px;
+
+  margin: 40px 0;
+  padding: 0 8px;
 }
 
 @media all and (min-width: 416px) {
@@ -8,6 +11,12 @@
     grid-template-columns: repeat(auto-fill, 400px);
     grid-gap: 48px;
     justify-content: center;
+  }
+}
+
+.events {
+  @media (max-width: 878px) {
+    padding: 0 8px;
   }
 }
 
@@ -20,6 +29,11 @@
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 2px rgba(0, 0, 0, 0.15),
     0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.15);
   padding-bottom: 24px;
+
+  @media (max-width: 878px) {
+    margin-bottom: 24px;
+  }
+
   &__edit {
     float: right;
     color: #ffffff;

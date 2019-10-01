@@ -28,11 +28,16 @@
 }
 .nav__logo {
   font-family: "sunday";
-  font-size: 28px;
+  font-size: 22px;
   padding: 8px;
   display: inline-block;
   text-decoration: none;
+
+  @media (min-width: 640px) {
+    font-size: 28px;
+  }
 }
+
 // .nav__button {
 //   padding: 10px 12px;
 //   margin: 8px;

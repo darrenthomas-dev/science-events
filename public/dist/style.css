@@ -29,6 +29,14 @@ h3 > a {
 main {
   margin-bottom: 80px; }
 
+@media (max-width: 960px) {
+  .hero {
+    height: 73vh; }
+  .location-autocomplete h2 {
+    text-align: center;
+    text-transform: capitalize;
+    font-size: 24px; } }
+
 .minimal {
   height: 100vh; }
   .minimal body {
@@ -835,6 +843,9 @@ ol {
   top: 6px;
   right: 8px; }
 
+.hamburger.is-active {
+  position: fixed; }
+
 .form {
   padding: 16px; }
   .form__section {
@@ -926,10 +937,13 @@ ol {
 
 .nav__logo {
   font-family: "sunday";
-  font-size: 28px;
+  font-size: 22px;
   padding: 8px;
   display: inline-block;
   text-decoration: none; }
+  @media (min-width: 640px) {
+    .nav__logo {
+      font-size: 28px; } }
 
 .nav__section {
   position: fixed;
@@ -1021,7 +1035,8 @@ ol {
     top: 0;
     left: 0;
     object-fit: cover;
-    position: absolute; }
+    position: absolute;
+    filter: blur(14px); }
 
 .title.title--single {
   max-width: 600px;
@@ -1367,7 +1382,8 @@ pre.error {
     margin-top: 16px; }
 
 .events__count {
-  margin: 40px 16px; }
+  margin: 40px 0;
+  padding: 0 8px; }
 
 @media all and (min-width: 416px) {
   .events {
@@ -1379,6 +1395,10 @@ pre.error {
     -ms-flex-pack: center;
         justify-content: center; } }
 
+@media (max-width: 878px) {
+  .events {
+    padding: 0 8px; } }
+
 .event {
   position: relative;
   max-width: 400px;
@@ -1386,6 +1406,9 @@ pre.error {
   border-radius: 4px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 2px rgba(0, 0, 0, 0.15), 0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.15);
   padding-bottom: 24px; }
+  @media (max-width: 878px) {
+    .event {
+      margin-bottom: 24px; } }
   .event__edit {
     float: right;
     color: #ffffff;
@@ -1479,14 +1502,15 @@ pre.error {
 
 .location-autocomplete {
   background: white;
-  margin: -60px auto 16px auto;
   padding: 16px;
-  width: 94%;
   border-radius: 4px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 2px rgba(0, 0, 0, 0.15), 0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.15); }
   @media (max-width: 1049px) {
     .location-autocomplete {
       max-width: 550px; } }
+  @media (min-width: 585px) {
+    .location-autocomplete {
+      margin: 8px auto; } }
   .location-autocomplete__label {
     font-size: 18px;
     padding-bottom: 8px;
@@ -1673,13 +1697,13 @@ pre.error {
 .advanced__filters {
   display: none; }
 
-.hero {
-  z-index: -1;
-  position: relative;
-  width: 100%;
-  height: 80vh;
-  background: #c3c3c3;
-  max-height: 793px; }
+@media (min-width: 640px) {
+  .hero {
+    z-index: -1;
+    position: relative;
+    width: 100%;
+    background: #c3c3c3;
+    max-height: 793px; } }
 
 .hero-img {
   -webkit-user-select: none;
@@ -1688,22 +1712,29 @@ pre.error {
           user-select: none;
   width: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: right center;
   height: 100%; }
 
 .hero-info {
+  display: none;
   position: absolute;
   width: 100%;
   text-align: center;
   padding: 18px;
-  margin-bottom: 0; }
+  margin-bottom: 0;
+  top: 25%;
+  height: 100%; }
   .hero-info p {
     font-weight: bold;
     margin-bottom: 0;
-    font-size: 26px;
-    color: #373256;
     text-shadow: 0 0 20px #fff;
-    text-transform: capitalize; }
+    text-transform: capitalize;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 16px;
+    border-radius: 4px;
+    color: #48398c;
+    font-size: 28px; }
 
 @media (min-width: 960px) {
   .hero-info {
@@ -1717,9 +1748,8 @@ pre.error {
         align-items: center; }
     .hero-info > p {
       color: #48398c;
-      padding: 16px;
+      padding: 62px;
       text-align: center;
-      font-size: 62px;
       position: relative;
       top: -18px;
       max-width: 1040px; } }
@@ -1753,26 +1783,35 @@ pre.error {
 .create-event {
   margin: 80px 0;
   width: 100%;
-  background-image: url("/images/photos/unsplash/4.resized.jpg");
+  background-image: url("/images/photos/unsplash/4.resized-414w.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat; }
+  @media (min-width: 960px) {
+    .create-event {
+      background-image: url("/images/photos/unsplash/4.resized.jpg"); } }
   .create-event p {
-    padding: 200px 16px;
+    padding: 72px 8px;
+    font-size: 46px;
     text-align: center;
     text-transform: capitalize;
-    font-size: 58px;
     margin: 0 auto;
     color: #373256;
     font-weight: bold; }
+    @media (min-width: 690px) {
+      .create-event p {
+        padding: 200px 16px;
+        font-size: 58px; } }
     .create-event p a {
       text-shadow: 0 0 20px #fff;
-      text-transform: capitalize;
       text-decoration: none;
       background: rgba(255, 255, 255, 0.6);
-      padding: 16px;
-      border-radius: 4px;
       color: #48398c; }
+      @media (min-width: 690px) {
+        .create-event p a {
+          text-transform: capitalize;
+          padding: 0 35px;
+          border-radius: 4px; } }
 
 .to-top {
   position: fixed;

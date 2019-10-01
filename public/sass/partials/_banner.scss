@@ -1,29 +1,45 @@
 .create-event {
   margin: 80px 0;
   width: 100%;
-  background-image: url("/images/photos/unsplash/4.resized.jpg");
+
+  background-image: url("/images/photos/unsplash/4.resized-414w.jpg");
+
+  @media (min-width: 960px) {
+    background-image: url("/images/photos/unsplash/4.resized.jpg");
+  }
+
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  // background-attachment: fixed;
 
   p {
-    padding: 200px 16px;
+    padding: 72px 8px;
+    font-size: 46px;
     text-align: center;
     text-transform: capitalize;
-    font-size: 58px;
     margin: 0 auto;
     // background: #c3c3c3;
     color: $primary-600;
     font-weight: bold;
+
+    @media (min-width: 690px) {
+      padding: 200px 16px;
+      font-size: 58px;
+    }
+
     a {
       text-shadow: 0 0 20px #fff;
-      text-transform: capitalize;
       text-decoration: none;
       background: hsla(0, 0%, 100%, 0.6);
-      padding: 16px;
-      border-radius: 4px;
       color: #48398c;
+
+      @media (min-width: 690px) {
+        // padding: 100px 0;
+
+        text-transform: capitalize;
+        padding: 0 35px;
+        border-radius: 4px;
+      }
     }
   }
   @media (min-width: 690px) {

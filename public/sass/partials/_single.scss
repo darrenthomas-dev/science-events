@@ -15,6 +15,7 @@
     left: 0;
     object-fit: cover;
     position: absolute;
+    filter: blur(14px);
   }
 }
 .title.title--single {
