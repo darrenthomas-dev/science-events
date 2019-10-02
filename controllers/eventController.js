@@ -30,6 +30,12 @@ exports.homepage = (req, res) => {
   res.render("index");
 };
 
+exports.privacyPage = (req, res) => {
+  res.render("privacy", {
+    title: "Privacy and Cookie Policy For Science Near Me"
+  });
+};
+
 exports.addEvent = (req, res) => {
   res.render("editEvent", {
     title: "Add Event"
@@ -80,10 +86,12 @@ exports.createEvent = async (req, res) => {
 
   // Add body data to database
   const event = await new Event(req.body).save();
-  req.flash(
-    "success",
-    `Event <a href="/event/${event.slug}">${event.name}</a> has been successfully created.`
-  );
+
+  const message = event.slug
+    ? `Event <a href="/event/${event.slug}">${event.name}</a> has been successfully created.`
+    : `Event ${event.name} has been successfully created.`;
+
+  req.flash("success", message);
 
   res.redirect("back");
 };
@@ -404,6 +412,25 @@ exports.addSingleEventbriteEvent = async (req, res) => {
   }
 
   res.redirect(`/event/${currentEvent["id"]}/edit`);
+};
+
+exports.getEventsByOrganisationAndEventName = async (req, res) => {
+  if (!req.query.keywords) return;
+
+  const searchTerm = req.query.keywords;
+
+  const events = await Event.find({
+    display: "true",
+    $text: { $search: `\"${searchTerm}\"` }
+  }).sort("start_datetime");
+
+  const count = events.length;
+
+  res.render("events", {
+    title: `Searched for "${searchTerm}"`,
+    events,
+    count
+  });
 };
 
 exports.getEvents = async (req, res) => {

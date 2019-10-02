@@ -27,14 +27,19 @@ block content
 			h2.title= title
 
 		-let n = 0
-		.events
-			-while(n < 8)
-				+eventCard(events[n])
-				-n++
+		if (events.length > 8 ) 
+			.events
+				-while(n < 8)
+					+eventCard(events[n])
+					-n++
+		else
+			.events
+				for event in events
+					+eventCard(event)
 
 		.create-event
 			h2.offscreen Create an event
-			p <a href="">Create An Event for Free!</a>
+			p <a href="/add">Create An Event for Free!</a>
 
 		if ( n === 8 && events.length > 8 ) 
 

@@ -49,14 +49,15 @@
     border-radius: 4px;
     font-size: 16px;
     background: $primary-100;
+    margin-bottom: 16px;
   }
   &__button {
     width: 100%;
   }
-  details {
-    font-size: 13px;
-    cursor: pointer;
-  }
+  // details {
+  //   font-size: 13px;
+  //   cursor: pointer;
+  // }
 }
 
 @media (min-width: 1050px) {
@@ -66,11 +67,16 @@
     // justify-content: center;
     // align-items: center;
 
-    padding: 53px 28px 24px 28px;
+    // padding: 53px 28px 24px 28px;
+    padding: 24px;
     max-width: 1000px;
     margin: -55px auto 20px auto;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+
+    h2 {
+      display: none;
+    }
 
     &__input {
       margin: 0;
@@ -106,21 +112,36 @@
       grid-column: 3;
       grid-row: 1;
     }
-    details {
-      grid-column: 1;
-      font-size: 14px;
-      margin: 0;
-      // margin-left: 36px;
-      margin: 8px 0 0 2px;
+    // details {
+    //   grid-column: 1;
+    //   font-size: 14px;
+    //   margin: 0;
+    //   // margin-left: 36px;
+    //   margin: 8px 0 0 2px;
+    // }
+  }
+}
+.location-autocomplete {
+  @media (min-width: 1050px) {
+    &__select {
+      margin-bottom: 0;
     }
   }
 }
 
 .top-search {
   .location-autocomplete {
-    margin: 28px auto 16px auto;
     border-radius: 0;
     box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.15);
     padding-top: 42px;
+    padding: 28px;
+
+    @media (min-width: 1050px) {
+      margin: 28px auto 16px auto;
+
+      // &__select {
+      //   margin-bottom: 0;
+      // }
+    }
   }
 }

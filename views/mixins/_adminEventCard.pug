@@ -9,9 +9,9 @@ mixin adminEventCard(event = {})
 							!= h.icon('pencil')
 						| Edit
 		if event.eb_id
-			img(class="event__img" src=`${event.image || '/uploads/store.png'}` alt="")
+			img(class="event__img" src=`${event.image || '/uploads/defaultImage.jpg'}` alt="")
 		else
-			img(class="event__img" src=`/uploads/${event.image || 'store.png'}` alt="")
+			img(class="event__img" src=`/uploads/${event.image || 'defaultImage.jpg'}` alt="")
 		if user
 			if user.admin || (event.author && event.author.equals(user._id))
 				if event.end_datetime < new Date()

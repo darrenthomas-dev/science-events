@@ -4,9 +4,9 @@ block content
 	.single
 		.single__hero
 			if event.eb_id
-				img.single__image(src=`${event.poster || '/uploads/store.png'}`)
+				img.single__image(src=`${event.poster || '/uploads/defaultImage.jpg'}`)
 			else
-				img.single__image(src=`/uploads/${event.image || 'store.png'}`)
+				img.single__image(src=`/uploads/${event.image || 'defaultImage.jpg'}`)
 			h2.title.title--single
 				a(href=`/event/${event.slug}`) #{event.name}
 

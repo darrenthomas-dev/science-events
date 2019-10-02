@@ -1007,6 +1007,7 @@ var _bling = __webpack_require__(1);
 
 function searchByLocation(locationAutocomplete) {
   if (!locationAutocomplete) return;
+
   var input = (0, _bling.$)('[name="geolocate"]');
   var lat = (0, _bling.$)("#lat");
   var lng = (0, _bling.$)("#lng");

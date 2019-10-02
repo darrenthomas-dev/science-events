@@ -2,6 +2,7 @@ import { $ } from "./bling";
 
 function searchByLocation(locationAutocomplete) {
   if (!locationAutocomplete) return;
+
   const input = $('[name="geolocate"]');
   const lat = $("#lat");
   const lng = $("#lng");

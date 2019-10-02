@@ -16,10 +16,32 @@ block content
 	.inner
 		form(class="form-card eb__form" method="POST")
 			h2 Eventbrite events
-			p Events are pulled in starting from tomorrows date, please supply an end date.
+			p Importing events is a slow process. I advise importing no more than 7 days at a time.
+
+			-const tomorrow = new Date(+new Date() + 86400000).toISOString().slice(0,10);
+			label(class="label" for="startDate") Start date:
+			input(class="input" type="date" id="startDate" name="start_date" value=`${tomorrow}` required)
+
 			label(class="label" for="endDate") End date:
-			input(class="input" type="date" id="endDate" name="end_date")
+			input(class="input" type="date" id="endDate" name="end_date" required)
+
 			input(class="input button" type="submit" class="button" formaction="/admin/get-eventbrite-events" value="Get EventBrite Events")
+
+
+		form(class="form-card eb__form" method="POST")
+			h2 Hide organisations
+			p Any events created by organisations listed here will not display when importing events.
+
+			label(class="label" for="organisationName") Organisation name:
+			input(class="input" type="text" id="organisationName" name="organisation_name" required)
+
+			input(class="input button" type="submit" class="button" formaction="/admin/hide-organisation" value="Add")
+
+			if (arrayorganisationList)
+				.eb-organisation-list
+					ul
+						each organisation in arrayorganisationList
+							li= organisation
 
 	if guestEventsPending
 		h2 Guest Events Pending #{guestEventsPending}

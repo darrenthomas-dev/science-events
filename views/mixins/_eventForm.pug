@@ -1,25 +1,21 @@
 mixin eventForm(event = {})
 
 	if !user
-		.form-card
-			p You are not logged in. You can still submit events, however you will not be able to add your own image, a description or edit your event. 
-		
-			.btn-group
-				a(class="button" href="/login") Sign In
-				a(class="button" href="/register") Register for free!
+		.alert
+			p You are not logged in. You can still submit an event, however you can not edit the event. <br><a href="/login")>Sign in</a> or <a href="/register">Register for free!</a>
 
 	if ((user && user.eb_organiser_id) || (user && user.admin))
 		form(action=`/eb/add` method="POST" class="form")
 			.fb.form__section
 				.fb-50.pr-60
 					h2 Eventbrite Import
-					p.txt--light To import event details from Eventbrite enter the event ID number. Note you can only import events where you are register as the organiser. More information on how to find the event id can be found 
+					p.txt--light Enter the event ID number to import an event from Eventbrite. Only events where you are register as the organiser and are categroised as 'Science' can be imported. More information on how to find the event id can be found 
 						a(href="https://www.eventbrite.co.uk/support/articles/en_US/How_To/how-to-find-the-event-id" target="_blank" rel="noopener noreferrer") here.
 				.fb-50.pt-16
 					label(class="label" for="ebEventId") Eventbrite event id:
 					.fb
 						.fb-50
-							input(class="input input--sml" type="text" id="ebEventId" name="eb_event_id" value=`${event.eb_id || ""}` autofocus)
+							input(class="input input--sml" type="text" id="ebEventId" name="eb_event_id" value=`${event.eb_id || ""}` required)
 						.fb-50
 							input(class="input input--sml button" type="submit" value="Get details")
 
@@ -31,32 +27,32 @@ mixin eventForm(event = {})
 
 				.fb-50.pr-60
 					h2 Event Details
-					p.txt--light Events will be added to you 'My Events' page, from here they can be selected for editing.
+					p.txt--light Register users will be able to select their event for editing on the 'My Events' page.
 
-					p.txt--light Once an event has expired, it will be set for automatic deletion and removed from our database, usually within a few days.
+					p.txt--light Expired events are automatically set for deletion and are removed from our database usually within a few days.
 
 				.fb-50.pt-16
 
 					//- Event Name
 					label(class="label" for="event") Event name: *
-					input(class="input" type="text" id="event" name="name" value=event.name autofocus)
+					input(class="input" type="text" id="event" name="name" value=event.name required)
 
 					//- Organisation Name
 					label(class="label" for="organisation") Organisation: *
-					input(class="input" type="text" id="organisation" name="organisation" value=event.organisation || (user && user.organisation))
+					input(class="input" type="text" id="organisation" name="organisation" value=event.organisation || (user && user.organisation) required)
 
 					.fb
 						.fb-50
 							//- Start Datetime
 							label(class="label" for="start") Start date: *
-							input(class="input input--sml" type="date" name="start_datetime" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" value=`${event.start_datetime ? event.start_datetime.toISOString().slice(0,10) : '' }`)
+							input(class="input input--sml" type="date" name="start_datetime" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" value=`${event.start_datetime ? event.start_datetime.toISOString().slice(0,10) : '' }` required)
 						.fb-50
 							//- End Datetime
 							label(class="label" for="end") End date:
 							input(class="input input--sml" type="date" id="end" name="end_datetime" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" value=`${event.end_datetime ? event.end_datetime.toISOString().slice(0,10) : '' }`)
 
 					//- Price range
-					p.txt--light If your event has different priced tickets then set the minimum and maximum price:
+					p.txt--light If your event has different priced tickets then set both the minimum and maximum price:
 					.fb
 						.fb-50
 							label(class="label" for="minPrice") Price / min (£):
@@ -73,9 +69,11 @@ mixin eventForm(event = {})
 					p Check all that apply.
 					
 					input(class="checkbox" type="checkbox" id="familyFriendly" name="family_friendly" value="true" checked=(event.family_friendly))
-					label(class="label--checkbox" for="familyFriendly") Family Friendly
-					input(class="checkbox" type="checkbox" id="donation" name="donation" value="true" checked=(event.donation))
-					label(class="label--checkbox" for="donation") Donation
+					label(class="label--checkbox" for="familyFriendly") Suitable for children
+					
+					//- input(class="checkbox" type="checkbox" id="donation" name="donation" value="true" checked=(event.donation))
+					//- label(class="label--checkbox" for="donation") Donation
+					
 					input(class="checkbox" type="checkbox" id="free" name="is_free" value="true" checked=(event.is_free))
 					label(class="label--checkbox" for="free") Free
 
@@ -84,10 +82,10 @@ mixin eventForm(event = {})
 		.fb.form__section
 			.fb-50.pr-60
 				h2 Venue Address
-				p.txt--light Please enter the address of the event. In addition to displaying the address on our site, we use use it with Google Maps to find the geo coordinates and display a marker on our map.
+				p.txt--light Please enter the address of the event. The address will be displayed on our site and used to display a marker on our map.
 			.fb-50.pt-16
 				label(class="label" for="address") Event address: *
-				input(class="input" type="text" id="address" name="location[address]" value=((event.location && event.location.address) || (user && user.address) ))
+				input(class="input" type="text" id="address" name="location[address]" value=((event.location && event.location.address) || (user && user.address) ) required)
 
 
 

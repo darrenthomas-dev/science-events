@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const Event = mongoose.model("Event");
+const AdminSettings = mongoose.model("AdminSettings");
 const moment = require("moment");
 const axios = require("axios");
 const { getDatetime, stripInlineCss, displayDate } = require("../helpers");
 
 const yesterday = moment()
-  .subtract(0, "days")
+  .subtract(1, "days")
   .endOf("day")
   .format("YYYY-MM-DDThh:mm:ss")
   .toString();
@@ -31,11 +32,8 @@ exports.confirmEvents = async (req, res) => {
     eb_id: { $exists: true }
   }).count();
 
-  // Count pending guest events
-  // const countPromise = Event.find({
-  //   display: null,
-  //   eb_id: { $exists: false }
-  // }).count();
+  // Get list of organisations to hide
+  const organisationListPromise = AdminSettings.find({});
 
   // Count events with expired end_datetime
   const expiredPromise = Event.find({
@@ -46,15 +44,17 @@ exports.confirmEvents = async (req, res) => {
     events,
     guestEvents,
     ebEventsPending,
-    // guestEventsPending,
+    organisationList,
     expiredCount
   ] = await Promise.all([
     eventsPromise,
     guestEventsPromise,
     ebCountPromise,
-    // countPromise,
+    organisationListPromise,
     expiredPromise
   ]);
+
+  const arrayorganisationList = organisationList.hide_these_organisers;
 
   const guestEventsPending = guestEvents.length;
 
@@ -86,8 +86,24 @@ exports.confirmEvents = async (req, res) => {
     urlNext,
     ebEventsPending,
     guestEventsPending,
-    expiredCount
+    expiredCount,
+    arrayorganisationList
   });
+};
+
+exports.hideOrganisation = async (req, res) => {
+  const value = req.body.organisation_name;
+
+  // TODO change promises to PromiseAll
+
+  // Set display false to any events added by posted organisation
+  await Event.updateMany({ organisation: value }, { display: "false" });
+
+  // Add value to array of organisations to hide
+  await AdminSettings.update({}, { $push: { hide_these_organisers: value } });
+
+  // redirect
+  res.redirect("back");
 };
 
 exports.deleteExpiredEvents = async (req, res) => {
@@ -114,7 +130,9 @@ exports.deleteAllPendingEvents = async (req, res) => {
 
 exports.getEventbriteEvents = async (req, res) => {
   // Set start date to tomorrow
-  const startDate = getDatetime(1);
+  // const startDate = getDatetime(1);
+  const startDate =
+    new Date(req.body.start_date).toISOString().split(".")[0] + "Z";
   // Set end date to correct format
   const endDate = new Date(req.body.end_date).toISOString().split(".")[0] + "Z";
   // Construct Eventbrite url

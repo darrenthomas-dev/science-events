@@ -2,12 +2,15 @@ extends layout
 
 include mixins/_eventCard
 include mixins/_locationSearch
+include mixins/_search
 include mixins/_pagination
 include mixins/_footer
 
 block content
 	.top-search
 		+locationSearch(lat, lng, location, distance, childFriendly, free)
+
+		+search(keywords)
 
 	main#maincontent
 		.events__count

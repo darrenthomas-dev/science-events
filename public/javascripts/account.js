@@ -9,6 +9,8 @@ toggleLock(
 );
 
 function toggleLock(input, toggle) {
+  if (!input) return;
+
   toggle.addEventListener("click", function() {
     toggle.checked ? (input.disabled = false) : (input.disabled = true);
   });

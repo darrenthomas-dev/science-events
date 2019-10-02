@@ -8,7 +8,7 @@ block content
 	h1.offscreen= title
 	
 	.events__count
-		p= `You have ${count} events. To create a new event click `
+		p= `You have ${count} ${count === 1 ? 'event' : 'events'}. To create a new event click `
 			a(href="/add") here.
 
 	if (count)

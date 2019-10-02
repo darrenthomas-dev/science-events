@@ -9,17 +9,23 @@ mixin eventCard(event = {})
 							!= h.icon('pencil')
 						| Edit
 		if event.eb_id
-			img(class="event__img" src=`${event.image || '/uploads/store.png'}` alt="")
+			img(class="event__img" src=`${event.image || '/uploads/defaultImage.jpg'}` alt="")
 		else
-			img(class="event__img" src=`/uploads/${event.image || 'store.png'}` alt="")
+			img(class="event__img" src=`/uploads/${event.image || 'defaultImage.jpg'}` alt="")
 		
 		if user
 			if user.admin || (event.author && event.author.equals(user._id))
-				if event.end_datetime < new Date()
-					p.text--warning: em This event has expired and will soon be deleted.
+				if event.end_datetime
+					-const yesterday = new Date().setDate(new Date().getDate() - 1);
+					-const date = event.end_datetime.getTime();
+					if date < yesterday
+						p.text--warning: em This event has expired and will soon be deleted.
 		h3.event__title
 			if (!event.slug)
-				a(href=event.website target="_blank" rel="noopener noreferrer") #{event.name}
+				if (event.website)
+					a(href=event.website target="_blank" rel="noopener noreferrer" title="External link") #{event.name}
+				else 
+					span= event.name
 			else
 				a(href=`/event/${event.slug}`) #{event.name}
 		dl.event__details
@@ -72,7 +78,7 @@ mixin eventCard(event = {})
 						"@type": "GeoCoordinates",
 						"latitude": "#{event.location.coordinates[0]}",
 						"longitude": "#{event.location.coordinates[1]}"
-			"image": `#{event.image || 'https://localhost:5555/uploads/store.png'}`
+			"image": `#{event.image || 'https://localhost:5555/uploads/defaultImage.jpg'}`
 			"startDate": "#{event.start_datetime}"
 			"endDate": "#{event.end_datetime}"
 			"organizer":

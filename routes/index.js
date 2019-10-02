@@ -17,6 +17,12 @@ router.get("/", catchErrors(eventController.recentlyAddedEvents));
 // Browse events
 router.get("/events/page/:page", catchErrors(eventController.getEvents));
 
+// Search events
+router.get(
+  "/search",
+  catchErrors(eventController.getEventsByOrganisationAndEventName)
+);
+
 // Add an event page
 router.get("/add", eventController.addEvent);
 
@@ -96,6 +102,11 @@ router.post(
 );
 
 /* ------------------------------------ */
+/* Privacy Page
+/* ------------------------------------ */
+router.get("/privacy", eventController.privacyPage);
+
+/* ------------------------------------ */
 /* User Pages
 /* ------------------------------------ */
 
@@ -119,12 +130,6 @@ router.post("/delete", catchErrors(userController.deleteAccount));
 // My Events
 router.get("/my-events", catchErrors(userController.getUserEvents));
 router.post("/my-events", catchErrors(eventController.addEventBriteEvents));
-
-// // My Eventbrite Events for log in users
-// router.get(
-//   "/my-eb-events",
-//   catchErrors(userController.getUserEventbriteEvents)
-// );
 
 // Eventbrite delete link
 router.post(
@@ -190,7 +195,11 @@ router.post(
   catchErrors(adminController.getEventbriteEvents)
 );
 
-// router.post("/events/eb", catchErrors(eventController.getEventByEventbriteId));
+//  Hide event by organisation
+router.post(
+  "/admin/hide-organisation",
+  catchErrors(adminController.hideOrganisation)
+);
 
 // Post request to add details to submit form
 router.post("/eb/add", catchErrors(eventController.addSingleEventbriteEvent));
@@ -213,10 +222,12 @@ router.post(
 /* ------------------------------------ */
 
 router.get("/api/search", catchErrors(eventController.searchEvents));
+
 router.get(
   "/api/search/organisation",
   catchErrors(eventController.searchOrganistaions)
 );
+
 router.get("/api/events/near", catchErrors(eventController.mapEvents));
 
 module.exports = router;

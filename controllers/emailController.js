@@ -5,7 +5,7 @@ exports.newEvent = (req, res, next) => {
 
   let msg = {
     to: "bittledroid@gmail.com",
-    from: "test@example.com"
+    from: "event@sciencenearme.com"
   };
 
   if (req.user) {

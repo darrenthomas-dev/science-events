@@ -48,21 +48,21 @@ block content
 			
 			if !user.eb_organiser_id
 				h3 Link an Eventbrite Account
-				p With a linked Eventbrite organsier account you will be able to import event details directly from Eventbrite. Note you can only import events that are categorised as 'Science' and where you are registered as the organiser. Your Eventbrite organiser ID can be found under you Eventbrite account settings: 
+				p With a linked Eventbrite organsier account you will be able to import event details directly from Eventbrite. Only events where you are registered as the organiser and are categorised as 'Science' can be imported. Your Eventbrite organiser ID can be found under you Eventbrite account settings: 
 
 				p
 					label(for="ebOrganiserId") Enter your Eventbrite Organiser ID:
 					input(type="text" id="ebOrganiserId" name="eb_organiser_id")
 					input(type="submit" formaction="/request-eventbrite" value="Request")
 
-				p <em>We can currently only authorise an account that has registered on Science Near Me with an email domain that clearly represents the organisation you work for.</em>
+				p <em>Note: We can currently only authorise an account that has registered on Science Near Me with an email domain that clearly represents the organisation you work for.</em>
 
 
 				hr
 			
-			h3 Delete Account
-
 			//- Delete Account
+			h3 Delete Account
+			p You account will be instantly removed from our database. Any events you have created will still exist and will be removed once they have expired.
 			input(class="button--delete" type="submit" formaction="/delete" value="Delete My Account" id="deleteAccount" disabled)
 			input(class="offscreen" type="checkbox" id="unlockDeleteAccount")
 			.padlock
