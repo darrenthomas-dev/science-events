@@ -10,7 +10,7 @@ block content
 	.top-search
 		+locationSearch(lat, lng, location, distance, childFriendly, free)
 
-		+search(keywords)
+	+search(keywords)
 
 	main#maincontent
 		.events__count
@@ -20,11 +20,12 @@ block content
 			.events
 				each event in events
 					+eventCard(event)
-			+pagination(page, pages, urlPrevious, urlNext)
+			if (pages === null || pages === 0)
+				+pagination(page, pages, urlPrevious, urlNext)
 		else 
-			p Sorry there are no events listed in this area. Try increasing the distance or use our map.
-
-			p Know of an event in this area? Then why not add it yourself? Create an event.
+			.no-results
+				p Sorry no events where found. You can use our map to easily display all events. If you know of an event near you that is not listed, then why not add it for free!
 
 block footer
-	+footer()
+	if (count !== 0)
+		+footer()

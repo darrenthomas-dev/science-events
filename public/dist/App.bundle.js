@@ -3316,7 +3316,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 (0, _autocomplete2.default)((0, _bling.$)("#address"));
 
-(0, _typeAhead2.default)((0, _bling.$)(".search"));
+// typeAhead($(".search"));
 
 // typeAheadOrganisation($(".searchOrganisation"));
 

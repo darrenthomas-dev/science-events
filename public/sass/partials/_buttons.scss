@@ -27,36 +27,23 @@
 /*  MODIFIERS
 /* -------------------------- */
 
-.button {
-  &--danger {
-    background: #ffffff;
-    color: #8c0909;
-    border: 2px solid #ab0000;
-    box-shadow: none;
-  }
-  &--delete {
-    height: 36px;
-    margin: 8px 0;
-  }
-}
-
 // ripple effect
-.button {
-  background-position: center;
-  transition: background 0.5s;
-  &:hover {
-    background: $primary-500
-      radial-gradient(circle, transparent 1%, $primary-500 1%) center/15000%;
-  }
-  &:active {
-    background-color: $primary-300;
-    background-size: 100%;
-    transition: background 0s;
-  }
-}
+// .button {
+//   background-position: center;
+//   transition: background 0.5s;
+//   &:hover {
+//     background: $primary-500
+//       radial-gradient(circle, transparent 1%, $primary-500 1%) center/15000%;
+//   }
+//   &:active {
+//     background-color: $primary-300;
+//     background-size: 100%;
+//     transition: background 0s;
+//   }
+// }
 
 .button {
-  border: none;
+  border: 2px solid $primary-500;
   border-radius: 2px;
   padding: 12px 18px;
   font-size: 16px;
@@ -71,6 +58,7 @@
 .buttons-group {
   display: flex;
   justify-content: space-between;
+  max-width: 1200px;
 }
 
 .input-icon {
@@ -90,5 +78,28 @@
     svg {
       width: 32px;
     }
+  }
+}
+.button:hover {
+  background: #fff;
+  border: 2px solid $primary-500;
+  color: $primary-500;
+}
+
+.button {
+  &--danger {
+    background: #ffffff;
+    color: #a02032;
+    border: 2px solid #a02032;
+    box-shadow: none;
+    &:hover {
+      background: #a02032;
+      border: 2px solid transparent;
+      color: #fff;
+    }
+  }
+  &--delete {
+    height: 36px;
+    margin: 8px 0;
   }
 }

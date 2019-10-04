@@ -2,7 +2,10 @@ mixin search(keywords)
 
 	form(action="/search" class="inner search" method="GET" )
 		h2.offscreen Search for events
-		label(class="label" for="eventSearch") Search for events by organisation or event name:
-		input(class="input" id="eventSearch" type="search" name="keywords" value=keywords required)
 
-		input(type="submit" class="button button--primary" value="Search")
+		label(class="" for="eventSearch") Keyword search:
+		.input-icon
+			input(class="input search-input" id="eventSearch" type="search" placeholder="Enter an organisation or event name" name="keywords" value=keywords required)
+			button(type="submit" class="input--button search-button")
+				span.offscreen Search
+				!=h.icon("search")

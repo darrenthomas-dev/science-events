@@ -1,7 +1,8 @@
 .events__count {
   // margin: 40px 16px;
 
-  margin: 40px 0;
+  // margin: 40px 0;
+  margin: 20px 0;
   padding: 0 8px;
 }
 
@@ -11,6 +12,7 @@
     grid-template-columns: repeat(auto-fill, 400px);
     grid-gap: 48px;
     justify-content: center;
+    margin-bottom: 40px;
   }
 }
 

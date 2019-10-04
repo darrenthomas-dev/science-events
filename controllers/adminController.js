@@ -54,7 +54,7 @@ exports.confirmEvents = async (req, res) => {
     expiredPromise
   ]);
 
-  const arrayorganisationList = organisationList.hide_these_organisers;
+  const arrayorganisationList = organisationList[0].hide_these_organisers;
 
   const guestEventsPending = guestEvents.length;
 
@@ -94,13 +94,40 @@ exports.confirmEvents = async (req, res) => {
 exports.hideOrganisation = async (req, res) => {
   const value = req.body.organisation_name;
 
-  // TODO change promises to PromiseAll
-
   // Set display false to any events added by posted organisation
-  await Event.updateMany({ organisation: value }, { display: "false" });
+  const updateEventsPromise = Event.updateMany(
+    { organisation: value },
+    { display: "false" }
+  );
 
   // Add value to array of organisations to hide
-  await AdminSettings.update({}, { $push: { hide_these_organisers: value } });
+  const updateAdminSettings = AdminSettings.update(
+    {},
+    { $push: { hide_these_organisers: value } }
+  );
+
+  await Promise.all([updateEventsPromise, updateAdminSettings]);
+
+  // redirect
+  res.redirect("back");
+};
+
+exports.removeOrganisation = async (req, res) => {
+  const value = req.body.organisation_name;
+
+  // Set display false to any events added by posted organisation
+  updateEventsPromise = Event.updateMany(
+    { organisation: value },
+    { display: null }
+  );
+
+  // Add value to array of organisations to hide
+  updateAdminSettings = AdminSettings.update(
+    {},
+    { $pull: { hide_these_organisers: value } }
+  );
+
+  await Promise.all([updateEventsPromise, updateAdminSettings]);
 
   // redirect
   res.redirect("back");
@@ -197,14 +224,17 @@ exports.getEventbriteEvents = async (req, res) => {
     });
     console.log(events);
   } catch (err) {
-    // console.log(err);
     console.log(err);
   }
 
-  console.log("done!");
+  // Get list of know organisations to hide
+  const organisationToHide = await AdminSettings.find({});
+  const list = organisationToHide[0].hide_these_organisers;
 
-  // alert message
-  // req.flash("success", "All pending events have been deleted.");
+  // Update datebase with these organisation names to display "false"
+  await Event.updateMany({ organisation: { $in: list } }, { display: "false" });
+
+  console.log("done!");
 
   // redirect
   res.redirect("back");

@@ -195,10 +195,16 @@ router.post(
   catchErrors(adminController.getEventbriteEvents)
 );
 
-//  Hide event by organisation
+// Add to hide event by organisation list
 router.post(
-  "/admin/hide-organisation",
+  "/admin/add-to-hide-organisation-list",
   catchErrors(adminController.hideOrganisation)
+);
+
+// Remove from hide event by organisation list
+router.post(
+  "/admin/remove-from-hide-organisation-list",
+  catchErrors(adminController.removeOrganisation)
 );
 
 // Post request to add details to submit form

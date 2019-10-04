@@ -13,9 +13,9 @@ block content
 				h2 Expired events #{expiredCount} 
 				input(class="input button" type="submit" value="Delete all expired events" disabled=(expiredCount ===  0 ? true : false))
 
-	.inner
+	.inner.fb
 		form(class="form-card eb__form" method="POST")
-			h2 Eventbrite events
+			h2 Import Eventbrite events
 			p Importing events is a slow process. I advise importing no more than 7 days at a time.
 
 			-const tomorrow = new Date(+new Date() + 86400000).toISOString().slice(0,10);
@@ -28,14 +28,9 @@ block content
 			input(class="input button" type="submit" class="button" formaction="/admin/get-eventbrite-events" value="Get EventBrite Events")
 
 
-		form(class="form-card eb__form" method="POST")
-			h2 Hide organisations
-			p Any events created by organisations listed here will not display when importing events.
-
-			label(class="label" for="organisationName") Organisation name:
-			input(class="input" type="text" id="organisationName" name="organisation_name" required)
-
-			input(class="input button" type="submit" class="button" formaction="/admin/hide-organisation" value="Add")
+		form(class="form-card eb__form eb-organisations" method="POST")
+			h2 Hide events
+			p Any events created by organisations listed below will not display when importing events.
 
 			if (arrayorganisationList)
 				.eb-organisation-list
@@ -43,13 +38,21 @@ block content
 						each organisation in arrayorganisationList
 							li= organisation
 
+			label(class="label" for="organisationName") Enter an organisation:
+			input(class="input" type="text" id="organisationName" name="organisation_name" required)
+
+			.buttons-group
+				input(type="submit" class="button button--danger" formaction="/admin/remove-from-hide-organisation-list" value="Remove")
+				input(type="submit" class="button" formaction="/admin/add-to-hide-organisation-list" value="Add")
+
+
 	if guestEventsPending
 		h2 Guest Events Pending #{guestEventsPending}
 		form(method="POST")
 			.events
 				each event in guestEvents	
 					+adminEventCard(event)
-			.inner.flexbox
+			.inner.fb
 				input(class="input button" type="submit", formaction=`/admin/approve-guest-events` value="Update Guest Events")
 
 
@@ -59,7 +62,7 @@ block content
 			.events
 				each event in events
 					+adminEbEventCard(event)
-			.inner.flexbox
+			.inner.buttons-group
 				input(class="input button eb__update" type="submit", formaction=`/admin` value="Update")
 				input(class="input button button--danger eb__delete" type="submit", formaction="/admin/delete-all-pending" value="Delete all EventBrite pending events")
 			+pagination(page, pages, count, parentSlug)

@@ -1,3 +1,5 @@
+include mixins/_search
+
 doctype html
 html
   head
@@ -16,20 +18,16 @@ html
     nav.nav
       h2.offscreen Main navigation
       a.nav__logo(href="/") Science Near Me
+
       button.hamburger.hamburger--collapse#menu
         span.hamburger-box
           span.hamburger-inner
-      ul.nav__section
+
+      ul.nav__section 
         each item in h.menu
           li.nav__item
             a.nav__link(href=item.slug class=(currentPath.startsWith(item.slug) ? 'nav__link--active' : '')) #{item.title}
 
-        //- .search
-        //-   label(for="search" class="offscreen") Search by event name:
-        //-   input.search__input(type="text" id="search" name="search" placeholder="Search by event name...")
-        //-   .search__results
-
-        //- ul.nav__section
         if user
           each item in h.userMenu
             li.nav__item

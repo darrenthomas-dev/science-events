@@ -54,3 +54,13 @@ main {
 img {
   width: 100%;
 }
+
+.no-results {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 16px;
+  p {
+    font-size: 1.2em;
+    text-align: center;
+  }
+}

@@ -1,2 +1,51 @@
 .search {
+  padding: 8px;
+  margin: 8px 0;
+
+  @media (min-width: 560px) {
+    display: flex;
+    align-items: center;
+  }
+
+  label {
+    margin-right: 8px;
+    font-size: 18px;
+  }
+
+  .input-icon {
+    .search-input {
+      margin: 0;
+
+      padding: 0;
+      padding-left: 8px;
+      height: 42px;
+      background: #ffffff;
+      width: 274px;
+      border: 1px solid #dad5f1;
+
+      &::placeholder {
+        color: #7f79a7;
+      }
+    }
+
+    .search-button {
+      cursor: pointer;
+      background: #7e73bf;
+      color: white;
+      padding-top: 6px;
+
+      padding-left: 20px;
+      height: 42px;
+
+      border: 1px solid #dad5f1;
+      border-left: none;
+    }
+
+    button svg {
+      width: 28px;
+      position: relative;
+      left: -6px;
+      top: -1px;
+    }
+  }
 }

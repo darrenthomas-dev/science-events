@@ -2,6 +2,7 @@ extends layout
 
 include mixins/_eventCard
 include mixins/_locationSearch
+include mixins/_search
 include mixins/_pagination
 include mixins/_footer
 
@@ -21,6 +22,9 @@ block content
 				p Linking science organisers with science enthusiasts <span class="offscreen">.</span>
 		
 	+locationSearch(lat, lng, location, distance)
+	
+	+search(keywords)
+
 
 	main#maincontent
 		.events__count

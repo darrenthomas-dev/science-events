@@ -16,7 +16,7 @@ showPassword($("#password"));
 
 autocomplete($("#address"));
 
-typeAhead($(".search"));
+// typeAhead($(".search"));
 
 // typeAheadOrganisation($(".searchOrganisation"));
 

@@ -1,25 +1,26 @@
 mixin locationSearch(lat, lng, location, distance, childFriendly, free)
 
 	form(action="/events/page/1" id="locationAutocomplete" class="location-autocomplete" method="GET" )
-		h2 Find an event near you!
-		label(class="offscreen" for="location") Enter your location:
-		input(class="location-autocomplete__input" placeholder="Enter your location" id="location" type="text" name="geolocate" value=location required)
-		input(type="hidden" name="lat" id="lat" value=lat)
-		input(type="hidden" name="lng" id="lng" value=lng)
-		label(class="offscreen" for="distance") Select a distance:
-		select(id="distance" class="location-autocomplete__select" name='distance' required)
-			option(value="" selected=(distance === false)) Select a distance
-			option(value="10" selected=(distance ==="10")) 10 miles
-			option(value="20" selected=(distance ==="20")) 20 miles
-			option(value="30" selected=(distance ==="30")) 30 miles
-			option(value="40" selected=(distance ==="40")) 40 miles
-		
-		//- details.details
-		//- 	summary.summary Show filters
-		//- 	input(class="checkbox" type="checkbox" id="childFriendly" name="child_friendly" value="true" checked=(childFriendly))
-		//- 	label(class="label--checkbox" for="childFriendly") Suitable for children
+		.location-autocomplete-inner
+			h2 Find an event near you!
+			label(class="offscreen" for="location") Enter your location:
+			input(class="location-autocomplete__input" placeholder="Enter your location" id="location" type="text" name="geolocate" value=location required)
+			input(type="hidden" name="lat" id="lat" value=lat)
+			input(type="hidden" name="lng" id="lng" value=lng)
+			label(class="offscreen" for="distance") Select a distance:
+			select(id="distance" class="location-autocomplete__select" name='distance' required)
+				option(value="" selected=(distance === false)) Select a distance
+				option(value="10" selected=(distance ==="10")) 10 miles
+				option(value="20" selected=(distance ==="20")) 20 miles
+				option(value="30" selected=(distance ==="30")) 30 miles
+				option(value="40" selected=(distance ==="40")) 40 miles
 			
-		//- 	input(class="checkbox" type="checkbox" id="free" name="is_free" value="true" checked=free)
-		//- 	label(class="label--checkbox" for="free") Free
+			//- details.details
+			//- 	summary.summary Show filters
+			//- 	input(class="checkbox" type="checkbox" id="childFriendly" name="child_friendly" value="true" checked=(childFriendly))
+			//- 	label(class="label--checkbox" for="childFriendly") Suitable for children
+				
+			//- 	input(class="checkbox" type="checkbox" id="free" name="is_free" value="true" checked=free)
+			//- 	label(class="label--checkbox" for="free") Free
 
-		input(type="submit" class="location-autocomplete__button button button--primary" value="Find events")
+			input(type="submit" class="location-autocomplete__button button button--primary" value="Find events")
