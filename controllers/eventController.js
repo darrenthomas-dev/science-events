@@ -317,7 +317,16 @@ exports.mapEvents = async (req, res) => {
 exports.getEventBySlug = async (req, res, next) => {
   const event = await Event.findOne({ slug: req.params.slug });
   if (!event) return next();
-  res.render("event", { event, title: event.name });
+
+  const eventsByOrganisation = await Event.find({
+    organisation: event.organisation,
+    // display: "true",
+    _id: { $ne: event._id }
+  }).limit(4);
+
+  console.log(eventsByOrganisation);
+
+  res.render("singleEvent", { event, title: event.name, eventsByOrganisation });
 };
 
 exports.mapPage = async (req, res) => {

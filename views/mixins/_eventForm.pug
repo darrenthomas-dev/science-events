@@ -2,14 +2,14 @@ mixin eventForm(event = {})
 
 	if !user
 		.alert
-			p You are not logged in. You can still submit an event, however you can not edit the event. <br><a href="/login")>Sign in</a> or <a href="/register">Register for free!</a>
+			p You are not logged in. You can still submit an event, however you will not be able to edit the event. <br><a href="/login")>Sign in</a> or <a href="/register">Register for free!</a>
 
 	if ((user && user.eb_organiser_id) || (user && user.admin))
 		form(action=`/eb/add` method="POST" class="form")
 			.fb.form__section
 				.fb-50.pr-60
 					h2 Eventbrite Import
-					p.txt--light Enter the event ID number to import an event from Eventbrite. Only events where you are register as the organiser and are categroised as 'Science' can be imported. More information on how to find the event id can be found 
+					p Enter the event ID number to import an event from Eventbrite. Only events where you are register as the organiser and are categroised as 'Science' can be imported. More information on how to find the event id can be found 
 						a(href="https://www.eventbrite.co.uk/support/articles/en_US/How_To/how-to-find-the-event-id" target="_blank" rel="noopener noreferrer") here.
 				.fb-50.pt-16
 					label(class="label" for="ebEventId") Eventbrite event id:
@@ -21,15 +21,15 @@ mixin eventForm(event = {})
 
 	form(class="form" method="POST" enctype="multipart/form-data")
 		.form__section
-			p.txt--light <em>Fields marked with an asterix (*) are required.</em>
+			p <em>Fields marked with an asterix (*) are required.</em>
 
 			.fb
 
 				.fb-50.pr-60
 					h2 Event Details
-					p.txt--light Register users will be able to select their event for editing on the 'My Events' page.
+					p Register users will be able to select their event for editing on the 'My Events' page.
 
-					p.txt--light Expired events are automatically set for deletion and are removed from our database usually within a few days.
+					p Expired events are automatically set for deletion and are removed from our database usually within a few days.
 
 				.fb-50.pt-16
 
@@ -52,7 +52,7 @@ mixin eventForm(event = {})
 							input(class="input input--sml" type="date" id="end" name="end_datetime" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" value=`${event.end_datetime ? event.end_datetime.toISOString().slice(0,10) : '' }`)
 
 					//- Price range
-					p.txt--light If your event has different priced tickets then set both the minimum and maximum price:
+					p If your event has different priced tickets then set both the minimum and maximum price:
 					.fb
 						.fb-50
 							label(class="label" for="minPrice") Price / min (£):
@@ -82,7 +82,7 @@ mixin eventForm(event = {})
 		.fb.form__section
 			.fb-50.pr-60
 				h2 Venue Address
-				p.txt--light Please enter the address of the event. The address will be displayed on our site and used to display a marker on our map.
+				p Please enter the address of the event. The address will be displayed on our site and used to display a marker on our map.
 			.fb-50.pt-16
 				label(class="label" for="address") Event address: *
 				input(class="input" type="text" id="address" name="location[address]" value=((event.location && event.location.address) || (user && user.address) ) required)
@@ -95,7 +95,7 @@ mixin eventForm(event = {})
 			.fb.form__section
 				.fb-50.pr-60
 					h2 Event Image
-					p.txt--light If no image is uploaded then a default image will be displayed. All images are compressed and resized to 800px width by 480px height (aspect ratio 5:3) on upload. Supported formats are jpg and png.
+					p If no image is uploaded then a default image will be displayed. All images are compressed and resized to 800px width by 480px height (aspect ratio 5:3) on upload. Supported formats are jpg and png.
 				.fb-50.pt-16
 					label(class="label" for="image") Image:
 					input(class="input" type="file" name="image" id="image" accept="image/png, image/jpeg")

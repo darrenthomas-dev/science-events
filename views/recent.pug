@@ -1,6 +1,7 @@
 extends layout
 
 include mixins/_eventCard
+include mixins/_createEvent
 include mixins/_locationSearch
 include mixins/_search
 include mixins/_pagination
@@ -8,20 +9,23 @@ include mixins/_footer
 
 block content
 
-	header.header
-		.hero
-			picture
-				source(srcset="/images/photos/12.resized.jpg" media="(min-width: 1240px)")
-				source(srcset="/images/photos/11-1240w.jpg" media="(min-width: 640px)")
-				img(class="hero-img" 
-					srcset="/images/photos/11-1240w.jpg" 
-					alt="")
 
-			.hero-info
-				//- p Science Near Me aims to link science organisers with science enthusiasts.
-				p Linking science organisers with science enthusiasts <span class="offscreen">.</span>
-		
-	+locationSearch(lat, lng, location, distance)
+	.flip
+		header.header
+			.hero
+				picture
+					source(srcset="/images/photos/12.resized.jpg" media="(min-width: 1240px)")
+					source(srcset="/images/photos/11-1240w.jpg" media="(min-width: 640px)")
+					img(class="hero-img" 
+						srcset="/images/photos/11-1240w.jpg" 
+						alt="")
+
+				.hero-info
+					//- p Science Near Me aims to link science organisers with science enthusiasts.
+					p Linking science <br>organisers with science <br>enthusiasts <span class="offscreen">.</span>
+
+		.top-search
+			+locationSearch(lat, lng, location, distance)
 	
 	+search(keywords)
 
@@ -41,9 +45,8 @@ block content
 				for event in events
 					+eventCard(event)
 
-		.create-event
-			h2.offscreen Create an event
-			p <a href="/add">Create An Event for Free!</a>
+		section.create-events
+			+createEvent()
 
 		if ( n === 8 && events.length > 8 ) 
 

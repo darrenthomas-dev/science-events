@@ -12,15 +12,28 @@ block content
 
 				label(class="label" for="password") Set a password 
 					span.tip (minimum 12 characters)
+
+				//- .input-icon
+
 				input(class="input" type="password" name="password" id="password" minlength="12" autocomplete="new-password" required)
 
+					//- button(type="button" class="toggle-password")
+					//- 	span.offscreen Click to show password.
+					//- 	!=h.icon("view")
+
 				label(class="label" for="passwordConfirm") Confirm Password:
+					
+				//- .input-icon
 				input(class="input" type="password" name="password-confirm" id="passwordConfirm" minlength="12" autocomplete="new-password" required)
+
+					//- button(type="button" class="toggle-password")
+					//- 	span.offscreen Click to show password.
+					//- 	!=h.icon("view")
 
 				input(class="input button" type="submit" value="Sign up for free")
 			
 				p Already have an account? 
-					a(href="/login") Sign in here.				
+					a(href="/login") Sign in here.
 
 			.fb-50.unsplash.form-bg-img.form-bg-img--register
 				//- img(src="/images/photos/nasa-earth-from-space.jpg" alt="")

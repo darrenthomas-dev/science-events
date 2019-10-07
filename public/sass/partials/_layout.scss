@@ -33,10 +33,14 @@ h3 > a {
 }
 
 main {
-  margin-bottom: 80px;
+  // margin-bottom: 80px;
 }
 
-@media (max-width: 960px) {
+img {
+  display: block;
+}
+
+@media (max-width: 815px) {
   .hero {
     // height: 73vh;
     height: 400px;
@@ -62,5 +66,12 @@ img {
   p {
     font-size: 1.2em;
     text-align: center;
+  }
+}
+
+@media (min-width: 1050px) {
+  .flip {
+    display: flex;
+    flex-direction: column-reverse;
   }
 }

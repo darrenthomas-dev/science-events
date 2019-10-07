@@ -1279,6 +1279,9 @@ function showPassword(input) {
   if (!input) return;
 
   var show = document.querySelector("#showPassword");
+
+  if (!show) return;
+
   var text = show.querySelector("span");
 
   show.addEventListener("click", function (e) {

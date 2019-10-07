@@ -2,6 +2,9 @@ function showPassword(input) {
   if (!input) return;
 
   const show = document.querySelector("#showPassword");
+
+  if (!show) return;
+
   const text = show.querySelector("span");
 
   show.addEventListener("click", e => {
