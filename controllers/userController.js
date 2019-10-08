@@ -6,11 +6,40 @@ const axios = require("axios");
 const { getDatetime, stripInlineCss, displayDate } = require("../helpers");
 
 exports.loginForm = (req, res) => {
+  if (req.user) {
+    return res.redirect("/");
+  }
   res.render("login", { title: "Login" });
 };
 
 exports.registerForm = (req, res) => {
+  if (req.user) {
+    return res.redirect("/");
+  }
   res.render("register", { title: "Register" });
+};
+
+exports.validateRegistration = async (req, res) => {
+  const token = req.params.token;
+
+  const user = await User.findOne({
+    verificationToken: token,
+    verificationExpires: { $gt: Date.now() }
+  });
+
+  if (!user) {
+    req.flash("error", "Verification has expired.");
+    return res.redirect("/register");
+  }
+
+  // if user exists set isVerified to true and redirect to login page
+  user.isVerified = true;
+  user.verificationToken = undefined;
+  user.verificationExpires = undefined;
+
+  await user.save();
+
+  res.redirect("/login");
 };
 
 exports.validateRegister = (req, res, next) => {
