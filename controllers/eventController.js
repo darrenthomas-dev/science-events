@@ -320,7 +320,7 @@ exports.getEventBySlug = async (req, res, next) => {
 
   const eventsByOrganisation = await Event.find({
     organisation: event.organisation,
-    // display: "true",
+    display: "true",
     _id: { $ne: event._id }
   }).limit(4);
 
@@ -330,7 +330,7 @@ exports.getEventBySlug = async (req, res, next) => {
 };
 
 exports.mapPage = async (req, res) => {
-  const location = req.query.geolocate || req.params.geolocate;
+  // const location = req.query.geolocate || req.params.geolocate;
   const miles = req.query.distance || req.params.distance;
   const coordinates = [req.query.lng, req.query.lat] || [
     req.params.lng,
@@ -557,6 +557,7 @@ exports.recentlyAddedEvents = async (req, res) => {
 
   res.render("recent", {
     title: "Recently added",
-    events
+    events,
+    skip: "events"
   });
 };

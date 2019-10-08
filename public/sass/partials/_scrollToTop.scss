@@ -1,7 +1,9 @@
 .to-top {
+  display: none;
   position: fixed;
   bottom: 32px;
   right: 12px;
+  animation: fadeIn 0.5s;
   a {
     border-radius: 50%;
     width: 50px;

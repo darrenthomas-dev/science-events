@@ -1055,7 +1055,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 if ((0, _bling.$)("#map")) {
   var places;
-  // var distance;
   var latlng = new google.maps.LatLng(54.043667, -2.488511);
 
   var mapOptions = {
@@ -1064,8 +1063,6 @@ if ((0, _bling.$)("#map")) {
     center: latlng
   };
   var markers = [];
-  // var input = $('[name="geolocate"]');
-  // var autocomplete = new google.maps.places.Autocomplete(input);
   var map;
 }
 
@@ -1076,58 +1073,13 @@ function makeMap(mapDiv) {
   //  make map
   map = new google.maps.Map(mapDiv, mapOptions);
 
-  // If hit enter do not submit form.
-  // input.on("keydown", e => {
-  //   if (e.keyCode === 13) e.preventDefault();
-  // });
+  // Create the DIV to hold the control and call the CenterControl()
+  // constructor passing in this DIV.
+  var centerControlDiv = document.createElement("div");
+  var centerControl = new CenterControl(centerControlDiv, map);
 
-  // const image = "/images/icons/current_location.png";
-  // let current = new google.maps.Marker({
-  //   map: map,
-  //   icon: image,
-  //   animation: google.maps.Animation.DROP,
-  //   title: "Current location"
-  // });
-
-  // navigator.geolocation.getCurrentPosition(
-  //   data => {
-  //     loadPlaces(data.coords.latitude, data.coords.longitude);
-  //   },
-  //   err => {
-  //     loadPlaces();
-  //   }
-  // );
-
-  // Distance changed
-  // $("#distance").on("change", function() {
-  //   distance = this.value;
-  //   const gmPlace = autocomplete.getPlace();
-  //   if (!gmPlace || !gmPlace.geometry || !gmPlace.geometry.location) {
-  //     return false;
-  //   }
-
-  //   loadPlaces(
-  //     gmPlace.geometry.location.lat(),
-  //     gmPlace.geometry.location.lng(),
-  //     distance
-  //   );
-  // });
-
-  // Load events on place change
-  // autocomplete.addListener("place_changed", () => {
-  //   const gmPlace = autocomplete.getPlace();
-
-  //   if (!gmPlace.geometry || !gmPlace.geometry.location) {
-  //     loadPlaces();
-  //   } else {
-  //     loadPlaces(
-  //       gmPlace.geometry.location.lat(),
-  //       gmPlace.geometry.location.lng(),
-  //       distance
-  //       // current
-  //     );
-  //   }
-  // });
+  centerControlDiv.index = 1;
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
 
   loadPlaces();
 }
@@ -1155,6 +1107,7 @@ function renderMarkers(places) {
   // create bounds
   var bounds = new google.maps.LatLngBounds();
   var infoWindow = new google.maps.InfoWindow();
+  infoWindow.close();
 
   // Group by lat and lng
   var groupedPlaces = places.reduce(function (acc, place) {
@@ -1202,13 +1155,21 @@ function renderMarkers(places) {
   // show infoWindow on click
   markers.forEach(function (marker) {
     return marker.addListener("click", function () {
-      // const lat = this.place[0].location.coordinates[1];
-      // const lng = this.place[0].location.coordinates[0];
-
       var html = "<div class='popup'>";
 
       for (var i = 0; i < this.place.length; i++) {
-        html += "\n        <div class=\"popup__event" + (i > 0 ? " hide" : "") + "\">\n          <img src=" + this.place[i].image + " alt=\"\">          \n          <h3>" + this.place[i].name + "</h3>\n          <p><em>" + this.place[i].organisation + "</em></p>\n          <p>" + this.place[i].location.address + "</p>\n            </div>";
+        console.log(this.place);
+
+        var image = void 0;
+        if (this.place[i].image.indexOf("http") == 0) {
+          image = this.place[i].image;
+        } else if (this.place[i].image) {
+          image = "/uploads/" + this.place[i].image;
+        } else {
+          image = "/uploads/defaultImage.jpg";
+        }
+
+        html += "\n        <div class=\"popup__event" + (i > 0 ? " hide" : "") + "\">\n          <img src=" + image + " alt=\"\">\n          <h3>" + this.place[i].name + "</h3>\n          <p><em>" + this.place[i].organisation + "</em></p>\n          <p>" + this.place[i].location.address + "</p>\n            </div>";
       }
 
       html += (this.place.length > 1 ? '<button class="gm-next-btn button">Next</button>' : "") + "</div>";
@@ -1217,11 +1178,6 @@ function renderMarkers(places) {
       infoWindow.open(map, this);
     });
   });
-
-  // if (currentLocationMarker) {
-  //   const currentLatLng = new google.maps.LatLng(lat, lng);
-  //   currentLocationMarker.setPosition(currentLatLng);
-  // }
 
   var clusterOptions = {
     gridSize: 20,
@@ -1236,6 +1192,36 @@ function renderMarkers(places) {
   map.setCenter(bounds.getCenter());
   // map.fitBounds(bounds, renderEvents(places));
   map.fitBounds(bounds);
+}
+
+function CenterControl(controlDiv, map) {
+  // Set CSS for the control border.
+  var controlUI = document.createElement("div");
+  controlUI.style.backgroundColor = "#fff";
+  controlUI.style.border = "2px solid #fff";
+  controlUI.style.borderRadius = "3px";
+  controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+  controlUI.style.cursor = "pointer";
+  controlUI.style.marginBottom = "22px";
+  controlUI.style.textAlign = "center";
+  controlUI.title = "Click to recenter the map";
+  controlDiv.appendChild(controlUI);
+
+  // Set CSS for the control interior.
+  var controlText = document.createElement("div");
+  controlText.style.color = "rgb(25,25,25)";
+  controlText.style.fontFamily = "Roboto,Arial,sans-serif";
+  controlText.style.fontSize = "16px";
+  controlText.style.lineHeight = "38px";
+  controlText.style.paddingLeft = "5px";
+  controlText.style.paddingRight = "5px";
+  controlText.innerHTML = "Reset Map";
+  controlUI.appendChild(controlText);
+
+  // Setup the click event listeners: simply set the map to Chicago.
+  controlUI.addEventListener("click", function () {
+    map.setCenter(loadPlaces());
+  });
 }
 
 exports.default = makeMap;
@@ -3311,11 +3297,14 @@ var _toggleState = __webpack_require__(18);
 
 var _toggleState2 = _interopRequireDefault(_toggleState);
 
+var _scrollToTop = __webpack_require__(42);
+
+var _scrollToTop2 = _interopRequireDefault(_scrollToTop);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-(0, _showPassword2.default)((0, _bling.$)("#password"));
 // import typeAheadOrganisation from "./modules/typeAheadOrganisation";
-
+(0, _showPassword2.default)((0, _bling.$)("#password"));
 
 (0, _autocomplete2.default)((0, _bling.$)("#address"));
 
@@ -3334,6 +3323,39 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 (0, _togglePadlock2.default)((0, _bling.$$)(".padlock"));
 
 (0, _toggleState2.default)((0, _bling.$$)(".toggle-password"));
+
+(0, _scrollToTop2.default)((0, _bling.$)(".to-top"), 600);
+
+/***/ }),
+/* 41 */,
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+// When user scrolls x pixels from top of the document show scroll to top link.
+
+function scrollToTop(toTop, x) {
+  if (!toTop) return;
+
+  window.onscroll = function () {
+    return scrollFunction();
+  };
+
+  function scrollFunction() {
+    if (document.body.scrollTop > x || document.documentElement.scrollTop > x) {
+      toTop.style.display = "block";
+    } else {
+      toTop.style.display = "none";
+    }
+  }
+}
+
+exports.default = scrollToTop;
 
 /***/ })
 /******/ ]);

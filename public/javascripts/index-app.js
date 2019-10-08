@@ -11,6 +11,7 @@ import searchByLocation from "./modules/locationSearch";
 import showPassword from "./modules/showPassword";
 import togglePadlock from "./modules/togglePadlock";
 import toggleState from "./modules/toggleState";
+import scrollToTop from "./modules/scrollToTop";
 
 showPassword($("#password"));
 
@@ -31,3 +32,5 @@ searchByLocation($("#locationAutocomplete"));
 togglePadlock($$(".padlock"));
 
 toggleState($$(".toggle-password"));
+
+scrollToTop($(".to-top"), 600);

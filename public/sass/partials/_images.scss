@@ -13,10 +13,24 @@
     background-repeat: no-repeat;
 
     &--register {
-      background-image: url("/images/photos/human-anatomy.jpg");
+      background-image: image-set(
+        url("/images/photos/human-anatomy-w464.jpg") 1x,
+        url("/images/photos/human-anatomy-w928.jpg") 2x
+      );
     }
+
     &--login {
-      background-image: url("/images/photos/anatomical-model.jpg");
+      background-image: image-set(
+        url("/images/photos/anatomical-model-w464.jpg") 1x,
+        url("/images/photos/anatomical-model-w914.jpg") 2x
+      );
+    }
+
+    &--forgot {
+      background-image: image-set(
+        url("/images/photos/plastic-wire-puzzle-w464.jpg") 1x,
+        url("/images/photos/plastic-wire-puzzle-w928.jpg") 2x
+      );
     }
   }
 }

@@ -1379,6 +1379,12 @@ pre.error {
 .inner.flash-messages {
   margin: 24px; }
 
+.flash--error button {
+  color: #fff; }
+
+.flash button {
+  cursor: pointer; }
+
 .details {
   margin-bottom: 16px; }
   .details :nth-child(2) {
@@ -1395,6 +1401,15 @@ pre.error {
 
 .eb-organisations .button {
   width: 150px; }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+.form-bg-img--forgot {
+  height: 464px; }
 
 .events__count {
   margin: 20px 0;
@@ -1486,6 +1501,10 @@ pre.error {
   .banner--free {
     background: #f96d00;
     border-radius: 4px; }
+
+.events a:hover {
+  text-decoration: underline;
+  color: #48398c; }
 
 .eb__form {
   max-width: 355px;
@@ -1887,9 +1906,14 @@ pre.error {
     background-position: top right;
     background-repeat: no-repeat; }
     .form-bg-img--register {
-      background-image: url("/images/photos/human-anatomy.jpg"); }
+      background-image: -webkit-image-set(url("/images/photos/human-anatomy-w464.jpg") 1x, url("/images/photos/human-anatomy-w928.jpg") 2x);
+      background-image: image-set(url("/images/photos/human-anatomy-w464.jpg") 1x, url("/images/photos/human-anatomy-w928.jpg") 2x); }
     .form-bg-img--login {
-      background-image: url("/images/photos/anatomical-model.jpg"); } }
+      background-image: -webkit-image-set(url("/images/photos/anatomical-model-w464.jpg") 1x, url("/images/photos/anatomical-model-w914.jpg") 2x);
+      background-image: image-set(url("/images/photos/anatomical-model-w464.jpg") 1x, url("/images/photos/anatomical-model-w914.jpg") 2x); }
+    .form-bg-img--forgot {
+      background-image: -webkit-image-set(url("/images/photos/plastic-wire-puzzle-w464.jpg") 1x, url("/images/photos/plastic-wire-puzzle-w928.jpg") 2x);
+      background-image: image-set(url("/images/photos/plastic-wire-puzzle-w464.jpg") 1x, url("/images/photos/plastic-wire-puzzle-w928.jpg") 2x); } }
 
 .padlock {
   display: inline; }
@@ -1938,9 +1962,11 @@ pre.error {
           border-radius: 4px; } }
 
 .to-top {
+  display: none;
   position: fixed;
   bottom: 32px;
-  right: 12px; }
+  right: 12px;
+  animation: fadeIn 0.5s; }
   .to-top a {
     border-radius: 50%;
     width: 50px;
@@ -1958,7 +1984,8 @@ pre.error {
   overflow: hidden; }
 
 .skip a:focus {
-  background: #fff;
+  background: #f56c01;
+  color: #fff;
   position: absolute;
   top: 0;
   left: 0;
