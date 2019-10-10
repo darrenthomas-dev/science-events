@@ -74,6 +74,19 @@ router.get(
   catchErrors(userController.validateRegistration)
 );
 
+// Resend token
+router.get(
+  "/account/resend/:token",
+  catchErrors(userController.resendValidationToken),
+  catchErrors(emailController.accountVerification)
+);
+
+router.post(
+  "/account/resend",
+  catchErrors(userController.resendValidationToken),
+  catchErrors(emailController.accountVerification)
+);
+
 /* ------------------------------------ */
 /* Sign in
 /* ------------------------------------ */

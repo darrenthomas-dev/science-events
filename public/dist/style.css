@@ -55,6 +55,18 @@ img {
     -ms-flex-direction: column-reverse;
         flex-direction: column-reverse; } }
 
+.verify-account {
+  background-color: #3e3e3e;
+  color: #e8e8e8;
+  text-align: center;
+  padding: 16px;
+  position: fixed;
+  bottom: 0;
+  z-index: 9999999;
+  width: 100%; }
+  .verify-account p {
+    margin: 0; }
+
 .minimal {
   height: 100vh; }
   .minimal body {
@@ -1411,6 +1423,22 @@ pre.error {
 .form-bg-img--forgot {
   height: 464px; }
 
+.message {
+  background: #fff;
+  text-align: center;
+  padding: 16px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+      justify-content: center;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 2px rgba(0, 0, 0, 0.15), 0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.15); }
+  .message p {
+    margin-bottom: 0; }
+
+.account {
+  margin: 0px auto 40px auto;
+  padding: 16px; }
+
 .events__count {
   margin: 20px 0;
   padding: 0 8px; }
@@ -1922,7 +1950,7 @@ pre.error {
     height: auto;
     cursor: pointer;
     position: relative;
-    top: 9px;
+    top: 5px;
     left: 8px; }
 
 .create-events {

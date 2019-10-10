@@ -1,15 +1,15 @@
 extends layout
+include mixins/_footer
+
 
 block content
-	.inner
+	.inner.account
 		h2 Edit Your Account
 		form(class="form" method="POST")
 
 			//- User email address
 			label(class="label" for="email") Email Address
 			input(class="input" type="email" name="email" value=user.email)
-
-			p: a(href="") Change password.
 
 			h3.mb-0 Optional event information
 			p.tip Information entered here will automatically appear on the create event form. 
@@ -48,14 +48,14 @@ block content
 			
 			if !user.eb_organiser_id
 				h3 Link an Eventbrite Account
-				p With a linked Eventbrite organsier account you will be able to import event details directly from Eventbrite. Only events where you are registered as the organiser and are categorised as 'Science' can be imported. Your Eventbrite organiser ID can be found under you Eventbrite account settings: 
+				p With a linked Eventbrite account you will be able to import event details directly from Eventbrite. Only events where you are registered as the organiser and are categorised as 'Science' can be imported. Your Eventbrite organiser ID can be found under you Eventbrite account settings: 
 
 				p
-					label(for="ebOrganiserId") Enter your Eventbrite Organiser ID:
+					label(for="ebOrganiserId") Eventbrite Organiser ID:
 					input(type="text" id="ebOrganiserId" name="eb_organiser_id")
 					input(type="submit" formaction="/request-eventbrite" value="Request")
 
-				p <em>Note: We can currently only authorise an account that has registered on Science Near Me with an email domain that clearly represents the organisation you work for.</em>
+				p <em>Note: We can only authorise accounts where the registered email domain clearly represents the organisation you promote events for.</em>
 
 
 				hr
@@ -63,7 +63,7 @@ block content
 			//- Delete Account
 			h3 Delete Account
 			p You account will be instantly removed from our database. Any events you have created will still exist and will be removed once they have expired.
-			input(class="button--delete" type="submit" formaction="/delete" value="Delete My Account" id="deleteAccount" disabled)
+			input(class="link" type="submit" formaction="/delete" value="Delete My Account" id="deleteAccount" disabled onclick="return confirm('To confirm deletion of your account click ok.');")
 			input(class="offscreen" type="checkbox" id="unlockDeleteAccount")
 			.padlock
 				label(class="padlock-label" for="unlockDeleteAccount" title="Click to enable the button")
@@ -71,5 +71,7 @@ block content
 					span.offscreen Check to enable the Delete button
 
 
+block footer
+	+footer()
 
 	script(src="javascripts/account.js")

@@ -75,3 +75,17 @@ img {
     flex-direction: column-reverse;
   }
 }
+
+.verify-account {
+  background-color: #3e3e3e;
+  color: #e8e8e8;
+  text-align: center;
+  padding: 16px;
+  position: fixed;
+  bottom: 0;
+  z-index: 9999999;
+  width: 100%;
+  p {
+    margin: 0;
+  }
+}

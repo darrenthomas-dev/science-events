@@ -6,13 +6,15 @@ const sgMail = require("@sendgrid/mail");
 
 sgMail.setApiKey(process.env.MAIL_PASS);
 
-exports.accountVerification = async (req, res, next) => {
-  // sgMail.setApiKey(process.env.MAIL_PASS);
+exports.accountVerification = async (req, res) => {
+  // sgMail.setApiKey(process.env.MAIL_PASS);#
+  console.log("hello");
 
   const message = "An account verification link has been emailed to you.";
+  const email = req.body.email || req.user.email;
 
   // 1. See if user exists
-  const user = await User.findOne({ email: req.body.email });
+  const user = await User.findOne({ email });
 
   if (!user) {
     req.flash("success", message);
@@ -27,19 +29,21 @@ exports.accountVerification = async (req, res, next) => {
   // 3. Send token to email
   const verifyUrl = `http://${req.headers.host}/account/confirm/${user.verificationToken}`;
 
-  const html = `
-<p>Thanks for registering for an account on Science Near Me! Before you start posting lots of exciting events, we just need to confirm that this is you. Click the button below to verify your email address:</p>
-<p><a style="background-color: #373256;border: 1px solid #333333;border-color: #373256;border-radius: 6px;border-width: 1px;color: #f3f1ff;display: inline-block;font-family: arial,helvetica,sans-serif;font-size: 16px;font-weight: normal;letter-spacing: 0px;line-height: 16px;padding: 12px 18px 12px 18px;text-align: center;text-decoration: none;" href="${verifyUrl}">Verify Email</a></p>
-<p>If you did not register for an account, you can ignore this email or reply to let us know. This verfication link is only valid for 1 hour.</p>
-<p>Thanks,</p>
-<p>Science Near Me</p>
-<p>If you are having trouble clicking the verify email button, copy and paste the URL below into your web browser.</p>
-<p><a href="${verifyUrl}">${verifyUrl}</a></p>`;
+  const html = `<div style="max-width: 640px; margin: 10px auto; padding: 24px; background-color: #f5f3ff; border-radius: 4px;">
+<h1>Science Near Me - Account Verification</h1>
+<p style="font-size: 16px;">Thank you for registering for an account on sciencenearme.com.</a> Before you can log in, we just need to confirm that this is you. Click the button below to verify your email address:</p>
+<p style="font-size: 16px; text-align: center;"><a style="background-color: #373256;border: 1px solid #333333;border-color: #373256;border-radius: 6px;border-width: 1px;color: #f3f1ff;display: inline-block;font-family: arial,helvetica,sans-serif;font-size: 16px;font-weight: normal;letter-spacing: 0px;line-height: 16px;padding: 12px 18px 12px 18px;text-align: center;text-decoration: none;" href="${verifyUrl}">Verify Email</a></p>
+<p style="font-size: 16px;">This verification link is only valid for 1 hour.</p>
+<p style="font-size: 16px;">If you did not register for an account, you can ignore this email or reply to let us know.</p>
+<p style="font-size: 16px;">Thanks,</p>
+<p style="font-size: 16px;">Science Near Me</p>
+<p style="font-size: 14px;">If you are having trouble clicking the verify email button, copy and paste the URL below into your web browser.</p>
+<p style="font-size: 14px;"><a href="${verifyUrl}">${verifyUrl}</a></p></div>`;
 
   const text = `
-  Thanks for registering for an account on Science Near Me! Before you start posting lots of exciting events, we just need to confirm that this is you. Click or copy and paste the following URL into your web browser ${verifyUrl}. This verification link is only valid for 1 hour.
+  Thank you for registering for an account on Science Near Me! Before you can log in we just need to confirm that this is you. Click or copy and paste the following URL into your web browser ${verifyUrl} to verify your account. This verification link is only valid for 1 hour.
   
-  If you did not request a password reset, please ignore the email or reply to let us know.
+  If you did not register for an account, you can ignore this email or reply to let us know.
   
   Thanks,
   
@@ -47,8 +51,8 @@ exports.accountVerification = async (req, res, next) => {
 
   const msg = {
     to: user,
-    from: "support@sciencenearme.com",
-    subject: "Account Registration",
+    from: "register@sciencenearme.com",
+    subject: "[Science Near Me] Account Verification",
     html,
     text
   };

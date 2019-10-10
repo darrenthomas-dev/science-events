@@ -1,6 +1,11 @@
 extends layout
 
 block content
+
+	if message 
+		.inner.message
+			p!= message
+			
 	.inner--center.register
 		form(class="fb form-card" action="/register" method="POST")
 

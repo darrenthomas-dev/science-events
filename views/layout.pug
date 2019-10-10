@@ -10,6 +10,13 @@ html
     link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&display=block")
     meta(name="viewport" content="width=device-width, initial-scale=1")
   body
+    if (user && user.isVerified === false)
+      .verify-account
+        p Your account has not been verified. Please verify your account by clicking on the account verification email. Accounts that cannot be verified will be deleted. 
+        
+        form(method="POST")
+          input(type="submit" formaction='/account/resend' value='Resend email')
+
     h1.offscreen= title
     if skip
       .skip#skip

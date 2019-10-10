@@ -9,7 +9,7 @@ exports.loginForm = (req, res) => {
   if (req.user) {
     return res.redirect("/");
   }
-  res.render("login", { title: "Login" });
+  res.render("login", { title: "Login", message: req.message });
 };
 
 exports.registerForm = (req, res) => {
@@ -19,8 +19,33 @@ exports.registerForm = (req, res) => {
   res.render("register", { title: "Register" });
 };
 
+exports.resendValidationToken = async (req, res, next) => {
+  if (req.user) {
+    console.log(req.user);
+    return next();
+  }
+
+  console.log("here");
+
+  const token = req.params.token;
+
+  const user = await User.findOne({
+    verificationToken: token
+  });
+
+  if (!user) {
+    const message = `Can not resend verification link. Either the account has already been verified or a new registration is required.`;
+    return res.render("register", { message });
+  }
+
+  req.body.email = user.email;
+
+  next();
+};
+
 exports.validateRegistration = async (req, res) => {
   const token = req.params.token;
+  let message = "Your account has now been verified. You can now sign in.";
 
   const user = await User.findOne({
     verificationToken: token,
@@ -28,8 +53,8 @@ exports.validateRegistration = async (req, res) => {
   });
 
   if (!user) {
-    req.flash("error", "Verification has expired.");
-    return res.redirect("/register");
+    message = `Your verification has expired. Please click <a href='/account/resend/${token}'>resend</a> to receive a new verification link.`;
+    return res.render("register", { message });
   }
 
   // if user exists set isVerified to true and redirect to login page
@@ -39,7 +64,7 @@ exports.validateRegistration = async (req, res) => {
 
   await user.save();
 
-  res.redirect("/login");
+  res.render("login", { message });
 };
 
 exports.validateRegister = (req, res, next) => {
