@@ -3,7 +3,6 @@ const crypto = require("crypto");
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const promisify = require("es6-promisify");
-// const mail = require("../handlers/mail");
 const sgMail = require("@sendgrid/mail");
 
 exports.login = passport.authenticate("local", {
@@ -59,7 +58,7 @@ exports.forgot = async (req, res) => {
 
   sgMail.setApiKey(process.env.MAIL_PASS);
 
-  const html = `<div style="max-width: 640px; margin: 10px auto; padding: 24px; background-color: #f5f3ff; border-radius: 4px;">
+  const html = `<div style="max-width: 640px; margin: 10px auto; padding: 24px; background-color: #eeeeee; border-radius: 4px;">
   <h1 style="font-size: 24px;">Science Near Me - Password Reset</h1>
   <p style="font-size: 16px;">You recently requested to reset your password for sciencenearme.com. Click the button below to reset it.</p>
   <p style="font-size: 16px; text-align: center;"><a style="background-color: #ffff;border-style: solid;border-color: #373256;border-radius: 4px;border-width: 2px;color: #373256;display: inline-block;font-family: arial,helvetica,sans-serif;font-size: 16px;font-weight: normal;letter-spacing: 0px;line-height: 16px;padding: 12px 18px 12px 18px;text-align: center;text-decoration: none;" href="${resetUrl}">Reset your password</a></p>
@@ -156,8 +155,8 @@ exports.requestEventbriteLink = async (req, res) => {
 
   const msg = {
     to: "bittledroid@gmail.com",
-    from: "eventbritelink@sciencenearme.com",
-    subject: "Request for Eventbrite account link",
+    from: "request@sciencenearme.com",
+    subject: "[Science Near Me] Request for Eventbrite account link",
     text
   };
   await sgMail.send(msg);

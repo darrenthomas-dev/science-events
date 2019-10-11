@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Event = mongoose.model("Event");
+const User = mongoose.model("User");
 const multer = require("multer");
 const jimp = require("jimp");
 const uuid = require("uuid");
@@ -60,6 +61,10 @@ exports.resize = async (req, res, next) => {
 };
 
 exports.createEvent = async (req, res) => {
+  if (req.body.yourEmail) {
+    return res.redirect("/");
+  }
+
   // Add end date if not set
   if (!req.body.end_datetime) {
     req.body.end_datetime = req.body.start_datetime;
@@ -80,16 +85,22 @@ exports.createEvent = async (req, res) => {
     req.body.author = req.user._id;
     req.body.display = "true";
   } else {
-    req.body.author = "5d2df8c0eba6370d852dedaf"; // convert to async request for guest account
+    const admin = await User.findOne({ admin: true });
+    req.body.author = admin._id;
     req.body.display = null;
   }
 
   // Add body data to database
   const event = await new Event(req.body).save();
 
-  const message = event.slug
-    ? `Event <a href="/event/${event.slug}">${event.name}</a> has been successfully created.`
-    : `Event ${event.name} has been successfully created.`;
+  let message;
+  if (req.user) {
+    message = event.slug
+      ? `Event <a href="/event/${event.slug}">${event.name}</a> has been successfully created.`
+      : `Event ${event.name} has been successfully created.`;
+  } else {
+    message = `Event ${event.name} has been successfully submitted and should appear on the site in the next 24 hours.`;
+  }
 
   req.flash("success", message);
 
@@ -97,23 +108,20 @@ exports.createEvent = async (req, res) => {
 };
 
 const confirmOwner = (event, user) => {
-  let test = false;
+  let access = false;
   if (event.author && event.author.equals(user._id)) {
-    test = true;
-    console.log("You are the author!");
+    access = true;
   }
 
   if (event.eb_organiser_id === user.eb_organiser_id) {
-    test = true;
-    console.log("You are the oganiser!");
+    access = true;
   }
 
   if (user.admin) {
-    test = true;
-    console.log("You are an admin!");
+    access = true;
   }
 
-  if (!test) {
+  if (!access) {
     throw Error("You must own the event in order to edit it!");
   }
 };
@@ -178,9 +186,7 @@ exports.updateEvent = async (req, res) => {
 
   // Set slug if required
   if (req.body.description === "") {
-    console.log("no description");
     req.body.slug = "";
-    console.log("setting slug to blank string");
   } else {
     const slug = await createSlug(req.body.name);
     req.body.slug = slug;
@@ -264,8 +270,6 @@ exports.mapEvents = async (req, res) => {
   const startDate = new Date().toISOString().slice(0, 10);
   const coordinates = [req.query.lng, req.query.lat];
 
-  console.log(coordinates);
-
   let query = {
     display: true
   };
@@ -302,8 +306,6 @@ exports.mapEvents = async (req, res) => {
         });
   }
 
-  console.log(query);
-
   const events = await Event.find(query)
     .select(
       "name organisation location.address location.coordinates image slug display_date is_free price price_range website"
@@ -324,8 +326,6 @@ exports.getEventBySlug = async (req, res, next) => {
     _id: { $ne: event._id }
   }).limit(4);
 
-  console.log(eventsByOrganisation);
-
   res.render("singleEvent", { event, title: event.name, eventsByOrganisation });
 };
 
@@ -338,8 +338,6 @@ exports.mapPage = async (req, res) => {
   ];
 
   const query = constructQuery(miles, coordinates);
-
-  console.log(query);
 
   // 1. Query database for all events
   const events = await Event.find(query);

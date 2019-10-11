@@ -12,8 +12,8 @@
 .alert {
   padding: 16px;
   background: #fff;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 2px rgba(0, 0, 0, 0.15),
-    0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.15);
+  border: 1px solid #ccc;
+  border-radius: 4px;
   p {
     margin: 0;
   }
@@ -21,11 +21,11 @@
 
 .form-card {
   padding: 16px;
-  background: #fff;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 2px rgba(0, 0, 0, 0.15),
-    0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.15);
 
   @media (min-width: 986px) {
+    background: #fff;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 2px rgba(0, 0, 0, 0.15),
+      0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.15);
     margin-top: 100px;
     background: white;
     // box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
@@ -39,8 +39,9 @@
   }
 }
 .form-card > div:first-child {
-  margin: 40px 0;
+  margin: 40px 0 0 0;
   @media (min-width: 986px) {
+    margin-bottom: 40px;
     padding-right: 24px;
     padding-left: 8px;
   }

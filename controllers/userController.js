@@ -21,11 +21,8 @@ exports.registerForm = (req, res) => {
 
 exports.resendValidationToken = async (req, res, next) => {
   if (req.user) {
-    console.log(req.user);
     return next();
   }
-
-  console.log("here");
 
   const token = req.params.token;
 
@@ -64,7 +61,11 @@ exports.validateRegistration = async (req, res) => {
 
   await user.save();
 
-  res.render("login", { message });
+  if (req.user) {
+    res.redirect("/");
+  } else {
+    res.render("login", { message });
+  }
 };
 
 exports.validateRegister = (req, res, next) => {
@@ -100,6 +101,10 @@ exports.validateRegister = (req, res, next) => {
 };
 
 exports.register = async (req, res, next) => {
+  if (req.body.yourEmail) {
+    return res.redirect("/");
+  }
+
   const user = new User({
     email: req.body.email
   });

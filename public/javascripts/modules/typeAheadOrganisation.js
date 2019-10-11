@@ -33,7 +33,6 @@ function typeAheadOrganisation(search) {
     axios
       .get(`/api/search/organisation?q=${this.value}`)
       .then(res => {
-        console.log(res.data);
         if (res.data.length) {
           searchResults.innerHTML = dompurify.sanitize(
             searchResultsHTML(res.data)

@@ -44,7 +44,7 @@ html
             each item in h.adminMenu
               li.nav__item
                 a.nav__link(href=item.slug class=(currentPath.startsWith(item.slug) ? 'nav__link--active' : '')) #{item.title}
-          li.nav__item: a.nav__link(href="/logout") Logout
+          li.nav__item: a.nav__link(href="/logout") Log out
           li.nav__item: a.nav__link(href="/account")
             img.avatar(src=user.gravatar + '&d=retro' alt="Account details")
         else

@@ -13,7 +13,7 @@ block content
 				h2 Expired events #{expiredCount} 
 				input(class="input button" type="submit" value="Delete all expired events" disabled=(expiredCount ===  0 ? true : false))
 
-	.inner.fb
+	.fb.fb--center
 		form(class="form-card eb__form" method="POST")
 			h2 Import Eventbrite events
 			p Importing events is a slow process. I advise importing no more than 7 days at a time.
@@ -45,6 +45,14 @@ block content
 				input(type="submit" class="button button--danger" formaction="/admin/remove-from-hide-organisation-list" value="Remove")
 				input(type="submit" class="button" formaction="/admin/add-to-hide-organisation-list" value="Add")
 
+		div(class="form-card eb__form")
+			h2 Statistics
+			ul
+				li #{userCount} registered users
+				li #{currentEventsCount} current events
+				li #{ebEventsPending} pending Eventbrite events
+				li #{guestEventsPending} pending guest events
+				li #{expiredCount} expired events
 
 	if guestEventsPending
 		h2 Guest Events Pending #{guestEventsPending}

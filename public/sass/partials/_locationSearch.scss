@@ -28,7 +28,7 @@
     margin-bottom: 16px;
 
     @media (max-width: 1049px) {
-      border-bottom: 1px solid #5980a7;
+      border-bottom: 1px solid $primary-900;
       font-size: 14px;
       padding: 8px 4px;
       margin-top: 4px;
@@ -55,20 +55,10 @@
   &__button {
     width: 100%;
   }
-  // details {
-  //   font-size: 13px;
-  //   cursor: pointer;
-  // }
 }
 
 @media (min-width: 1050px) {
   .location-autocomplete {
-    // padding: 28px;
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
-
-    // padding: 53px 28px 24px 28px;
     padding: 42px;
     max-width: 1000px;
     margin: -55px auto 20px auto;
@@ -85,38 +75,23 @@
       height: 42px;
       padding-left: 12px;
       border-radius: 4px;
-      // width: 280px;
-
       &::placeholder {
         font-size: 16px;
       }
     }
     &__select {
-      // width: 180px;
       border: none;
-      // height: 42px;
       cursor: pointer;
       font-family: inherit;
       border-radius: 4px;
       font-size: 16px;
       padding-left: 8px;
-      // margin-left: 36px;
       justify-self: center;
     }
     &__button {
-      // margin-left: 36px;
-      // width: 240px;
-
       grid-column: 3;
       grid-row: 1;
     }
-    // details {
-    //   grid-column: 1;
-    //   font-size: 14px;
-    //   margin: 0;
-    //   // margin-left: 36px;
-    //   margin: 8px 0 0 2px;
-    // }
   }
 }
 @media (min-width: 1050px) {
@@ -135,9 +110,7 @@
     max-width: 1000px;
     margin: -55px auto 20px auto;
     position: absolute;
-    // top: 26vh;
     height: 350px;
-    // left: 8vw;
     top: 232px;
     left: 88px;
     margin: 0;
@@ -172,18 +145,12 @@
     padding: 28px;
 
     @media (min-width: 1050px) {
-      // margin: 28px auto 16px auto;
       display: block;
       max-width: 100%;
       margin: 0;
       padding: 16px;
       position: unset;
       height: auto;
-
-      // &__select {
-      //   margin-bottom: 0;
-      // }
-
       &-inner {
         display: flex;
         flex-direction: row;

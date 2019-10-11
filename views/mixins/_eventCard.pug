@@ -57,7 +57,6 @@ mixin eventCard(event = {})
 			if event.price_range && event.price_range.max_price && event.price_range.min_price
 				-const min = Number(event.price_range.min_price).toFixed(2)
 				-const max = Number(event.price_range.max_price).toFixed(2)
-				dt.offscreen Price range:
 				dd.event__item
 					span.event__icon
 						!= h.icon('ticket')

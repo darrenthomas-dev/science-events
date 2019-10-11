@@ -1,5 +1,7 @@
 extends layout
 
+include mixins/_spamPot
+
 block content
 
 	if message 
@@ -33,6 +35,8 @@ block content
 					//- button(type="button" class="toggle-password")
 					//- 	span.offscreen Click to show password.
 					//- 	!=h.icon("view")
+
+				+spamPot()
 
 				input(class="input button" type="submit" value="Sign up for free")
 			

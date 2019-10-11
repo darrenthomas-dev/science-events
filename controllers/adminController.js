@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 const Event = mongoose.model("Event");
+const User = mongoose.model("User");
 const AdminSettings = mongoose.model("AdminSettings");
 const moment = require("moment");
 const axios = require("axios");
-const { getDatetime, stripInlineCss, displayDate } = require("../helpers");
+const { stripInlineCss, displayDate } = require("../helpers");
 
 const yesterday = moment()
   .subtract(1, "days")
@@ -15,6 +16,13 @@ exports.confirmEvents = async (req, res) => {
   const page = req.params.page || 1;
   const limit = 12;
   const skip = page * limit - limit;
+
+  const start = new Date().toISOString().slice(0, 10);
+  const userCountPromise = User.find().count();
+  const currentEventCountPromise = Event.find({
+    display: "true",
+    end_datetime: { $gte: new Date(`${start}T00:00:00Z`) }
+  }).count();
 
   // 1. Query database for all events
   const eventsPromise = Event.find({ display: null, eb_id: { $exists: true } })
@@ -45,13 +53,17 @@ exports.confirmEvents = async (req, res) => {
     guestEvents,
     ebEventsPending,
     organisationList,
-    expiredCount
+    expiredCount,
+    userCount,
+    currentEventsCount
   ] = await Promise.all([
     eventsPromise,
     guestEventsPromise,
     ebCountPromise,
     organisationListPromise,
-    expiredPromise
+    expiredPromise,
+    userCountPromise,
+    currentEventCountPromise
   ]);
 
   const arrayorganisationList = organisationList[0].hide_these_organisers;
@@ -87,7 +99,9 @@ exports.confirmEvents = async (req, res) => {
     ebEventsPending,
     guestEventsPending,
     expiredCount,
-    arrayorganisationList
+    arrayorganisationList,
+    userCount,
+    currentEventsCount
   });
 };
 
@@ -277,9 +291,6 @@ exports.updateEventDisplay = async (req, res) => {
               }
             }
 
-            console.log(prices);
-            console.log(prices.length);
-
             if (prices.length > 0) {
               prices = prices.map(Number); // convert to numbers
 
@@ -304,7 +315,6 @@ exports.updateEventDisplay = async (req, res) => {
         });
 
       // Find and update event with ticket details
-      console.log(event);
       if (event.price_range) {
         await Event.updateOne(
           { eb_id: event.id },

@@ -33,11 +33,9 @@ exports.menu = [
   { slug: "/add", title: "Create events" }
 ];
 
-exports.userMenu = [
-  { slug: "/my-events", title: "My events", icon: "compose" }
-];
+exports.userMenu = [{ slug: "/my-events", title: "My events" }];
 
-exports.adminMenu = [{ slug: "/admin", title: "Pending", icon: "shield" }];
+exports.adminMenu = [{ slug: "/admin", title: "Admin" }];
 
 // Returns datetime x amount of days from now.
 exports.getDatetime = x => {

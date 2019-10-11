@@ -65,7 +65,6 @@ router.post(
   userController.validateRegister,
   catchErrors(userController.register),
   catchErrors(emailController.accountVerification)
-  // authController.login
 );
 
 // Verification path

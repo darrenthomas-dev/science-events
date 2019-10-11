@@ -4,6 +4,9 @@
     &--c {
       flex-direction: column;
     }
+    &--center {
+      justify-content: center;
+    }
     &-50 {
       flex-basis: 50%;
     }

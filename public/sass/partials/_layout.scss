@@ -85,7 +85,22 @@ img {
   bottom: 0;
   z-index: 9999999;
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   p {
     margin: 0;
+  }
+  input[type="submit"] {
+    background: #3e3e3e;
+    border: none;
+    color: #dbdeff;
+    text-transform: capitalize;
+    display: inline-block;
+    margin: 0 16px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    text-decoration: underline;
+    cursor: pointer;
   }
 }
