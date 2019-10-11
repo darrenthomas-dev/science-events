@@ -426,19 +426,20 @@ exports.addSingleEventbriteEvent = async (req, res) => {
 exports.getEventsByOrganisationAndEventName = async (req, res) => {
   if (!req.query.keywords) return;
 
-  const searchTerm = req.query.keywords;
+  const keywords = req.query.keywords;
 
   const events = await Event.find({
     display: "true",
-    $text: { $search: `\"${searchTerm}\"` }
+    $text: { $search: `\"${keywords}\"` }
   }).sort("start_datetime");
 
   const count = events.length;
 
   res.render("events", {
-    title: `Searched for "${searchTerm}"`,
+    title: `Searched for "${keywords}"`,
     events,
-    count
+    count,
+    keywords
   });
 };
 

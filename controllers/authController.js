@@ -9,30 +9,12 @@ const sgMail = require("@sendgrid/mail");
 exports.login = passport.authenticate("local", {
   successRedirect: "/",
   failureRedirect: "/login",
-  failureFlash: "Incorrect username or password."
+  failureFlash: "Invalid username or password."
 });
 
 exports.logout = (req, res) => {
   req.logout();
   res.redirect("/");
-};
-
-exports.login2 = function(req, res, next) {
-  passport.authenticate("local", function(err, user, info) {
-    console.log(user);
-    if (!user) {
-      console.log("Failed!");
-    } else {
-      req.login(user, function(err) {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        next();
-        return;
-      });
-    }
-  })(req, res, next);
 };
 
 exports.loginUser = async (req, next) => {
@@ -77,14 +59,15 @@ exports.forgot = async (req, res) => {
 
   sgMail.setApiKey(process.env.MAIL_PASS);
 
-  const html = `
-<p>You recently requested to reset your password for sciencenearme.com. Click the button below to reset it.</p>
-<p><a style="background-color: #373256;border: 1px solid #333333;border-color: #373256;border-radius: 6px;border-width: 1px;color: #f3f1ff;display: inline-block;font-family: arial,helvetica,sans-serif;font-size: 16px;font-weight: normal;letter-spacing: 0px;line-height: 16px;padding: 12px 18px 12px 18px;text-align: center;text-decoration: none;" href="${resetUrl}">Reset your password</a></p>
-<p>If you did not request a password reset, please ignore the email or reply to let us know. This password reset is only valid for 1 hour.</p>
-<p>Thanks,</p>
-<p>Science Near Me</p>
-<p>If you are having trouble clicking the password reset button, copy and paste the URL below into your web browser.</p>
-<p><a href="${resetUrl}">${resetUrl}</a></p>`;
+  const html = `<div style="max-width: 640px; margin: 10px auto; padding: 24px; background-color: #f5f3ff; border-radius: 4px;">
+  <h1 style="font-size: 24px;">Science Near Me - Password Reset</h1>
+  <p style="font-size: 16px;">You recently requested to reset your password for sciencenearme.com. Click the button below to reset it.</p>
+  <p style="font-size: 16px; text-align: center;"><a style="background-color: #ffff;border-style: solid;border-color: #373256;border-radius: 4px;border-width: 2px;color: #373256;display: inline-block;font-family: arial,helvetica,sans-serif;font-size: 16px;font-weight: normal;letter-spacing: 0px;line-height: 16px;padding: 12px 18px 12px 18px;text-align: center;text-decoration: none;" href="${resetUrl}">Reset your password</a></p>
+  <p style="font-size: 16px;">If you did not request a password reset, please ignore the email or reply to let us know. This password reset is only valid for 1 hour.</p>
+  <p style="font-size: 16px;">Thanks,</p>
+  <p style="font-size: 16px;"><a href="https://sciencenearme.com">sciencenearme.com</a></p>
+  <p style="font-size: 14px;">If you are having trouble clicking the password reset button, copy and paste the URL below into your web browser.</p>
+  <p style="font-size: 14px;"><a href="${resetUrl}">${resetUrl}</a></p>`;
 
   const text = `
 You recently requested to reset your password for sciencenearme.com.
@@ -95,12 +78,12 @@ If you did not request a password reset, please ignore the email or reply to let
 
 Thanks,
 
-Science Near Me`;
+https://sciencenearme.com`;
 
   const msg = {
     to: user,
-    from: "support@sciencenearme.com",
-    subject: "Password Reset",
+    from: "reset@sciencenearme.com",
+    subject: "[Science Near Me] Password Reset",
     html,
     text
   };
@@ -173,7 +156,7 @@ exports.requestEventbriteLink = async (req, res) => {
 
   const msg = {
     to: "bittledroid@gmail.com",
-    from: "test@example.com",
+    from: "eventbritelink@sciencenearme.com",
     subject: "Request for Eventbrite account link",
     text
   };

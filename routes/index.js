@@ -64,7 +64,27 @@ router.post(
   "/register",
   userController.validateRegister,
   catchErrors(userController.register),
-  authController.login
+  catchErrors(emailController.accountVerification)
+  // authController.login
+);
+
+// Verification path
+router.get(
+  "/account/confirm/:token",
+  catchErrors(userController.validateRegistration)
+);
+
+// Resend token
+router.get(
+  "/account/resend/:token",
+  catchErrors(userController.resendValidationToken),
+  catchErrors(emailController.accountVerification)
+);
+
+router.post(
+  "/account/resend",
+  catchErrors(userController.resendValidationToken),
+  catchErrors(emailController.accountVerification)
 );
 
 /* ------------------------------------ */
