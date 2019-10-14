@@ -95,7 +95,7 @@ exports.accountVerification = async (req, res) => {
 
 exports.newEvent = (req, res, next) => {
   const image = req.body.image
-    ? `<p><img src='http://192.168.1.9:5555/uploads/${req.body.image}'/></p>`
+    ? `<p><img src='https://sciencenearme.com/uploads/${req.body.image}'/></p>`
     : "";
   const title = `<h1>${req.body.name}</h1>`;
   const organisation = `<p>Organisation: ${req.body.organisation}</p>`;
