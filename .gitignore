@@ -2,5 +2,5 @@ node_modules/
 .DS_Store
 *.log
 variables.env
-public/dist/*
+variables.env.now
 sendgrid.env
