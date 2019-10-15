@@ -77,8 +77,12 @@ exports.createEvent = async (req, res) => {
   );
 
   // Add latlng coordinates to body
-  const latLng = await getLatLng(req.body.location.address);
-  req.body.location.coordinates = [latLng[1], latLng[0]];
+  console.log(req.body.location.coordinates);
+  if (!req.body.location.coordinates) {
+    const latLng = await getLatLng(req.body.location.address);
+    req.body.location.coordinates = [latLng[1], latLng[0]];
+    console.log(req.body.location.coordinates);
+  }
 
   // Add author id to body
   if (req.user) {

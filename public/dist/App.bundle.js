@@ -927,17 +927,19 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-function autocomplete(input) {
+function autocomplete(input, latInput, lngInput) {
   if (!input) return;
 
-  new google.maps.places.Autocomplete(input);
+  var dropdown = new google.maps.places.Autocomplete(input);
 
-  // addEventListener;
-  // dropdown.addListener("place_changed", () => {
-  //   const place = dropdown.getPlace();
-  //   latInput.value = place.geometry.location.lat();
-  //   lngInput.value = place.geometry.location.lng();
-  // });
+  if (latInput && lngInput) {
+    addEventListener;
+    dropdown.addListener("place_changed", function () {
+      var place = dropdown.getPlace();
+      latInput.value = place.geometry.location.lat();
+      lngInput.value = place.geometry.location.lng();
+    });
+  }
 
   // If hit enter do not submit form.
   input.on("keydown", function (e) {
@@ -3345,7 +3347,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // import typeAheadOrganisation from "./modules/typeAheadOrganisation";
 (0, _showPassword2.default)((0, _bling.$)("#password"));
 
-(0, _autocomplete2.default)((0, _bling.$)("#address"));
+(0, _autocomplete2.default)((0, _bling.$)("#address"), (0, _bling.$)("#lat"), (0, _bling.$)("#lng"));
 
 // typeAhead($(".search"));
 

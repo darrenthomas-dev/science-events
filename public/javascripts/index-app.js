@@ -15,7 +15,7 @@ import scrollToTop from "./modules/scrollToTop";
 
 showPassword($("#password"));
 
-autocomplete($("#address"));
+autocomplete($("#address"), $("#lat"), $("#lng"));
 
 // typeAhead($(".search"));
 

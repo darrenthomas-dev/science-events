@@ -1,14 +1,16 @@
-function autocomplete(input) {
+function autocomplete(input, latInput, lngInput) {
   if (!input) return;
 
-  new google.maps.places.Autocomplete(input);
+  const dropdown = new google.maps.places.Autocomplete(input);
 
-  // addEventListener;
-  // dropdown.addListener("place_changed", () => {
-  //   const place = dropdown.getPlace();
-  //   latInput.value = place.geometry.location.lat();
-  //   lngInput.value = place.geometry.location.lng();
-  // });
+  if (latInput && lngInput) {
+    addEventListener;
+    dropdown.addListener("place_changed", () => {
+      const place = dropdown.getPlace();
+      latInput.value = place.geometry.location.lat();
+      lngInput.value = place.geometry.location.lng();
+    });
+  }
 
   // If hit enter do not submit form.
   input.on("keydown", e => {

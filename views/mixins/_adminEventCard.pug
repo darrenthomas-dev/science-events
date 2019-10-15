@@ -16,11 +16,7 @@ mixin adminEventCard(event = {})
 			if user.admin || (event.author && event.author.equals(user._id))
 				if event.end_datetime < new Date()
 					p.text--warning: em This event has expired and will soon be deleted.
-		h3.event__title
-			if (!event.slug)
-				a(href=event.website target="_blank" rel="noopener noreferrer") #{event.name}
-			else
-				a(href=`/event/${event.slug}`) #{event.name}
+		h3.event__title= event.name
 		dl.event__details
 			dt.offscreen Organiser:
 			dd.event__item.event__item--organiser #{event.organisation}

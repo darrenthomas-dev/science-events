@@ -86,6 +86,8 @@ mixin eventForm(event = {})
 			.fb-50.pt-16
 				label(class="label" for="address") Event address: *
 				input(class="input" type="text" id="address" name="location[address]" value=((event.location && event.location.address) || (user && user.address) ) required)
+				input(type="hidden" name="location[coordinates][1]" id="lat" value=(event.location && event.location.coordinates[1]))
+				input(type="hidden" name="location[coordinates][0]" id="lng" value=(event.location && event.location.coordinates[0]))
 
 
 
