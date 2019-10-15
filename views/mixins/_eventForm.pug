@@ -121,7 +121,7 @@ mixin eventForm(event = {})
 			
 		.buttons-group
 			//- Submit
-			input(class="button submit-event-button" type="submit" value="Submit Event" formaction=`/event/${event._id + '/edit' || ''}`)
+			input(class="button submit-event-button" type="submit" value="Submit Event" formaction=`/add/${event._id || ''}`)
 		
 			//- Delete event
 			if (event._id)
