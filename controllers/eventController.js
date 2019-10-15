@@ -211,7 +211,7 @@ exports.updateEvent = async (req, res) => {
     : event.name;
 
   req.flash("success", `Successfully updated <strong>${link}</strong>.`);
-  res.redirect(`back`);
+  res.redirect(`/event/${req.params.id}/edit`);
 };
 
 exports.deleteEvent = async (req, res) => {
