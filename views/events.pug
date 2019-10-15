@@ -20,7 +20,7 @@ block content
 			.events
 				each event in events
 					+eventCard(event)
-			if (pages !== null || pages === 0)
+			if (pages !== null || pages !== 0)
 				+pagination(page, pages, urlPrevious, urlNext)
 		else 
 			.no-results
