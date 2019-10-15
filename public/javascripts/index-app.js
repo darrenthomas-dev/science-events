@@ -12,6 +12,10 @@ import showPassword from "./modules/showPassword";
 import togglePadlock from "./modules/togglePadlock";
 import toggleState from "./modules/toggleState";
 import scrollToTop from "./modules/scrollToTop";
+import spinner from "./modules/spinner";
+
+spinner($("#getEbEvents"));
+spinner($("#eventForm"));
 
 showPassword($("#password"));
 

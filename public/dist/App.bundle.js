@@ -3342,9 +3342,17 @@ var _scrollToTop = __webpack_require__(16);
 
 var _scrollToTop2 = _interopRequireDefault(_scrollToTop);
 
+var _spinner = __webpack_require__(43);
+
+var _spinner2 = _interopRequireDefault(_spinner);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+(0, _spinner2.default)((0, _bling.$)("#getEbEvents"));
 // import typeAheadOrganisation from "./modules/typeAheadOrganisation";
+
+(0, _spinner2.default)((0, _bling.$)("#eventForm"));
+
 (0, _showPassword2.default)((0, _bling.$)("#password"));
 
 (0, _autocomplete2.default)((0, _bling.$)("#address"), (0, _bling.$)("#lat"), (0, _bling.$)("#lng"));
@@ -3366,6 +3374,32 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 (0, _toggleState2.default)((0, _bling.$$)(".toggle-password"));
 
 (0, _scrollToTop2.default)((0, _bling.$)(".to-top"), 600);
+
+/***/ }),
+/* 42 */,
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+function spinner(form) {
+  if (!form) return;
+
+  form.addEventListener("submit", function () {
+    var spinner = document.createElement("div");
+    spinner.classList.add("spinner");
+    spinner.innerHTML = '<div class="loader"><p>Loading...</p></div>';
+
+    document.body.style = "overflow: hidden";
+    document.body.appendChild(spinner);
+  });
+}
+
+exports.default = spinner;
 
 /***/ })
 /******/ ]);

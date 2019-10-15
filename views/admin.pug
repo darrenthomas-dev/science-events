@@ -14,7 +14,7 @@ block content
 				input(class="input button" type="submit" value="Delete all expired events" disabled=(expiredCount ===  0 ? true : false))
 
 	.fb.fb--center
-		form(class="form-card eb__form" method="POST")
+		form(id="getEbEvents" class="form-card eb__form" method="POST")
 			h2 Import Eventbrite events
 			p Importing events is a slow process. To avoid hitting time out errors, import no more than 5 days at a time.
 
