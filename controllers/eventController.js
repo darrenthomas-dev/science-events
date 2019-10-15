@@ -146,10 +146,13 @@ exports.editEvent = async (req, res) => {
 };
 
 async function getLatLng(address) {
-  const getCoordinates = findLatLong(process.env.MAP_KEY);
-  const latLng = await getCoordinates([address], { debug: false });
-  console.log(latLng);
-  const coords = [latLng[0].lat, latLng[0].lng];
+  const client = findLatLong(process.env.MAP_KEY);
+  const items = [address];
+
+  const itemsWithLatLng = await client(items, { debug: false });
+
+  const coords = [itemsWithLatLng[0].lat, itemsWithLatLng[0].lng];
+
   return coords;
 }
 
