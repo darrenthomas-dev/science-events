@@ -77,11 +77,9 @@ exports.createEvent = async (req, res) => {
   );
 
   // Add latlng coordinates to body
-  console.log(req.body.location.coordinates);
   if (!req.body.location.coordinates) {
     const latLng = await getLatLng(req.body.location.address);
     req.body.location.coordinates = [latLng[1], latLng[0]];
-    console.log(req.body.location.coordinates);
   }
 
   // Add author id to body
@@ -181,12 +179,14 @@ exports.updateEvent = async (req, res) => {
   // If free is not checked set to null
   if (!req.body.is_free) req.body.is_free = false;
 
-  // Get coordinates
-  const latLng = await getLatLng(req.body.location.address);
+  // Add latlng coordinates to body
+  if (!req.body.location.coordinates) {
+    const latLng = await getLatLng(req.body.location.address);
+    req.body.location.coordinates = [latLng[1], latLng[0]];
+  }
 
   // add to request body
   req.body.location.type = "Point";
-  req.body.location.coordinates = [latLng[1], latLng[0]];
 
   // Set slug if required
   if (req.body.description === "") {
