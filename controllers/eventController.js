@@ -145,12 +145,13 @@ exports.editEvent = async (req, res) => {
   res.render("editEvent", { title: event.name, event });
 };
 
-const getLatLng = async address => {
-  const findLatLng = findLatLong(process.env.MAP_KEY);
-  const latLng = await findLatLng([address], { debug: false });
+async function getLatLng(address) {
+  const getCoordinates = findLatLong(process.env.MAP_KEY);
+  const latLng = await getCoordinates([address], { debug: false });
+  console.log(latLng);
   const coords = [latLng[0].lat, latLng[0].lng];
   return coords;
-};
+}
 
 exports.updateEvent = async (req, res) => {
   // Add display date
