@@ -1117,9 +1117,6 @@ ol {
     position: relative;
     grid-column: -1/1;
     margin: 60px 0 0 0; }
-  img.single__map {
-    max-width: 1280px;
-    max-height: 300px; }
   p.single__location {
     position: absolute;
     top: -4px;

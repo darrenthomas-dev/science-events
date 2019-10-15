@@ -182,6 +182,7 @@ exports.updateEvent = async (req, res) => {
   // Add latlng coordinates to body
   if (!req.body.location.coordinates) {
     const latLng = await getLatLng(req.body.location.address);
+    console.log(latLng);
     req.body.location.coordinates = [latLng[1], latLng[0]];
   }
 
@@ -207,7 +208,7 @@ exports.updateEvent = async (req, res) => {
     ? `<a href=/event/${event.slug}>${event.name}</a>`
     : event.name;
 
-  req.flash("success", `Successfully updated <strong>${link}</strong>..`);
+  req.flash("success", `Successfully updated <strong>${link}</strong>.`);
   res.redirect(`back`);
 };
 
