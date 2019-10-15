@@ -68,11 +68,8 @@ exports.developmentErrors = (err, req, res, next) => {
   No stacktraces are leaked to user
 */
 exports.productionErrors = (err, req, res, next) => {
-  res.status(err.status || 500);
+  res.status(err.status || 404 || 500);
   res.render("error", {
-    message: `Sorry something unexpected happen. If this continues please email support@sciencenearme.com with the following error message and we can look in to fixing this. Thanks!
-        
-        Error message:
-        ${err.message}`
+    message: `Sorry something unexpected happen. If this continues please email support@sciencenearme.com with any error messages and we can look in to fixing this. Thanks! Error message: ${err.message}`
   });
 };

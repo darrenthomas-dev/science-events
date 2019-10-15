@@ -148,11 +148,8 @@ exports.editEvent = async (req, res) => {
 async function getLatLng(address) {
   const client = findLatLong(process.env.MAP_KEY);
   const items = [address];
-
   const itemsWithLatLng = await client(items, { debug: false });
-
   const coords = [itemsWithLatLng[0].lat, itemsWithLatLng[0].lng];
-
   return coords;
 }
 
@@ -186,6 +183,7 @@ exports.updateEvent = async (req, res) => {
   // Add latlng coordinates to body
   if (!req.body.location.coordinates) {
     const latLng = await getLatLng(req.body.location.address);
+    console.log("Getting coordinates");
     console.log(latLng);
     req.body.location.coordinates = [latLng[1], latLng[0]];
   }
@@ -213,7 +211,7 @@ exports.updateEvent = async (req, res) => {
     : event.name;
 
   req.flash("success", `Successfully updated <strong>${link}</strong>.`);
-  res.redirect(`back`);
+  res.redirect(`/event/${req.params.id}/edit`);
 };
 
 exports.deleteEvent = async (req, res) => {
