@@ -40,7 +40,7 @@ router.get("/event/:id/edit", catchErrors(eventController.editEvent));
 
 // Update an existing event
 router.post(
-  "/add/:id",
+  "/event/:id/edit",
   eventController.upload,
   catchErrors(eventController.resize),
   catchErrors(eventController.updateEvent)
