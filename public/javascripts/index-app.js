@@ -13,6 +13,15 @@ import togglePadlock from "./modules/togglePadlock";
 import toggleState from "./modules/toggleState";
 import scrollToTop from "./modules/scrollToTop";
 import spinner from "./modules/spinner";
+import onSubmitGetCoordinates from "./modules/onsubmitGetCoordinates";
+
+onSubmitGetCoordinates(
+  $("#eventForm"),
+  $("#address"),
+  $("#lat"),
+  $("#lng"),
+  $("#eventForm")
+);
 
 spinner($("#getEbEvents"));
 spinner($("#eventForm"));
