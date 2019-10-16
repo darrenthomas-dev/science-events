@@ -2,7 +2,10 @@ function onSubmitGetCoordinates(form, address, lat, lng, btn) {
   if (!form && !lat && !lng && !btn) return;
 
   btn.addEventListener("click", function(e) {
-    if (lat.value && lng.value) return;
+    if (lat.value && lng.value) {
+      console.log(lat.value, lng.value);
+      return;
+    }
 
     e.preventDefault();
 
@@ -12,6 +15,8 @@ function onSubmitGetCoordinates(form, address, lat, lng, btn) {
     // Add lng lat values to inputs
     lat.value = place.geometry.location.lat();
     lng.value = place.geometry.location.lng();
+
+    console.log("found values: ", lat.value, lng.value, "now submitting...");
 
     // Submit form
     form.submit();
