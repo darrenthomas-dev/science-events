@@ -20,7 +20,7 @@ onSubmitGetCoordinates(
   $("#address"),
   $("#lat"),
   $("#lng"),
-  $("#eventForm")
+  $("#submitEvent")
 );
 
 spinner($("#getEbEvents"));
