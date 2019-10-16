@@ -180,10 +180,11 @@ exports.updateEvent = async (req, res) => {
   // If free is not checked set to null
   if (!req.body.is_free) req.body.is_free = false;
 
+  console.log(req.body.location["address"]);
   // Add latlng coordinates to body
   if (!req.body.location.coordinates) {
-    console.log(req.body.location.coordinates);
-    const address = req.body.location.address;
+    console.log(req.body.location["address"]);
+    const address = req.body.location["address"];
     console.log("Getting coordinates for", address);
     const latLng = await getLatLng(address);
     console.log(latLng);
