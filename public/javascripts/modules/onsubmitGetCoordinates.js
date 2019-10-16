@@ -2,6 +2,8 @@ function onSubmitGetCoordinates(form, address, lat, lng, btn) {
   if (!form && !lat && !lng && !btn) return;
 
   btn.addEventListener("click", function(e) {
+    if (lat.value && lng.value) return;
+
     e.preventDefault();
 
     // Get places info
