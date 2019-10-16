@@ -182,11 +182,14 @@ exports.updateEvent = async (req, res) => {
 
   // Add latlng coordinates to body
   if (!req.body.location.coordinates) {
-    const latLng = await getLatLng(req.body.location.address);
-    console.log("Getting coordinates");
+    console.log(req.body.location.coordinates);
+    const address = req.body.location.address;
+    console.log("Getting coordinates for", address);
+    const latLng = await getLatLng(address);
     console.log(latLng);
     req.body.location.coordinates = [latLng[1], latLng[0]];
   }
+  console.log(req.body.location["coordinates"]);
 
   // add to request body
   req.body.location.type = "Point";
