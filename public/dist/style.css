@@ -2023,13 +2023,13 @@ pre.error {
 
 .create-event {
   width: 100%;
-  background-image: url("/images/photos/unsplash/4.resized-414w.jpg");
+  background-image: url("/images/photos/4.resized-414w.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat; }
   @media (min-width: 960px) {
     .create-event {
-      background-image: url("/images/photos/unsplash/4.resized.jpg"); } }
+      background-image: url("/images/photos/4.resized.jpg"); } }
   .create-event p {
     padding: 72px 8px;
     font-size: 46px;
