@@ -93,7 +93,7 @@ function renderMarkers(places) {
   // show infoWindow on click
   markers.forEach(marker =>
     marker.addListener("click", function() {
-      let html = "<div class='popup'>";
+      let html = "<div class='test popup'>";
 
       for (let i = 0; i < this.place.length; i++) {
         console.log(this.place);
