@@ -123,7 +123,7 @@ function renderMarkers(places) {
         }
 
         html += `
-        <div class="popup__event${i > 0 ? " hide" : ""}">
+        <div class="hello popup__event${i > 0 ? " hide" : ""}">
             <div class="event">
             <img class="event__img" src="${image}" alt="">
             <h3 class="event__title"><a href="${this.place[i].website}">${
