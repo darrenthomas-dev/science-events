@@ -3,4 +3,3 @@ node_modules/
 *.log
 variables.env
 sendgrid.env
-public/uploads
