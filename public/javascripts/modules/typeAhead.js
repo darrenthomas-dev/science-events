@@ -3,22 +3,20 @@ import dompurify from "dompurify";
 
 function searchResultsHTML(events) {
   return events
-    .map(event => {
-      return `
-		<a href="/event/${event.slug}" class="search__result">
-			<strong>${event.name}</strong>
-		</a>`;
-    })
+    .map(event => `<span class="search__result">${event.name}</span>`)
     .join("");
 }
 
 function typeAhead(search) {
   if (!search) return;
 
-  const searchInput = search.querySelector('input[name="search"]');
+  const searchInput = search.querySelector('input[name="keywords"]');
   const searchResults = search.querySelector(".search__results");
 
+  // console.log(searchInput, searchResults);
+
   searchInput.on("input", function() {
+    console.log(this.value);
     if (!this.value) {
       searchResults.style.display = "none";
       return;
@@ -37,9 +35,9 @@ function typeAhead(search) {
           return;
         }
         // no return data
-        searchResults.innerHTML = dompurify.sanitize(
-          `<div class="search__result">No results for ${this.value}</div>`
-        );
+        // searchResults.innerHTML = dompurify.sanitize(
+        //   `<div class="search__result">No results for ${this.value}</div>`
+        // );
       })
       .catch(err => {
         console.error(err);

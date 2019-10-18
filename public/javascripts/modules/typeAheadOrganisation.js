@@ -18,7 +18,7 @@ function searchResultsHTML(events) {
 function typeAheadOrganisation(search) {
   if (!search) return;
 
-  const searchInput = search.querySelector('input[name="search_organisation"]');
+  const searchInput = search.querySelector('input[name="keywords"]');
   const searchResults = search.querySelector(".search__results--organisation");
 
   searchInput.on("input", function() {

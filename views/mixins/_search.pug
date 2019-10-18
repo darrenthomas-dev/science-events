@@ -6,6 +6,7 @@ mixin search(keywords)
 		label(class="" for="eventSearch") Keyword search:
 		.input-icon
 			input(class="input search-input" id="eventSearch" type="search" placeholder="Enter an organisation or event name" name="keywords" value=keywords required)
+			//- .search__results
 			button(type="submit" class="input--button search-button")
 				span.offscreen Search
 				!=h.icon("search")

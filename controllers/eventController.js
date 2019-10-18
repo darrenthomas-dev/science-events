@@ -184,17 +184,12 @@ exports.updateEvent = async (req, res) => {
   // If free is not checked set to null
   if (!req.body.is_free) req.body.is_free = false;
 
-  console.log(req.body.location["address"]);
   // Add latlng coordinates to body
-  if (!req.body.location.coordinates) {
-    console.log(req.body.location["address"]);
+  if (!req.body.location.coordinates || !req.body.location["coordinates"][0]) {
     const address = req.body.location["address"];
-    console.log("Getting coordinates for", address);
     const latLng = await getLatLng(address);
-    console.log(latLng);
     req.body.location.coordinates = [latLng[1], latLng[0]];
   }
-  console.log(req.body.location["coordinates"]);
 
   // add to request body
   req.body.location.type = "Point";
@@ -234,11 +229,15 @@ exports.deleteEvent = async (req, res) => {
 };
 
 exports.searchEvents = async (req, res) => {
+  const date = new Date().toISOString().slice(0, 10);
+  const endDatetime = new Date(`${date}T00:00:00Z`);
+
   const events = await Event
     // first find events that match
     .find(
       {
         display: "true",
+        end_datetime: { $gte: endDatetime },
         $text: {
           $search: req.query.q
         }

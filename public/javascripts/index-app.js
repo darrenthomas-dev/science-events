@@ -2,7 +2,7 @@ import "../sass/style.scss";
 
 import { $, $$ } from "./modules/bling";
 import autocomplete from "./modules/autocomplete";
-import typeAhead from "./modules/typeAhead";
+// import typeAhead from "./modules/typeAhead";
 // import typeAheadOrganisation from "./modules/typeAheadOrganisation";
 import makeMap from "./modules/map";
 import displayNavigation from "./modules/navigation";
@@ -32,7 +32,7 @@ autocomplete($("#address"), $("#lat"), $("#lng"));
 
 // typeAhead($(".search"));
 
-// typeAheadOrganisation($(".searchOrganisation"));
+// typeAheadOrganisation($(".search"));
 
 makeMap($("#map"));
 

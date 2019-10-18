@@ -1,5 +1,3 @@
-import bodyParser from "body-parser";
-
 function onSubmitGetCoordinates(form, address, lat, lng, btn) {
   if (!form && !address && !lat && !lng && !btn) return;
 
