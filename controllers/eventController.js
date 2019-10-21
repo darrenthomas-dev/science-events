@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const Event = mongoose.model("Event");
 const User = mongoose.model("User");
 const multer = require("multer");
+const sharp = require("sharp");
+const ImageUploader = require("../utils/ImageUploader");
+
 const jimp = require("jimp");
 const uuid = require("uuid");
 const findLatLong = require("find-lat-lng");
@@ -46,19 +49,76 @@ exports.addEvent = (req, res) => {
 exports.upload = multer(multerOptions).single("image");
 
 exports.resize = async (req, res, next) => {
-  // Check if there is no new file to resize
+  // check if there is no new file to resize when we save
+  // multer automatically knows if a file was uploaded
+  // multer puts the file property on the request
+
   if (!req.file) {
-    next(); // skip to next middleware
+    next(); // no file so skip to the next middleware
     return;
   }
-  const extension = req.file.mimetype.split("/")[1];
-  req.body.image = `${uuid.v4()}.${extension}`;
-  //  resize
-  const image = await jimp.read(req.file.buffer);
-  await image.resize(800, jimp.AUTO);
-  await image.write(`./public/uploads/${req.body.image}`);
-  next();
+
+  try {
+    console.log("starting resize image");
+    console.log(req.file);
+
+    // Resize photo
+    const photo = await sharp(req.file.buffer)
+      .resize(800)
+      .toBuffer();
+
+    //1 pass in file to new Class()
+    const s3File = new ImageUploader.S3Loader(req.file);
+
+    //2 new class returns path
+    req.body.photo = s3File.getUrlPath();
+
+    //3 data is stored in class passing in the edited photo buffer - save/upload
+    s3File.uploadPhoto(photo, () => {
+      next();
+    });
+  } catch (e) {
+    console.log("error try catch");
+    console.log(e);
+
+    next();
+    return;
+  }
 };
+
+// exports.resize = async (req, res, next) => {
+//   // Check if there is no new file to resize
+//   if (!req.file) {
+//     next(); // skip to next middleware
+//     return;
+//   }
+
+//   // const extension = req.file.mimetype.split("/")[1];
+//   // req.body.image = `${uuid.v4()}.${extension}`;
+
+//   //  resize
+//   // const image = await jimp.read(req.file.buffer);
+//   // await image.resize(800, jimp.AUTO);
+//   // await image.write(`./public/uploads/${req.body.image}`);
+//   // image.write(`./public/uploads/${req.body.image}`);
+
+//   const image = await sharp(req.file.buffer)
+//     .resize(800)
+//     .toBuffer();
+
+//   // pass in file to new Class()
+//   const s3File = new ImageUploader.S3Loader(req.file);
+
+//   // new class returns path
+//   req.body.image = s3File.getUrlPath();
+
+//   // data is stored in class passing in the edited photo buffer - save/upload
+//   s3File.uploadPhoto(image, () => {
+//     next();
+//   });
+
+//   // next();
+// };
 
 exports.createEvent = async (req, res) => {
   if (req.body.yourEmail) {
