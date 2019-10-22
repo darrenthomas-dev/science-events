@@ -16,9 +16,8 @@ class ImageUploader {
 
     this.extension = file.mimetype.split("/")[1];
     this.fileName = `${uuid.v4()}.${this.extension}`;
-    // TODO: Set user/filename.jpg
-    this.bucketName = "nodeintromaster/" + "user1Bucket";
-    this.s3Bucket = new AWS.S3({ params: { Bucket: "nodeintromaster" } });
+    this.bucketName = "sciencenearme-storage/uploads";
+    this.s3Bucket = new AWS.S3({ params: { Bucket: "sciencenearme-storage" } });
   }
 
   config() {
@@ -30,7 +29,7 @@ class ImageUploader {
   }
 
   getUrlPath() {
-    return `https://s3.amazonaws.com/${this.bucketName}/${this.fileName}`;
+    return `https://s3.eu-west-2.amazonaws.com/${this.bucketName}/${this.fileName}`;
   }
 
   uploadPhoto(photoBuffer, cb) {

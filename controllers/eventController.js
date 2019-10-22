@@ -63,7 +63,7 @@ exports.resize = async (req, res, next) => {
     console.log(req.file);
 
     // Resize photo
-    const photo = await sharp(req.file.buffer)
+    const image = await sharp(req.file.buffer)
       .resize(800)
       .toBuffer();
 
@@ -71,10 +71,10 @@ exports.resize = async (req, res, next) => {
     const s3File = new ImageUploader.S3Loader(req.file);
 
     //2 new class returns path
-    req.body.photo = s3File.getUrlPath();
+    req.body.image = s3File.getUrlPath();
 
     //3 data is stored in class passing in the edited photo buffer - save/upload
-    s3File.uploadPhoto(photo, () => {
+    s3File.uploadPhoto(image, () => {
       next();
     });
   } catch (e) {

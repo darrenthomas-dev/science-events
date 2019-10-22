@@ -103,9 +103,9 @@ mixin eventForm(event = {})
 					input(class="input" type="file" name="image" id="image" accept="image/png, image/jpeg")
 					if event.image
 						if event.eb_id
-							img(src=`${event.image}`, alt='' width=400)
+							img(id="preview" src=`${event.image}`, alt='' width=400)
 						else
-							img(src=`/uploads/${event.image}`, alt='' width=400)
+							img(id="preview" src=`${event.image}`, alt='' width=400)
 
 			//- Description (tinyMCE)
 			.form__section.text--editor
@@ -161,4 +161,4 @@ mixin eventForm(event = {})
 							{ title: 'Blockquote', format: 'blockquote' }
 						]}
 					]
-				})			
+				})
