@@ -182,19 +182,33 @@ mixin eventForm(event = {})
 				})
 
 			script.
-				(() => {
-					imageFile = document.querySelector("#image")
-					if (imageFile)
-						imageFile.onchange = () => {
-							const files = imageFile.files;
-							const file = files[0];
-							getSignedRequest(file);
-						};
-				})();
+				/*
+					Function to carry out the actual PUT request to S3 using the signed request from the app.
+				*/
+				function uploadFile(file, signedRequest, url){
+					const xhr = new XMLHttpRequest();
+					xhr.open('PUT', signedRequest);
+					xhr.onreadystatechange = () => {
+						if(xhr.readyState === 4){
+							if(xhr.status === 200){
+								document.getElementById('preview').src = url;
+								document.getElementById('imageUrl').value = url;
+							}
+							else{
+								alert('Could not upload file.');
+							}
+						}
+					};
+					xhr.send(file);
+				}
 
+				/*
+					Function to get the temporary signed request from the app.
+					If request successful, continue to upload the file using this signed
+					request.
+				*/
 				function getSignedRequest(file){
 					const xhr = new XMLHttpRequest();
-					//- const fileName = encodeURIComponent(file.name);
 					xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
 					xhr.onreadystatechange = () => {
 						if(xhr.readyState === 4){
@@ -203,26 +217,29 @@ mixin eventForm(event = {})
 								uploadFile(file, response.signedRequest, response.url);
 							}
 							else{
-								alert('Unable to upload image at this time. If this problem continues please contact support@sciencenearme.com. Error: Could not get signed URL.');
+								alert('Could not get signed URL.');
 							}
 						}
 					};
 					xhr.send();
 				}
 
-				function uploadFile(file, signedRequest, url){
-					const xhr = new XMLHttpRequest();
-					xhr.open('PUT', signedRequest);
-					xhr.onreadystatechange = () => {
-						if(xhr.readyState === 4){
-							if(xhr.status === 200){
-								document.querySelector('#preview').src = url;
-								document.querySelector('#imageUrl').value = url;
-							}
-							else{
-								alert('Unable to upload image at this time. If this problem continues please contact support@sciencenearme.com. Error: Could not upload file.');
-							}
-						}
-					};
-					xhr.send(file);
-				}				
+				/*
+				Function called when file input updated. If there is a file selected, then
+				start upload procedure by asking for a signed request from the app.
+				*/
+				function initUpload(){
+					const files = document.getElementById('image').files;
+					const file = files[0];
+					if(file == null){
+						return alert('No file selected.');
+					}
+					getSignedRequest(file);
+				}
+
+				/*
+				Bind listeners when the page loads.
+				*/
+				(() => {
+						document.getElementById('image').onchange = initUpload;
+				})();

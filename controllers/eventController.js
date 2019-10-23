@@ -50,19 +50,11 @@ exports.addEvent = (req, res) => {
 
 exports.upload = multer(multerOptions).single("image");
 
-exports.signS3 = async (req, res, next) => {
-  // Check if there is no new file to resize
+exports.signS3 = (req, res) => {
+  // Check if there is no new file
   if (!req.file) {
-    next(); // skip to next middleware
     return;
   }
-
-  // const extension = req.file.mimetype.split("/")[1];
-  // req.body.image = `${uuid.v4()}.${extension}`;
-
-  // const image = await sharp(req.file.buffer)
-  //   .resize(800)
-  //   .toBuffer();
 
   const s3 = new aws.S3();
   const fileName = req.query["file-name"];
@@ -74,12 +66,6 @@ exports.signS3 = async (req, res, next) => {
     ContentType: fileType,
     ACL: "public-read"
   };
-
-  //  resize
-  // const image = await jimp.read(req.file.buffer);
-  // await image.resize(800, jimp.AUTO);
-  // await image.write(`./public/uploads/${req.body.image}`);
-  // image.write(`./public/uploads/${req.body.image}`);
 
   s3.getSignedUrl("putObject", s3Params, (err, data) => {
     if (err) {
@@ -93,8 +79,6 @@ exports.signS3 = async (req, res, next) => {
     res.write(JSON.stringify(returnData));
     res.end();
   });
-
-  next();
 };
 
 // exports.resize = async (req, res, next) => {
