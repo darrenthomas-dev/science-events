@@ -57,16 +57,16 @@ exports.resize = async (req, res, next) => {
     return;
   }
 
-  const extension = req.file.mimetype.split("/")[1];
-  req.body.image = `${uuid.v4()}.${extension}`;
+  // const extension = req.file.mimetype.split("/")[1];
+  // req.body.image = `${uuid.v4()}.${extension}`;
 
-  const image = await sharp(req.file.buffer)
-    .resize(800)
-    .toBuffer();
+  // const image = await sharp(req.file.buffer)
+  //   .resize(800)
+  //   .toBuffer();
 
   const s3 = new aws.S3();
-  const fileName = image;
-  const fileType = extension;
+  const fileName = req.query["file-name"];
+  const fileType = req.query["file-type"];
   const s3Params = {
     Bucket: process.env.S3_BUCKET,
     Key: fileName,
