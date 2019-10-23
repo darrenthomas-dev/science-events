@@ -50,7 +50,7 @@ exports.addEvent = (req, res) => {
 
 exports.upload = multer(multerOptions).single("image");
 
-exports.resize = async (req, res, next) => {
+exports.signS3 = async (req, res, next) => {
   // Check if there is no new file to resize
   if (!req.file) {
     next(); // skip to next middleware

@@ -26,11 +26,13 @@ router.get(
 // Add an event page
 router.get("/add", eventController.addEvent);
 
+router.get("/sign-s3", eventController.signS3);
+
 // Create an event
 router.post(
   "/add",
   eventController.upload,
-  catchErrors(eventController.resize),
+  // catchErrors(eventController.resize),
   emailController.newEvent,
   catchErrors(eventController.createEvent)
 );
