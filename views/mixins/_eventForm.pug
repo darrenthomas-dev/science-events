@@ -153,7 +153,7 @@ mixin eventForm(event = {})
 				p If no image is uploaded then a default image will be displayed. All images are compressed and resized to 800px width by 480px height (aspect ratio 5:3) on upload. Supported formats are jpg and png.
 			.fb-50.pt-16
 				label(class="label" for="image") Upload an image:
-				input(class="input" type="file" name="image" id="image" accept="image/png, image/jpeg")
+				input(class="input" type="file" name="image" id="file-input" accept="image/png, image/jpeg")
 				if event.image
 					if event.eb_id
 						img(id="preview" src=`${event.image}`, alt='' width=400)
