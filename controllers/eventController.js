@@ -51,11 +51,6 @@ exports.addEvent = (req, res) => {
 exports.upload = multer(multerOptions).single("image");
 
 exports.signS3 = (req, res) => {
-  // Check if there is no new file
-  if (!req.file) {
-    return;
-  }
-
   const s3 = new aws.S3();
   const fileName = req.query["file-name"];
   const fileType = req.query["file-type"];
