@@ -2467,6 +2467,10 @@ var _spinner = __webpack_require__(17);
 
 var _spinner2 = _interopRequireDefault(_spinner);
 
+var _signS = __webpack_require__(42);
+
+var _signS2 = _interopRequireDefault(_signS);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // import onSubmitGetCoordinates from "./modules/onsubmitGetCoordinates";
@@ -2479,10 +2483,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //   $("#submitEvent")
 // );
 
-(0, _spinner2.default)((0, _bling.$)("#getEbEvents"));
+// signS3($("#file-input"), $("#preview"), $("#image-url"));
+
 // import typeAhead from "./modules/typeAhead";
 // import typeAheadOrganisation from "./modules/typeAheadOrganisation";
-
+(0, _spinner2.default)((0, _bling.$)("#getEbEvents"));
 (0, _spinner2.default)((0, _bling.$)("#eventForm"));
 
 (0, _showPassword2.default)((0, _bling.$)("#password"));
@@ -2506,6 +2511,74 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 (0, _toggleState2.default)((0, _bling.$$)(".toggle-password"));
 
 (0, _scrollToTop2.default)((0, _bling.$)(".to-top"), 600);
+
+/***/ }),
+/* 41 */,
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+function signS3(input, preview, imageUrl) {
+  if (!input && !preview && !imageUrl) return;
+
+  input.addEventListener("change", function () {
+    var files = input.files;
+    var file = files[0];
+
+    if (file == null) {
+      return;
+    }
+
+    getSignedRequest(file);
+  });
+
+  /*
+  Function to carry out the actual PUT request to S3 using the signed request from the app.
+  */
+  function uploadFile(file, signedRequest, url) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("PUT", signedRequest);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          preview.src = url;
+          imageUrl.value = url;
+        } else {
+          alert("Could not upload file.");
+        }
+      }
+    };
+    xhr.send(file);
+  }
+
+  /*
+  Function to get the temporary signed request from the app.
+  If request successful, continue to upload the file using this signed
+  request.
+  */
+  function getSignedRequest(file) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/sign-s3?file-name=" + file.name + "&file-type=" + file.type);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          var response = JSON.parse(xhr.responseText);
+          uploadFile(file, response.signedRequest, response.url);
+        } else {
+          alert("Could not get signed URL.");
+        }
+      }
+    };
+    xhr.send();
+  }
+}
+
+exports.default = signS3;
 
 /***/ })
 /******/ ]);

@@ -115,39 +115,57 @@ exports.signS3 = (req, res) => {
 //   }
 // };
 
-// exports.resize = async (req, res, next) => {
-//   // Check if there is no new file to resize
-//   if (!req.file) {
-//     next(); // skip to next middleware
-//     return;
-//   }
+exports.resize = async (req, res, next) => {
+  // Check if there is no new file to resize
+  if (!req.file) {
+    // next(); // skip to next middleware
+    return;
+  }
 
-//   // const extension = req.file.mimetype.split("/")[1];
-//   // req.body.image = `${uuid.v4()}.${extension}`;
+  const extension = req.file.mimetype.split("/")[1];
+  const fileName = `uploads/${uuid.v4()}.${extension}`;
 
-//   //  resize
-//   // const image = await jimp.read(req.file.buffer);
-//   // await image.resize(800, jimp.AUTO);
-//   // await image.write(`./public/uploads/${req.body.image}`);
-//   // image.write(`./public/uploads/${req.body.image}`);
+  const image = await sharp(req.file.buffer)
+    .resize(800)
+    .toBuffer();
 
-//   const image = await sharp(req.file.buffer)
-//     .resize(800)
-//     .toBuffer();
+  console.log(image);
 
-//   // pass in file to new Class()
-//   const s3File = new ImageUploader.S3Loader(req.file);
+  const S3_BUCKET = process.env.S3_BUCKET;
+  const s3 = new aws.S3();
+  const s3Params = {
+    Bucket: S3_BUCKET,
+    Key: fileName,
+    Expires: 60,
+    ContentType: extension,
+    ACL: "public-read"
+  };
 
-//   // new class returns path
-//   req.body.image = s3File.getUrlPath();
+  s3.getSignedUrl("putObject", s3Params, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.end();
+    }
+    const returnData = {
+      signedRequest: data,
+      url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
+    };
+    uploadFile(image, returnData.signedRequest, returnData.url);
+    console.log(returnData);
+  });
 
-//   // data is stored in class passing in the edited photo buffer - save/upload
-//   s3File.uploadPhoto(image, () => {
-//     next();
-//   });
+  const uploadFile = async (file, signedRequest, url) => {
+    await axios({
+      method: "put",
+      url: signedRequest,
+      data: file
+    });
+  };
 
-//   // next();
-// };
+  req.body.image = fileName;
+
+  next();
+};
 
 exports.createEvent = async (req, res) => {
   if (req.body.yourEmail) {

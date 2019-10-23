@@ -13,6 +13,7 @@ import togglePadlock from "./modules/togglePadlock";
 import toggleState from "./modules/toggleState";
 import scrollToTop from "./modules/scrollToTop";
 import spinner from "./modules/spinner";
+import signS3 from "./modules/signS3";
 // import onSubmitGetCoordinates from "./modules/onsubmitGetCoordinates";
 
 // onSubmitGetCoordinates(
@@ -23,6 +24,7 @@ import spinner from "./modules/spinner";
 //   $("#submitEvent")
 // );
 
+// signS3($("#file-input"), $("#preview"), $("#image-url"));
 spinner($("#getEbEvents"));
 spinner($("#eventForm"));
 

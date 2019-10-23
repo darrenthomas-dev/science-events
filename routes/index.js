@@ -32,7 +32,7 @@ router.get("/sign-s3", eventController.signS3);
 router.post(
   "/add",
   eventController.upload,
-  // catchErrors(eventController.resize),
+  catchErrors(eventController.resize),
   emailController.newEvent,
   catchErrors(eventController.createEvent)
 );
