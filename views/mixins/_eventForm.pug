@@ -91,38 +91,38 @@ mixin eventForm(event = {})
 
 
 
-		//- Image upload
-		if user
+		//- //- Image upload
+		//- if user
 
-			//- .fb.form__section
-			//- 	.fb-50.pr-60
-			//- 		h2 Event Image
-			//- 		p If no image is uploaded then a default image will be displayed. All images are compressed and resized to 800px width by 480px height (aspect ratio 5:3) on upload. Supported formats are jpg and png.
-			//- 	.fb-50.pt-16
-			//- 		label(class="label" for="image") Image:
-			//- 		input(class="input" type="file" name="image" id="image" accept="image/png, image/jpeg")
-			//- 		if event.image
-			//- 			if event.eb_id
-			//- 				img(id="preview" src=`${event.image}`, alt='' width=400)
-			//- 			else
-			//- 				img(id="preview" src=`${event.image}`, alt='' width=400)
+		//- 	//- .fb.form__section
+		//- 	//- 	.fb-50.pr-60
+		//- 	//- 		h2 Event Image
+		//- 	//- 		p If no image is uploaded then a default image will be displayed. All images are compressed and resized to 800px width by 480px height (aspect ratio 5:3) on upload. Supported formats are jpg and png.
+		//- 	//- 	.fb-50.pt-16
+		//- 	//- 		label(class="label" for="image") Image:
+		//- 	//- 		input(class="input" type="file" name="image" id="image" accept="image/png, image/jpeg")
+		//- 	//- 		if event.image
+		//- 	//- 			if event.eb_id
+		//- 	//- 				img(id="preview" src=`${event.image}`, alt='' width=400)
+		//- 	//- 			else
+		//- 	//- 				img(id="preview" src=`${event.image}`, alt='' width=400)
 
-			.fb.form__section
-				.fb-50.pr-60
-					h2 Event Image
-					p If no image is uploaded then a default image will be displayed. All images are compressed and resized to 800px width by 480px height (aspect ratio 5:3) on upload. Supported formats are jpg and png.
-				.fb-50.pt-16
-					label(id="imageStatus" class="label" for="image") Please select a file:
-					input(class="input" type="file" name="image" id="image" accept="image/png, image/jpeg")
-					if event.image
-						if event.eb_id
-							img(id="preview" src=`${event.image}`, alt='' width=400)
-						else
-							img(id="preview" src=`${event.image}`, alt='' width=400)
-						input(type="hidden" id="imageUrl" name="image-url" value=`${event.image}`)
-					else
-						img(id="preview" alt='' width=400 height=240)
-						input(type="hidden" id="imageUrl" name="image-url" value='')
+		//- 	.fb.form__section
+		//- 		.fb-50.pr-60
+		//- 			h2 Event Image
+		//- 			p If no image is uploaded then a default image will be displayed. All images are compressed and resized to 800px width by 480px height (aspect ratio 5:3) on upload. Supported formats are jpg and png.
+		//- 		.fb-50.pt-16
+		//- 			label(id="imageStatus" class="label" for="image") Upload an image:
+		//- 			input(class="input" type="file" name="image" id="image" accept="image/png, image/jpeg")
+		//- 			if event.image
+		//- 				if event.eb_id
+		//- 					img(id="preview" src=`${event.image}`, alt='' width=400)
+		//- 				else
+		//- 					img(id="preview" src=`${event.image}`, alt='' width=400)
+		//- 				input(type="hidden" id="imageUrl" name="image-url" value=`${event.image}`)
+		//- 			else
+		//- 				img(id="preview" alt='' width=400 height=240)
+		//- 				input(type="hidden" id="imageUrl" name="image-url" value='')
 
 
 			//- Description (tinyMCE)
@@ -144,6 +144,25 @@ mixin eventForm(event = {})
 			//- Delete event
 			if (event._id)
 				input(class="button delete-event-button button--danger" type="submit" value="Delete event" formaction=`/events/${event._id}/delete`)
+	
+	//- Image upload
+	if user
+		.fb.form__section
+			.fb-50.pr-60
+				h2 Event Image
+				p If no image is uploaded then a default image will be displayed. All images are compressed and resized to 800px width by 480px height (aspect ratio 5:3) on upload. Supported formats are jpg and png.
+			.fb-50.pt-16
+				label(class="label" for="image") Upload an image:
+				input(class="input" type="file" name="image" id="image" accept="image/png, image/jpeg")
+				if event.image
+					if event.eb_id
+						img(id="preview" src=`${event.image}`, alt='' width=400)
+					else
+						img(id="preview" src=`${event.image}`, alt='' width=400)
+					input(type="hidden" id="image-url" name="image-url" value=`${event.image}`)
+				else
+					img(id="preview" alt='' width=400 height=240)
+					input(type="hidden" id="image-url" name="image-url" value='')
 
 	block scripts
 			script(src="https://cdn.tiny.cloud/1/2j0e390z4afzde1vmezs5gp43iqh04df9x0xygj082r4ujgy/tinymce/5/tinymce.min.js" referrerpolicy="origin")
@@ -180,66 +199,3 @@ mixin eventForm(event = {})
 						]}
 					]
 				})
-
-			script.
-				/*
-					Function to carry out the actual PUT request to S3 using the signed request from the app.
-				*/
-				function uploadFile(file, signedRequest, url){
-					const xhr = new XMLHttpRequest();
-					xhr.open('PUT', signedRequest);
-					xhr.onreadystatechange = () => {
-						if(xhr.readyState === 4){
-							if(xhr.status === 200){
-								document.getElementById('preview').src = url;
-								document.getElementById('imageUrl').value = url;
-							}
-							else{
-								alert('Could not upload file.');
-							}
-						}
-					};
-					xhr.send(file);
-				}
-
-				/*
-					Function to get the temporary signed request from the app.
-					If request successful, continue to upload the file using this signed
-					request.
-				*/
-				function getSignedRequest(file){
-					const xhr = new XMLHttpRequest();
-					xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
-					xhr.onreadystatechange = () => {
-						if(xhr.readyState === 4){
-							if(xhr.status === 200){
-								const response = JSON.parse(xhr.responseText);
-								uploadFile(file, response.signedRequest, response.url);
-							}
-							else{
-								alert('Could not get signed URL.');
-							}
-						}
-					};
-					xhr.send();
-				}
-
-				/*
-				Function called when file input updated. If there is a file selected, then
-				start upload procedure by asking for a signed request from the app.
-				*/
-				function initUpload(){
-					const files = document.getElementById('image').files;
-					const file = files[0];
-					if(file == null){
-						return alert('No file selected.');
-					}
-					getSignedRequest(file);
-				}
-
-				/*
-				Bind listeners when the page loads.
-				*/
-				(() => {
-						document.getElementById('image').onchange = initUpload;
-				})();

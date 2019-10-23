@@ -4,8 +4,8 @@ const User = mongoose.model("User");
 const multer = require("multer");
 const sharp = require("sharp");
 const ImageUploader = require("../utils/ImageUploader");
-const AWS = require("aws-sdk");
-AWS.config.region = process.env.AWS_REGION;
+const aws = require("aws-sdk");
+aws.config.region = process.env.AWS_REGION;
 
 const jimp = require("jimp");
 const uuid = require("uuid");
@@ -51,11 +51,12 @@ exports.addEvent = (req, res) => {
 exports.upload = multer(multerOptions).single("image");
 
 exports.signS3 = (req, res) => {
+  const S3_BUCKET = process.env.S3_BUCKET;
   const s3 = new aws.S3();
   const fileName = req.query["file-name"];
   const fileType = req.query["file-type"];
   const s3Params = {
-    Bucket: process.env.S3_BUCKET,
+    Bucket: S3_BUCKET,
     Key: fileName,
     Expires: 60,
     ContentType: fileType,
@@ -69,7 +70,7 @@ exports.signS3 = (req, res) => {
     }
     const returnData = {
       signedRequest: data,
-      url: `https://${process.env.S3_BUCKET}.s3.amazonaws.com/${fileName}`
+      url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
     };
     res.write(JSON.stringify(returnData));
     res.end();
