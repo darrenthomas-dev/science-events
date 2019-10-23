@@ -178,6 +178,8 @@ exports.getEventbriteEvents = async (req, res) => {
   const endDate = new Date(req.body.end_date).toISOString().split(".")[0] + "Z";
   // Construct Eventbrite url
   const url = `https://www.eventbriteapi.com/v3/events/search/?categories=102&expand=organizer,venue&location.viewport.northeast.latitude=59.950197&location.viewport.northeast.longitude=1.255643&location.viewport.southwest.latitude=49.232844&location.viewport.southwest.longitude=-10.600715&categories=102&start_date.range_start=${startDate}&start_date.range_end=${endDate}&token=${process.env.EVENTBRITE_KEY}`;
+
+  console.log(url);
   // Declare page number for pagination
   let pageNo = 1;
 

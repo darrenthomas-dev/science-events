@@ -4,6 +4,8 @@ const User = mongoose.model("User");
 const multer = require("multer");
 const sharp = require("sharp");
 const ImageUploader = require("../utils/ImageUploader");
+const AWS = require("aws-sdk");
+AWS.config.region = process.env.AWS_REGION;
 
 const jimp = require("jimp");
 const uuid = require("uuid");
@@ -49,42 +51,89 @@ exports.addEvent = (req, res) => {
 exports.upload = multer(multerOptions).single("image");
 
 exports.resize = async (req, res, next) => {
-  // check if there is no new file to resize when we save
-  // multer automatically knows if a file was uploaded
-  // multer puts the file property on the request
-
+  // Check if there is no new file to resize
   if (!req.file) {
-    next(); // no file so skip to the next middleware
+    next(); // skip to next middleware
     return;
   }
 
-  try {
-    console.log("starting resize image");
-    console.log(req.file);
+  const extension = req.file.mimetype.split("/")[1];
+  req.body.image = `${uuid.v4()}.${extension}`;
 
-    // Resize photo
-    const image = await sharp(req.file.buffer)
-      .resize(800)
-      .toBuffer();
+  const image = await sharp(req.file.buffer)
+    .resize(800)
+    .toBuffer();
 
-    //1 pass in file to new Class()
-    const s3File = new ImageUploader.S3Loader(req.file);
+  const s3 = new aws.S3();
+  const fileName = image;
+  const fileType = extension;
+  const s3Params = {
+    Bucket: process.env.S3_BUCKET,
+    Key: fileName,
+    Expires: 60,
+    ContentType: fileType,
+    ACL: "public-read"
+  };
 
-    //2 new class returns path
-    req.body.image = s3File.getUrlPath();
+  //  resize
+  // const image = await jimp.read(req.file.buffer);
+  // await image.resize(800, jimp.AUTO);
+  // await image.write(`./public/uploads/${req.body.image}`);
+  // image.write(`./public/uploads/${req.body.image}`);
 
-    //3 data is stored in class passing in the edited photo buffer - save/upload
-    s3File.uploadPhoto(image, () => {
-      next();
-    });
-  } catch (e) {
-    console.log("error try catch");
-    console.log(e);
+  s3.getSignedUrl("putObject", s3Params, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.end();
+    }
+    const returnData = {
+      signedRequest: data,
+      url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
+    };
+    res.write(JSON.stringify(returnData));
+    res.end();
+  });
 
-    next();
-    return;
-  }
+  next();
 };
+
+// exports.resize = async (req, res, next) => {
+//   // check if there is no new file to resize when we save
+//   // multer automatically knows if a file was uploaded
+//   // multer puts the file property on the request
+
+//   if (!req.file) {
+//     next(); // no file so skip to the next middleware
+//     return;
+//   }
+
+//   try {
+//     console.log("starting resize image");
+//     console.log(req.file);
+
+//     // Resize photo
+//     const image = await sharp(req.file.buffer)
+//       .resize(800)
+//       .toBuffer();
+
+//     //1 pass in file to new Class()
+//     const s3File = new ImageUploader.S3Loader(req.file);
+
+//     //2 new class returns path
+//     req.body.image = s3File.getUrlPath();
+
+//     //3 data is stored in class passing in the edited photo buffer - save/upload
+//     s3File.uploadPhoto(image, () => {
+//       next();
+//     });
+//   } catch (e) {
+//     console.log("error try catch");
+//     console.log(e);
+
+//     next();
+//     return;
+//   }
+// };
 
 // exports.resize = async (req, res, next) => {
 //   // Check if there is no new file to resize
