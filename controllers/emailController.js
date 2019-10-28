@@ -58,31 +58,14 @@ exports.accountVerification = async (req, res) => {
   // 3. Send token to email
   const verifyUrl = `http://${req.headers.host}/account/confirm/${user.verificationToken}`;
 
-  const html = `<div style="max-width: 640px; margin: 10px auto; padding: 24px; background-color: #eeeeee; border-radius: 4px;">
-<h1>Science Near Me - Account Verification</h1>
-<p style="font-size: 16px;">Thank you for registering for an account on sciencenearme.com.</a> Before you can log in, we just need to confirm that this is you. Click the button below to verify your email address:</p>
-<p style="font-size: 16px; text-align: center;"><a style="background-color: #373256;border: 1px solid #333333;border-color: #373256;border-radius: 6px;border-width: 1px;color: #f3f1ff;display: inline-block;font-family: arial,helvetica,sans-serif;font-size: 16px;font-weight: normal;letter-spacing: 0px;line-height: 16px;padding: 12px 18px 12px 18px;text-align: center;text-decoration: none;" href="${verifyUrl}">Verify Email</a></p>
-<p style="font-size: 16px;">This verification link is only valid for 1 hour.</p>
-<p style="font-size: 16px;">If you did not register for an account, you can ignore this email or reply to let us know.</p>
-<p style="font-size: 16px;">Thanks,</p>
-<p style="font-size: 16px;">Science Near Me</p>
-<p style="font-size: 14px;">If you are having trouble clicking the verify email button, copy and paste the URL below into your web browser.</p>
-<p style="font-size: 14px;"><a href="${verifyUrl}">${verifyUrl}</a></p></div>`;
-
-  const text = `
-  Thank you for registering for an account on Science Near Me! Before you can log in we just need to confirm that this is you. Click or copy and paste the following URL into your web browser ${verifyUrl} to verify your account. This verification link is only valid for 1 hour.
+  const text = `Please click the link below to validate your new account at sciencenearme.com. If you did not create an account, please ignore this email and nothing will happen. This verification link is only valid for 1 hour.
   
-  If you did not register for an account, you can ignore this email or reply to let us know.
-  
-  Thanks,
-  
-  Science Near Me`;
+  ${verifyUrl}`;
 
   const msg = {
     to: user,
     from: "register@sciencenearme.com",
-    subject: "[Science Near Me] Account Verification",
-    html,
+    subject: "[Science Near Me] Validate your new account",
     text
   };
 
