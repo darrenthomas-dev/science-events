@@ -58,6 +58,10 @@ exports.accountVerification = async (req, res) => {
   // 3. Send token to email
   const verifyUrl = `http://${req.headers.host}/account/confirm/${user.verificationToken}`;
 
+  const html = `<p>Please click the link below to validate your new account at sciencenearme.com. If you did not create an account, please ignore this email and nothing will happen. This verification link is only valid for 1 hour.</p>
+  
+  <p><a href=${verifyUrl}>${verifyUrl}</a></p>`;
+
   const text = `Please click the link below to validate your new account at sciencenearme.com. If you did not create an account, please ignore this email and nothing will happen. This verification link is only valid for 1 hour.
   
   ${verifyUrl}`;
@@ -66,6 +70,7 @@ exports.accountVerification = async (req, res) => {
     to: user,
     from: "register@sciencenearme.com",
     subject: "[Science Near Me] Validate your new account",
+    html,
     text
   };
 
