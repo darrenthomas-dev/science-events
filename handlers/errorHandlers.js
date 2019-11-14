@@ -70,6 +70,6 @@ exports.developmentErrors = (err, req, res, next) => {
 exports.productionErrors = (err, req, res, next) => {
   res.status(err.status || 500);
   res.render("error", {
-    message: `Sorry something unexpected happen. If this continues please email support@sciencenearme.com with any error messages and we can look in to fixing this. Thanks! Error message: ${err.message}`
+    message: `Sorry something unexpected happen. If this continues please email support@sciencenearme.com and we can look in to fixing this. Thank you!`
   });
 };
