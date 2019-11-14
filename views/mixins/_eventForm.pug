@@ -108,7 +108,7 @@ mixin eventForm(event = {})
 							img(id="preview" src=`${event.image}`, alt='' width=400)
 						input(type="hidden" id="image-url" name="image-url" value=`${event.image}`)
 					else
-						img(id="preview" alt='' width=400 height=240)
+						img(id="preview" src='' alt='' width=400 height=240)
 						input(type="hidden" id="image-url" name="image-url" value='')
 
 
@@ -170,12 +170,12 @@ mixin eventForm(event = {})
 
 			script.
 				(() => {
-					imageFile = document.querySelector("#file-input")
+					const imageFile = document.querySelector("#file-input")
 					if (imageFile)
 						imageFile.onchange = () => {
 							const files = imageFile.files;
 							const file = files[0];
-							if(file == null){
+							if (file == null){
 								return alert('No file selected.');
 							}
 							getSignedRequest(file);
