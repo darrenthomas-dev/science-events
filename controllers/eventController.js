@@ -118,7 +118,7 @@ exports.signS3 = (req, res) => {
 exports.resize = async (req, res, next) => {
   // Check if there is no new file to resize
   if (!req.file) {
-    // next(); // skip to next middleware
+    next(); // skip to next middleware
     return;
   }
 
@@ -271,10 +271,10 @@ exports.updateEvent = async (req, res) => {
     req.body.end_datetime
   );
 
-  // Add display type to true
+  // // Add display type to true
   req.body.display = true;
 
-  // Add author id to body
+  // // Add author id to body
   req.body.author = req.user._id;
 
   // Check and add end datetime
@@ -294,6 +294,7 @@ exports.updateEvent = async (req, res) => {
   // Add latlng coordinates to body
   if (!req.body.location.coordinates || !req.body.location["coordinates"][0]) {
     const address = req.body.location["address"];
+    console.log(address);
     const latLng = await getLatLng(address);
     req.body.location.coordinates = [latLng[1], latLng[0]];
   }
@@ -308,8 +309,6 @@ exports.updateEvent = async (req, res) => {
     const slug = await createSlug(req.body.name);
     req.body.slug = slug;
   }
-
-  console.log(req.body);
 
   // find and update the event
   const event = await Event.findOneAndUpdate({ _id: req.params.id }, req.body, {

@@ -14,7 +14,7 @@ body {
   font-size: 1rem;
   margin: 0;
   color: #24222b;
-  background-color: #f7f5ff; }
+  background-color: #fbfbfb; }
 
 .header {
   position: relative; }
@@ -1651,7 +1651,7 @@ pre.error {
         font-size: 14px;
         padding: 8px 4px;
         margin-top: 4px;
-        background: #f7f5ff;
+        background: #fbfbfb;
         width: 100%; } }
     .location-autocomplete__input:-ms-input-placeholder {
       color: #5b508b;
@@ -1668,7 +1668,7 @@ pre.error {
     font-family: inherit;
     border-radius: 4px;
     font-size: 16px;
-    background: #f7f5ff;
+    background: #fbfbfb;
     margin-bottom: 16px; }
   .location-autocomplete__button {
     width: 100%; }
@@ -1684,7 +1684,7 @@ pre.error {
       margin: 0;
       border: none;
       font-family: inherit;
-      background: #f7f5ff;
+      background: #fbfbfb;
       height: 42px;
       padding-left: 12px;
       border-radius: 4px; }
@@ -2034,7 +2034,6 @@ pre.error {
     padding: 72px 8px;
     font-size: 46px;
     text-align: center;
-    text-transform: capitalize;
     margin: 0 auto;
     color: #373256;
     font-weight: bold; }

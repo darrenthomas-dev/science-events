@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 40);
+/******/ 	return __webpack_require__(__webpack_require__.s = 41);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -76,7 +76,7 @@
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var bind = __webpack_require__(8);
-var isBuffer = __webpack_require__(37);
+var isBuffer = __webpack_require__(38);
 
 /*global toString:true*/
 
@@ -441,10 +441,10 @@ exports.$$ = $$;
 
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(28);
+var settle = __webpack_require__(29);
 var buildURL = __webpack_require__(9);
-var parseHeaders = __webpack_require__(35);
-var isURLSameOrigin = __webpack_require__(33);
+var parseHeaders = __webpack_require__(36);
+var isURLSameOrigin = __webpack_require__(34);
 var createError = __webpack_require__(5);
 
 module.exports = function xhrAdapter(config) {
@@ -536,7 +536,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(31);
+      var cookies = __webpack_require__(32);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ? cookies.read(config.xsrfCookieName) : undefined;
@@ -654,7 +654,7 @@ module.exports = function isCancel(value) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(27);
+var enhanceError = __webpack_require__(28);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -730,7 +730,7 @@ module.exports = function mergeConfig(config1, config2) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(34);
+var normalizeHeaderName = __webpack_require__(35);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -819,7 +819,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 });
 
 module.exports = defaults;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(38)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(39)))
 
 /***/ }),
 /* 8 */
@@ -1036,13 +1036,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var _axios = __webpack_require__(21);
+var _axios = __webpack_require__(22);
 
 var _axios2 = _interopRequireDefault(_axios);
 
 var _bling = __webpack_require__(1);
 
-var _helpers = __webpack_require__(39);
+var _helpers = __webpack_require__(40);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1327,6 +1327,73 @@ exports.default = showPassword;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+function signS3(input, preview, imageUrl) {
+  if (!input && !preview && !imageUrl) return;
+
+  input.addEventListener("change", function () {
+    var files = input.files;
+    var file = files[0];
+
+    if (file == null) {
+      return;
+    }
+
+    getSignedRequest(file);
+  });
+
+  /*
+  Function to carry out the actual PUT request to S3 using the signed request from the app.
+  */
+  function uploadFile(file, signedRequest, url) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("PUT", signedRequest);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          preview.src = url;
+          imageUrl.value = url;
+        } else {
+          alert("Could not upload file.");
+        }
+      }
+    };
+    xhr.send(file);
+  }
+
+  /*
+  Function to get the temporary signed request from the app.
+  If request successful, continue to upload the file using this signed
+  request.
+  */
+  function getSignedRequest(file) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/sign-s3?file-name=" + file.name + "&file-type=" + file.type);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          var response = JSON.parse(xhr.responseText);
+          uploadFile(file, response.signedRequest, response.url);
+        } else {
+          alert("Could not get signed URL.");
+        }
+      }
+    };
+    xhr.send();
+  }
+}
+
+exports.default = signS3;
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 function spinner(form) {
   if (!form) return;
 
@@ -1343,7 +1410,7 @@ function spinner(form) {
 exports.default = spinner;
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1367,7 +1434,7 @@ function togglePadlock(padlock) {
 exports.default = togglePadlock;
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1388,19 +1455,10 @@ function toggleState(container) {
 exports.default = toggleState;
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(22);
 
 /***/ }),
 /* 22 */
@@ -1409,9 +1467,18 @@ module.exports = __webpack_require__(22);
 "use strict";
 
 
+module.exports = __webpack_require__(23);
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(8);
-var Axios = __webpack_require__(24);
+var Axios = __webpack_require__(25);
 var mergeConfig = __webpack_require__(6);
 var defaults = __webpack_require__(7);
 
@@ -1447,14 +1514,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(3);
-axios.CancelToken = __webpack_require__(23);
+axios.CancelToken = __webpack_require__(24);
 axios.isCancel = __webpack_require__(4);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(36);
+axios.spread = __webpack_require__(37);
 
 module.exports = axios;
 
@@ -1462,7 +1529,7 @@ module.exports = axios;
 module.exports.default = axios;
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1525,7 +1592,7 @@ CancelToken.source = function source() {
 module.exports = CancelToken;
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1533,8 +1600,8 @@ module.exports = CancelToken;
 
 var utils = __webpack_require__(0);
 var buildURL = __webpack_require__(9);
-var InterceptorManager = __webpack_require__(25);
-var dispatchRequest = __webpack_require__(26);
+var InterceptorManager = __webpack_require__(26);
+var dispatchRequest = __webpack_require__(27);
 var mergeConfig = __webpack_require__(6);
 
 /**
@@ -1617,7 +1684,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = Axios;
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1675,18 +1742,18 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 module.exports = InterceptorManager;
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(29);
+var transformData = __webpack_require__(30);
 var isCancel = __webpack_require__(4);
 var defaults = __webpack_require__(7);
-var isAbsoluteURL = __webpack_require__(32);
-var combineURLs = __webpack_require__(30);
+var isAbsoluteURL = __webpack_require__(33);
+var combineURLs = __webpack_require__(31);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -1748,7 +1815,7 @@ module.exports = function dispatchRequest(config) {
 };
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1797,7 +1864,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 };
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1822,7 +1889,7 @@ module.exports = function settle(resolve, reject, response) {
 };
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1848,7 +1915,7 @@ module.exports = function transformData(data, headers, fns) {
 };
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1867,7 +1934,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 };
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1926,7 +1993,7 @@ function nonStandardBrowserEnv() {
 }();
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1948,7 +2015,7 @@ module.exports = function isAbsoluteURL(url) {
 };
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2017,7 +2084,7 @@ function nonStandardBrowserEnv() {
 }();
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2035,7 +2102,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 };
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2091,7 +2158,7 @@ module.exports = function parseHeaders(headers) {
 };
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2125,7 +2192,7 @@ module.exports = function spread(callback) {
 };
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2143,7 +2210,7 @@ module.exports = function isBuffer(obj) {
 };
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2336,7 +2403,7 @@ process.umask = function () {
 };
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2417,13 +2484,13 @@ exports.filterPlaces = function (places) {
 };
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(20);
+__webpack_require__(21);
 
 var _bling = __webpack_require__(1);
 
@@ -2451,11 +2518,11 @@ var _showPassword = __webpack_require__(16);
 
 var _showPassword2 = _interopRequireDefault(_showPassword);
 
-var _togglePadlock = __webpack_require__(18);
+var _togglePadlock = __webpack_require__(19);
 
 var _togglePadlock2 = _interopRequireDefault(_togglePadlock);
 
-var _toggleState = __webpack_require__(19);
+var _toggleState = __webpack_require__(20);
 
 var _toggleState2 = _interopRequireDefault(_toggleState);
 
@@ -2463,11 +2530,11 @@ var _scrollToTop = __webpack_require__(15);
 
 var _scrollToTop2 = _interopRequireDefault(_scrollToTop);
 
-var _spinner = __webpack_require__(17);
+var _spinner = __webpack_require__(18);
 
 var _spinner2 = _interopRequireDefault(_spinner);
 
-var _signS = __webpack_require__(42);
+var _signS = __webpack_require__(17);
 
 var _signS2 = _interopRequireDefault(_signS);
 
@@ -2511,74 +2578,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 (0, _toggleState2.default)((0, _bling.$$)(".toggle-password"));
 
 (0, _scrollToTop2.default)((0, _bling.$)(".to-top"), 600);
-
-/***/ }),
-/* 41 */,
-/* 42 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-function signS3(input, preview, imageUrl) {
-  if (!input && !preview && !imageUrl) return;
-
-  input.addEventListener("change", function () {
-    var files = input.files;
-    var file = files[0];
-
-    if (file == null) {
-      return;
-    }
-
-    getSignedRequest(file);
-  });
-
-  /*
-  Function to carry out the actual PUT request to S3 using the signed request from the app.
-  */
-  function uploadFile(file, signedRequest, url) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("PUT", signedRequest);
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          preview.src = url;
-          imageUrl.value = url;
-        } else {
-          alert("Could not upload file.");
-        }
-      }
-    };
-    xhr.send(file);
-  }
-
-  /*
-  Function to get the temporary signed request from the app.
-  If request successful, continue to upload the file using this signed
-  request.
-  */
-  function getSignedRequest(file) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "/sign-s3?file-name=" + file.name + "&file-type=" + file.type);
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          var response = JSON.parse(xhr.responseText);
-          uploadFile(file, response.signedRequest, response.url);
-        } else {
-          alert("Could not get signed URL.");
-        }
-      }
-    };
-    xhr.send();
-  }
-}
-
-exports.default = signS3;
 
 /***/ })
 /******/ ]);
