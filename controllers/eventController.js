@@ -309,6 +309,8 @@ exports.updateEvent = async (req, res) => {
     req.body.slug = slug;
   }
 
+  console.log(req.body);
+
   // find and update the event
   const event = await Event.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true, // return new event
