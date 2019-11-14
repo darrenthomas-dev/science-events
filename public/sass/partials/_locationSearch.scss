@@ -26,15 +26,16 @@
     border: none;
     font-family: inherit;
     margin-bottom: 16px;
+    border-bottom: 2px solid $primary-light;
 
     @media (max-width: 1049px) {
-      border-bottom: 1px solid $primary-900;
       font-size: 14px;
       padding: 8px 4px;
       margin-top: 4px;
       background: $primary-100;
       width: 100%;
     }
+
     &::placeholder {
       color: #5b508b;
       font-size: 16px;
@@ -43,7 +44,7 @@
   &__select {
     color: #5b508b;
     width: 180px;
-    border: none;
+    border: 2px solid #dad5f1;
     height: 42px;
     cursor: pointer;
     font-family: inherit;
@@ -69,7 +70,7 @@
 
     &__input {
       margin: 0;
-      border: none;
+      border: 2px solid #dad5f1;
       font-family: inherit;
       background: $primary-100;
       height: 42px;
@@ -80,7 +81,6 @@
       }
     }
     &__select {
-      border: none;
       cursor: pointer;
       font-family: inherit;
       border-radius: 4px;

@@ -1,6 +1,9 @@
 .form-bg-img {
   display: none;
 }
+img#preview {
+  object-fit: cover;
+}
 
 @media all and (min-width: 986px) {
   .form-card {

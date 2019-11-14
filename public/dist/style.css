@@ -1644,10 +1644,10 @@ pre.error {
   .location-autocomplete__input {
     border: none;
     font-family: inherit;
-    margin-bottom: 16px; }
+    margin-bottom: 16px;
+    border-bottom: 2px solid #dad5f1; }
     @media (max-width: 1049px) {
       .location-autocomplete__input {
-        border-bottom: 1px solid #24222b;
         font-size: 14px;
         padding: 8px 4px;
         margin-top: 4px;
@@ -1662,7 +1662,7 @@ pre.error {
   .location-autocomplete__select {
     color: #5b508b;
     width: 180px;
-    border: none;
+    border: 2px solid #dad5f1;
     height: 42px;
     cursor: pointer;
     font-family: inherit;
@@ -1682,7 +1682,7 @@ pre.error {
       display: none; }
     .location-autocomplete__input {
       margin: 0;
-      border: none;
+      border: 2px solid #dad5f1;
       font-family: inherit;
       background: #fbfbfb;
       height: 42px;
@@ -1693,7 +1693,6 @@ pre.error {
       .location-autocomplete__input::placeholder {
         font-size: 16px; }
     .location-autocomplete__select {
-      border: none;
       cursor: pointer;
       font-family: inherit;
       border-radius: 4px;
@@ -1903,7 +1902,8 @@ pre.error {
     height: 42px;
     background: #ffffff;
     width: 274px;
-    border: 1px solid #dad5f1; }
+    border: 2px solid #dad5f1;
+    border-right: none; }
     .search .input-icon .search-input:-ms-input-placeholder {
       color: #7f79a7; }
     .search .input-icon .search-input::placeholder {
@@ -1989,6 +1989,9 @@ pre.error {
 .form-bg-img {
   display: none; }
 
+img#preview {
+  object-fit: cover; }
+
 @media all and (min-width: 986px) {
   .form-card {
     width: 960px; }
@@ -2018,7 +2021,6 @@ pre.error {
     left: 8px; }
 
 .create-events {
-  background: #f5f3fe;
   padding: 80px 0; }
 
 .create-event {
@@ -2064,7 +2066,8 @@ pre.error {
     height: 50px;
     background: rgba(55, 50, 86, 0.8);
     display: block;
-    cursor: pointer; }
+    cursor: pointer;
+    border: 2px solid white; }
 
 .skip a {
   position: absolute;

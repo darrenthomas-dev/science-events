@@ -21,7 +21,8 @@
       height: 42px;
       background: #ffffff;
       width: 274px;
-      border: 1px solid #dad5f1;
+      border: 2px solid $primary-light;
+      border-right: none;
 
       &::placeholder {
         color: #7f79a7;
