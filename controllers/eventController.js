@@ -123,7 +123,7 @@ exports.resize = async (req, res, next) => {
   }
 
   const extension = req.file.mimetype.split("/")[1];
-  const fileName = `https://s3.eu-west-2.amazonaws.com/sciencenearme-storage/uploads/${uuid.v4()}.${extension}`;
+  const fileName = `uploads/${uuid.v4()}.${extension}`;
 
   const image = await sharp(req.file.buffer)
     .resize(800)

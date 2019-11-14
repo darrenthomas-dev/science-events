@@ -8,11 +8,13 @@ mixin eventCard(event = {})
 						span.event__icon
 							!= h.icon('pencil')
 						| Edit
-		//- if event.eb_id
-		img(class="event__img" src=`${event.image || 'https://s3.eu-west-2.amazonaws.com/sciencenearme-storage/images/default.jpg'}` alt="")
-		//- else
-			//- img(class="event__img" src=`https://s3.eu-west-2.amazonaws.com/sciencenearme-storage/images/${event.image || 'default.jpg'}` alt="")
-		
+			if (event.image.indexOf('https')) {
+				img(class="event__img" src=`${event.image}` alt="")
+			} else if (event.image.indexOf('uploads/')) {
+				img(class="event__img" src=`https://s3.eu-west-2.amazonaws.com/sciencenearme-storage/{${event.image}}` alt="")
+			} else {
+				img(class="event__img" src="https://s3.eu-west-2.amazonaws.com/sciencenearme-storage/images/default.jpg" alt="")
+			}
 		if user
 			if user.admin || (event.author && event.author.equals(user._id))
 				if event.end_datetime
