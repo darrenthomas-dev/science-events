@@ -103,12 +103,12 @@ mixin eventForm(event = {})
 					input(class="input" type="file" name="image" id="file-input" accept="image/png, image/jpeg")
 					if event.image
 						if event.eb_id
-							img(id="preview" src=`${event.image}`, alt='' width=400)
+							img(id="preview" src=`${event.image}`, alt='' width=400 height=200)
 						else
-							img(id="preview" src=`${event.image}`, alt='' width=400)
+							img(id="preview" src=`${event.image}`, alt='' width=400 height=200)
 						input(type="hidden" id="image-url" name="image-url" value=`${event.image}`)
 					else
-						img(id="preview" src='' alt='' width=400 height=240)
+						img(id="preview" src='' alt='' width=400 height=200)
 						input(type="hidden" id="image-url" name="image-url" value='')
 
 
