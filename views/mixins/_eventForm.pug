@@ -9,7 +9,7 @@ mixin eventForm(event = {})
 			.fb.form__section
 				.fb-50.pr-60
 					h2 Eventbrite Import
-					p Enter the event ID number to import an event from Eventbrite. Only events where you are register as the organiser and are categroised as 'Science' can be imported. More information on how to find the event id can be found 
+					p Enter the event ID number to import an event from Eventbrite. Only events where you are register as the organiser and are categorized as 'Science' can be imported. More information on how to find the event id can be found
 						a(href="https://www.eventbrite.co.uk/support/articles/en_US/How_To/how-to-find-the-event-id" target="_blank" rel="noopener noreferrer") here.
 				.fb-50.pt-16
 					label(class="label" for="ebEventId") Eventbrite event id:
@@ -67,13 +67,13 @@ mixin eventForm(event = {})
 
 					//- Extra tags
 					p Check all that apply.
-					
+
 					input(class="checkbox" type="checkbox" id="familyFriendly" name="family_friendly" value="true" checked=(event.family_friendly))
 					label(class="label--checkbox" for="familyFriendly") Suitable for children
-					
+
 					//- input(class="checkbox" type="checkbox" id="donation" name="donation" value="true" checked=(event.donation))
 					//- label(class="label--checkbox" for="donation") Donation
-					
+
 					input(class="checkbox" type="checkbox" id="free" name="is_free" value="true" checked=(event.is_free))
 					label(class="label--checkbox" for="free") Free
 
@@ -93,7 +93,7 @@ mixin eventForm(event = {})
 
 		//- Image upload
 		if user
-			
+
 			-let imageUrl
 			if event.image
 				if (event.image.indexOf('https') > -1)
@@ -108,7 +108,7 @@ mixin eventForm(event = {})
 				.fb-50.pt-16
 					label(class="label" for="image") Upload an image:
 					input(class="input" type="file" name="image" id="file-input" accept="image/png, image/jpeg")
-					
+
 					img(id="preview" src=`${imageUrl || ''}`, alt='' width=400 height=200)
 					input(type="hidden" id="image-url" name="image-url" value=`${imageUrl || ''}`)
 
@@ -124,21 +124,21 @@ mixin eventForm(event = {})
 			p Only enter data in to the following field if you are a bot.
 			label Email:
 			input(type="text" name="yourEmail" id="yourEmail" placeholder="Your email" autocomplete="off" tabindex="-1")
-			
+
 		.buttons-group
 			//- Submit
 			input(id="submitEvent" class="button submit-event-button" type="submit" value="Submit Event" formaction=`/add/${event._id || ''}`)
-		
+
 			//- Delete event
 			if (event._id)
 				input(class="button delete-event-button button--danger" type="submit" value="Delete event" formaction=`/events/${event._id}/delete`)
-	
+
 	block scripts
 			script(src="https://cdn.tiny.cloud/1/2j0e390z4afzde1vmezs5gp43iqh04df9x0xygj082r4ujgy/tinymce/5/tinymce.min.js" referrerpolicy="origin")
 			script.
 				tinymce.init({
 					selector: '#description',
-					height: 500, 
+					height: 500,
 					menubar: "edit format insert",
 					plugins: "lists link",
 					default_link_target: "_blank",
@@ -188,7 +188,7 @@ mixin eventForm(event = {})
 					};
 					xhr.send(file);
 				}
-				
+
 				/*
 					Function to get the temporary signed request from the app. If request successful, continue to upload the file using this signed request.
 				*/
@@ -219,7 +219,7 @@ mixin eventForm(event = {})
 					}
 					getSignedRequest(file);
 				}
-				
+
 				/*
 					Bind listeners when the page loads.
 				*/
